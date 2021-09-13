@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,6 +22,7 @@ namespace Layer.Model.Common
         public int CommandTimeOut { set { _commandTimeOut = value; } }
         public DbContext(string connectionString, string providerName)
         {
+            DbProviderFactories.RegisterFactory("System.Data.SqlClient", SqlClientFactory.Instance);
             _dbFactory = DbProviderFactories.GetFactory(providerName);
             _connectionString = connectionString;
             _connection = _dbFactory.CreateConnection();

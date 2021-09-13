@@ -1,14 +1,17 @@
-﻿/// <reference path="site.common.js" />
-
-
+﻿
 var SS_ServerYear = 'ServerYear';
 var SS_ServerDate = 'ServerDate';
 
+
 function makePagination(tableId) {
-    $('#' + tableId).dataTable({
+    $('#' + tableId).DataTable({
         "paging": true,
+        "lengthChange": true,
+        "searching": true,
         "ordering": true,
-        "info": true
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
     });
 
     //$('#' + tableId + '_filter').empty().append('<label><input type="search" placeholder="Search" class="form-control" aria-controls="' + tableId + '"></label>');
@@ -18,51 +21,10 @@ function makePagination(tableId) {
 // this function skips the first column in search
 function makePaginationWithExport(tableId, column, title, message, orientation, fileName) {
     orientation = null ? "portrait" : orientation;
-
-    $('#' + tableId).dataTable({
-        "paging": true,
-        "ordering": true,
-        "info": true,
-        "aoColumnDefs": [{ "bSearchable": false, "aTargets": [0] }],
-        "columnDefs": [
-        {
-            "type": "html",
-        }
-        ],
-        "dom": 'T<"clear">lfrtip',
-        "tableTools": {
-            "sSwfPath": "/plugins/datatables/DataTables/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
-            "aButtons": [
-                 {
-                     "sExtends": "csv",
-                     "sTitle": title,
-                     "sFileName": fileName + '.csv',
-                     "bHeader": true,
-                     "mColumns": column,
-                 },
-                 {
-                     "sExtends": "xls",
-                     "sTitle": title,
-                     "sFileName": fileName + '.xls',
-                     "bHeader": true,
-                     "mColumns": column,
-                 },
-                 {
-                     "sExtends": "pdf",
-                     "sPdfOrientation": orientation,
-                     "sTitle": title,
-                     "sPdfMessage": message,
-                     "sFileName": fileName + '.pdf',
-                     "bHeader": true,
-                     "mColumns": column,
-                 },
-                {
-                    "sExtends": "print",
-                }
-            ],
-        },
-
-    });
+    $('#' + tableId).DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#' + tableId+'_wrapper.col-md-6:eq(0)');
 
 }
 function getBaseUrl() {

@@ -1,0 +1,57 @@
+﻿
+@model IEnumerable<Layer.Model.HRMS.Emp.Department>
+@{
+    if (Model.Any())
+    {
+        int sl = 1;
+
+        <table id="tblTutorialDetails" class="table table-bordered table-striped dataTable">
+            <thead>
+                <tr>
+                    <th>SL</th>
+                    <th>Category</th>
+                    <th>Tutorial Title</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@sl @{sl++;}</td>
+                            <td>@item.DeptName</td>
+                            <td>@item.DeptId</td>
+                            <td>
+                                <button type="button" class="btn btn-success btn-sm btnEdit" data-id="@item.DeptId"><i class="fa fa-edit"></i> Edit </button>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="@item.DeptId"><i class="fa fa-trash"></i> Delete </button>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+            @if (Model.Any())
+            {
+                <tfoot>
+                    <tr>
+                        <th>SL</th>
+                        <th>Category</th>
+                        <th>Name</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </tfoot>
+            }
+        </table>
+
+    }
+}
+<script type="text/javascript">
+    makePagination("tblTutorialDetails");
+</script>
+

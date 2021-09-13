@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Layer.Model.Common;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,12 @@ namespace OfficeSolution.Controllers
 {
     public class BaseController : Controller
     {
-        public IActionResult Index()
+        public ReturnMessage _vmReturn;
+        public DbContext _dbContext;
+        public BaseController()
         {
-            return View();
+            _vmReturn = new ReturnMessage();
+            _dbContext = new DbContext(AppSetting.DefaultConnection, "System.Data.SqlClient");
         }
     }
 }

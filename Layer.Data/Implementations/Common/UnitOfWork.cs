@@ -1,5 +1,8 @@
-﻿using Layer.Data.Interfaces;
+﻿using Layer.Data.Helpers;
+using Layer.Data.Implementations.HRMS.Emp;
+using Layer.Data.Interfaces;
 using Layer.Data.Interfaces.Common;
+using Layer.Data.Interfaces.HRMS.Emp;
 using Layer.Data.Interfaces.HRMS.Settings;
 using System;
 using System.Collections.Generic;
@@ -8,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace Layer.Data.Implementations
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : UnitOfWorkContext, IUnitOfWork
     {
-        public UnitOfWork(IUserRepository userRepository)
+        public IDepartmentRepository DepartmentRepository { get; }
+        public UnitOfWork()
         {
-            Users = userRepository;
+            DepartmentRepository = new DepartmentRepository(_dbContext);
         }
-        public IUserRepository Users { get; }
     }
 }

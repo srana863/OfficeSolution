@@ -7,10 +7,10 @@ namespace Layer.Data.Interfaces.Common
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task<T> GetByIdAsync(int id);
-        Task<IEnumerable<T>> GetAllAsync();
-        Task<int> AddAsync(T entity);
-        Task<int> UpdateAsync(T entity);
-        Task<bool> DeleteAsync(int id);
+        T Get(int id,int orgId);
+        IEnumerable<T> GetAll(int orgId);
+        int Create(T entity);
+        int Update(T entity);
+        int Delete(int id, int orgId);
     }
 }
