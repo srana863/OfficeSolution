@@ -1,5 +1,5 @@
-﻿using Layer.Business.Common;
-using Layer.Business.Interfaces;
+﻿using Layer.Data.Implementations;
+using Layer.Data.Interfaces.Common;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
