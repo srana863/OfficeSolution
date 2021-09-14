@@ -22,4 +22,9 @@ namespace Layer.Data.Interfaces.HRMS.Settings
         Task<bool> DeleteAsync(int id);
 
     }
+
+    public interface IUsersRepository : IGenericRepository<Users>
+    {
+        UserInfoSession GetUserByUserName(string username);
+    }
 }
