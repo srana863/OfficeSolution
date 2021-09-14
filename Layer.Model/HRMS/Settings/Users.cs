@@ -6,7 +6,7 @@ using System.Text;
 namespace Layer.Model.HRMS.Settings
 {
     [Table("Users", "Settings")]
-    public class User
+    public class Users
     {
         [PKey]
         public int UserId { get; set; }

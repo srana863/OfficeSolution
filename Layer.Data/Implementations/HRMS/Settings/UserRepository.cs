@@ -20,12 +20,12 @@ namespace Layer.Data.Implementations.HRMS.Settings
         {
             this.configuration = configuration;
         }
-        public Task<int> AddAsync(User entity)
+        public Task<int> AddAsync(Users entity)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<User> CreateAsync(User user, string password)
+        public async Task<Users> CreateAsync(Users user, string password)
         {
  
             if (string.IsNullOrWhiteSpace(password))
@@ -35,9 +35,9 @@ namespace Layer.Data.Implementations.HRMS.Settings
             
             using (IDbConnection cnn = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var query_1 = CRUD<User>.Select(o => o.Username == o.Username);
+                var query_1 = CRUD<Users>.Select(o => o.Username == o.Username);
 
-                var res = await cnn.QueryFirstOrDefaultAsync<User>(query_1, new { Username = user.Username });
+                var res = await cnn.QueryFirstOrDefaultAsync<Users>(query_1, new { Username = user.Username });
 
                 if (res != null)
                     throw new AppException("Username \"" + user.Username + "\" is already taken");
@@ -49,7 +49,7 @@ namespace Layer.Data.Implementations.HRMS.Settings
                 user.PasswordSalt = passwordSalt;
                 user.SetDate = DateTime.Now;
 
-                var query_2 = CRUD<User>.Insert();
+                var query_2 = CRUD<Users>.Insert();
 
                 int count = await cnn.ExecuteAsync(query_2, user);
 
@@ -61,14 +61,14 @@ namespace Layer.Data.Implementations.HRMS.Settings
         {
             using (IDbConnection cnn = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var query_1 = CRUD<User>.Select(o => o.UserId == o.UserId);
-                var user = await cnn.QueryFirstOrDefaultAsync<User>(query_1, new { UserId = id });
+                var query_1 = CRUD<Users>.Select(o => o.UserId == o.UserId);
+                var user = await cnn.QueryFirstOrDefaultAsync<Users>(query_1, new { UserId = id });
 
                 int rowsAffected = 0;
                 if (user != null)
                 {
-                    var query = CRUD<User>.Delete(o => o.UserId == o.UserId);
-                    rowsAffected = await cnn.ExecuteAsync(query, new User { UserId = id });
+                    var query = CRUD<Users>.Delete(o => o.UserId == o.UserId);
+                    rowsAffected = await cnn.ExecuteAsync(query, new Users { UserId = id });
                 }
 
                 if (rowsAffected > 0)
@@ -80,17 +80,17 @@ namespace Layer.Data.Implementations.HRMS.Settings
             
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<Users>> GetAllAsync()
         {
             using (IDbConnection cnn = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var query = CRUD<User>.Select();
-                var users = await cnn.QueryAsync<User>(query);
+                var query = CRUD<Users>.Select();
+                var users = await cnn.QueryAsync<Users>(query);
                 return users;
             }
         }
 
-        public async Task<IEnumerable<User>> GetByFilterAsync(int page, int itemsPerPage, string search, string sortBy, bool reverse)
+        public async Task<IEnumerable<Users>> GetByFilterAsync(int page, int itemsPerPage, string search, string sortBy, bool reverse)
         {
             using (IDbConnection cnn = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
@@ -101,35 +101,35 @@ namespace Layer.Data.Implementations.HRMS.Settings
                 p.Add("@itemsPerPage", itemsPerPage);
                 p.Add("@sortOrder", reverse ? "DESC" : "ASC");
                 string sql = "dbo.spUser_GetAll";
-                var uses = await cnn.QueryAsync<User>(sql, p, commandType: CommandType.StoredProcedure);
+                var uses = await cnn.QueryAsync<Users>(sql, p, commandType: CommandType.StoredProcedure);
                 return uses;
             }
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<Users> GetByIdAsync(int id)
         {
             using (IDbConnection cnn = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var query_1 = CRUD<User>.Select(o => o.UserId == o.UserId);
-                var user = await cnn.QueryFirstOrDefaultAsync<User>(query_1, new { UserId = id });
+                var query_1 = CRUD<Users>.Select(o => o.UserId == o.UserId);
+                var user = await cnn.QueryFirstOrDefaultAsync<Users>(query_1, new { UserId = id });
 
                 return user;
             }
         }
 
-        public Task<int> UpdateAsync(User entity)
+        public Task<int> UpdateAsync(Users entity)
         {
             throw new NotImplementedException();
         }
 
 
-        public async Task<bool> UpdateUserAsync(User userParam, string password = null)
+        public async Task<bool> UpdateUserAsync(Users userParam, string password = null)
         {
 
             using (IDbConnection cnn = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var query_1 = CRUD<User>.Select(o => o.UserId == o.UserId);
-                var user = await cnn.QueryFirstOrDefaultAsync<User>(query_1, new { UserId = userParam.UserId });
+                var query_1 = CRUD<Users>.Select(o => o.UserId == o.UserId);
+                var user = await cnn.QueryFirstOrDefaultAsync<Users>(query_1, new { UserId = userParam.UserId });
 
                 if (user == null)
                 {
@@ -138,9 +138,9 @@ namespace Layer.Data.Implementations.HRMS.Settings
 
                 if (!string.IsNullOrWhiteSpace(userParam.Username) && userParam.Username != user.Username)
                 {
-                    var query_2 = CRUD<User>.Select(o => o.Username == o.Username);
+                    var query_2 = CRUD<Users>.Select(o => o.Username == o.Username);
 
-                    var res = await cnn.QueryFirstOrDefaultAsync<User>(query_2, new { Username = user.Username });
+                    var res = await cnn.QueryFirstOrDefaultAsync<Users>(query_2, new { Username = user.Username });
 
                     if (res != null)
                         throw new AppException("Username " + userParam.Username + " is already taken");
@@ -163,7 +163,7 @@ namespace Layer.Data.Implementations.HRMS.Settings
                     user.PasswordHash = passwordHash;
                     user.PasswordSalt = passwordSalt;
                 }
-                var query = CRUD<User>.Update(o => o.UserId == o.UserId);
+                var query = CRUD<Users>.Update(o => o.UserId == o.UserId);
                 int rowsAffected = 0;
                 rowsAffected = await cnn.ExecuteAsync(query,user);
                 if (rowsAffected > 0)
@@ -174,16 +174,16 @@ namespace Layer.Data.Implementations.HRMS.Settings
             }
         }
 
-        public async Task<User> AuthenticateAsync(string username, string password)
+        public async Task<Users> AuthenticateAsync(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
                 return null;
 
             using (IDbConnection cnn = new SqlConnection(configuration.GetConnectionString("DefaultConnection")))
             {
-                var query_1 = CRUD<User>.Select(o => o.Username == o.Username);
+                var query_1 = CRUD<Users>.Select(o => o.Username == o.Username);
 
-                var user = await cnn.QueryFirstOrDefaultAsync<User>(query_1, new { Username = username });
+                var user = await cnn.QueryFirstOrDefaultAsync<Users>(query_1, new { Username = username });
 
                 if (user == null)
                     return null;

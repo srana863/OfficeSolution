@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Layer.Model.Common
 {
-    public partial class UserInfoSession: User 
+    public partial class UserInfoSession: Users 
     {
 
     }

@@ -11,14 +11,14 @@ namespace Layer.Data.Interfaces.HRMS.Settings
 {
     public interface IUserRepository
     {
-        Task<IEnumerable<User>> GetByFilterAsync(int page, int itemsPerPage, string search, string sortBy, bool reverse);
-        Task<User> CreateAsync(User user, string password);
-        Task<User> AuthenticateAsync(string username, string password);
-        Task<bool> UpdateUserAsync(User userParam, string password = null);
-        Task<User> GetByIdAsync(int id);
-        Task<IEnumerable<User>> GetAllAsync();
-        Task<int> AddAsync(User entity);
-        Task<int> UpdateAsync(User entity);
+        Task<IEnumerable<Users>> GetByFilterAsync(int page, int itemsPerPage, string search, string sortBy, bool reverse);
+        Task<Users> CreateAsync(Users user, string password);
+        Task<Users> AuthenticateAsync(string username, string password);
+        Task<bool> UpdateUserAsync(Users userParam, string password = null);
+        Task<Users> GetByIdAsync(int id);
+        Task<IEnumerable<Users>> GetAllAsync();
+        Task<int> AddAsync(Users entity);
+        Task<int> UpdateAsync(Users entity);
         Task<bool> DeleteAsync(int id);
 
     }
