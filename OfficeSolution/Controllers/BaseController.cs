@@ -14,6 +14,7 @@ namespace OfficeSolution.Controllers
     public class BaseController : Controller
     {
         public ReturnMessage _vmReturn;
+        public int _returnId;
         public DbContext _dbContext;
         public AppSession session;
 
@@ -25,18 +26,32 @@ namespace OfficeSolution.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            session = JsonConvert.DeserializeObject<AppSession>(HttpContext.Session.GetString("appSession"));
-
-            if (session != null)
+            //fake session
+            session = new AppSession();
+            var fakesession = new UserInfoSession { 
+                UserId=1,
+                OrgId= 101,
+                Username= "srana863",
+                UserFullName= "Md. Sohel Rana",
+                Designation= "Maintenance Engineer",
+                RoleId =1,
+                IsActive=true
+                
+            };
+         
+            //need to work here
+            if (HttpContext.Session.GetString("appSession") != null)
             {
+                session.UserInfo = fakesession;
                 HttpContext.Session.SetString("appSession", JsonConvert.SerializeObject(session));
             }
-            else {
-
-                //HttpContext.Session.SetString("appSession", JsonConvert.SerializeObject(session));
+            else
+            {
+                session.UserInfo = fakesession;
+                //session = JsonConvert.DeserializeObject<AppSession>(HttpContext.Session.GetString("appSession"));
             }
             base.OnActionExecuting(filterContext);
         }
     }
-    
+
 }

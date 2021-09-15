@@ -13,18 +13,18 @@ namespace Layer.Model.HRMS.Security
     using System;
     using System.Collections.Generic;
 
-    [Table("UserRole", "Security")]
-    public partial class UserRole
+    [Table("UserRoles", "Security")]
+    public partial class UserRoles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public UserRole()
+        public UserRoles()
         {
             this.RoleWiseScreenPermissions = new HashSet<RoleWiseScreenPermission>();
         }
     
         [PKey]
         public int RoleId { get; set; }
-        public int CompanyId { get; set; }
+        public int OrgId { get; set; }
         public string RoleName { get; set; }
         public string RoleDescription { get; set; }
         public int CreatedBy { get; set; }

@@ -29,6 +29,6 @@ namespace Layer.Model.HRMS.Security
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
         public virtual Screen Screen { get; set; }
-        public virtual UserRole UserRole { get; set; }
+        public virtual UserRoles UserRole { get; set; }
     }
 }
