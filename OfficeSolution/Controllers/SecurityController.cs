@@ -35,7 +35,7 @@ namespace OfficeSolution.Controllers
             }
             catch (Exception)
             {
-                return PartialView("_GetAllUserRoles", (new UserRoles()));
+                return PartialView("_GetAllUserRoles", Enumerable.Empty<UserRoles>());
             }
             finally
             {
