@@ -5,9 +5,11 @@ using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
 using Layer.Model.HRMS.Security;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace OfficeSolution.Controllers
@@ -43,7 +45,7 @@ namespace OfficeSolution.Controllers
             {
                 _dbContext.Close();
             }
-         
+
         }
 
         [HttpGet]
@@ -53,46 +55,48 @@ namespace OfficeSolution.Controllers
             {
                 _dbContext.Open();
                 var data = _unitOfWork.UserRolesRepository.Get(roleId, session.UserInfo.OrgId);
-                return Json(data);
+
+                return new JsonResult(data, new JsonSerializerOptions ());
             }
             catch (Exception)
             {
-                return Json(new UserRoles());
+                return new JsonResult(new UserRoles(), new JsonSerializerOptions());
             }
             finally
             {
                 _dbContext.Close();
             }
-          
-           
+
+
         }
         [HttpPost]
         public IActionResult DeleteUserRoles(int roleId)
         {
             try
             {
-                
-                var oldData = _unitOfWork.UserRolesRepository.Get(roleId,session.UserInfo.OrgId);
+
+                var oldData = _unitOfWork.UserRolesRepository.Get(roleId, session.UserInfo.OrgId);
                 if (oldData != null)
                 {
                     _returnId = _unitOfWork.UserRolesRepository.Delete(roleId, session.UserInfo.OrgId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Role Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
-                else {
+                else
+                {
                     _vmReturn = ReturnMessage.SetInfoMessage("No User Role Data found!!");
                 }
-                
-                return Json(_vmReturn);
+
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
             }
             catch (Exception)
             {
-               return Json(ReturnMessage.SetErrorMessage());
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
             }
             finally
             {
                 _dbContext.Close();
             }
-            
+
         }
 
         [HttpPost]
@@ -112,18 +116,21 @@ namespace OfficeSolution.Controllers
                 }
                 else
                 {
+                    model.CreatedBy = oldData.CreatedBy;
+                    model.CreatedDate = oldData.CreatedDate;
                     model.UpdatedBy = session.UserInfo.UserId;
                     model.UpdatedDate = DateTime.UtcNow;
                     _returnId = _unitOfWork.UserRolesRepository.Update(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Role Updated!!") : ReturnMessage.SetErrorMessage();
                 }
-                return Json(_vmReturn);
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
             }
             catch (Exception)
             {
-                return Json(ReturnMessage.SetErrorMessage());
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
             }
-            finally {
+            finally
+            {
                 _dbContext.Close();
             }
 
