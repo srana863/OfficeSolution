@@ -10,6 +10,7 @@
                 <th>SL</th>
                 <th>Role Name</th>
                 <th>Description</th>
+                <th>Active</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -22,6 +23,18 @@
                         <td>@sl @{sl++;}</td>
                         <td>@item.RoleName</td>
                         <td>@item.RoleDescription</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+
+
+                                <p style="color:green">Active</p>
+                            }
+                            else
+                            {
+                                <p style="color:red">Inactive</p>
+                            }
+                        </td>
                         <td>
                             <button type="button" class="btn btn-success btn-sm btnEdit" data-id="@item.RoleId"><i class="fa fa-edit"></i> Edit </button>
                             <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="@item.RoleId"><i class="fa fa-trash"></i> Delete </button>
@@ -38,6 +51,7 @@
                     <th>SL</th>
                     <th>Role Name</th>
                     <th>Description</th>
+                    <th>Active</th>
                     <th>Action</th>
                 </tr>
             </tfoot>
