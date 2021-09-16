@@ -53,6 +53,7 @@
     var saveData = function () {
         if (iValidation.Validate('frmUserRoles')) {
             var model = getFormData('form-element');
+            model.IsActive = $('#IsActive').prop("checked");
             var url = "/Security/SaveUserRoles";
             ajaxRequest(url, 'POST', model, false, true, function (res) {
                 showNotification(res.MessageType, res.Message);
