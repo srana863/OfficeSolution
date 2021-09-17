@@ -109,4 +109,5 @@ input.has-error, select.has-error {
 .form-check-label, .form-control {
     font-style: oblique !important;
     font-size: small !important;
+    font-weight:bold !important;
 }
