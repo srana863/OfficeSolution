@@ -12,5 +12,11 @@ namespace Layer.Data.Interfaces.Common
     {
         IDepartmentRepository DepartmentRepository { get; }
         IUserRolesRepository UserRolesRepository { get; }
+         IModulesRepository ModulesRepository { get; }
+         IScreenRepository ScreenRepository { get; }
+         IRoleWiseScreenPermissionRepository RoleWiseScreenPermissionRepository { get; }
+         ISubModulesRepository SubModulesRepository { get; }
+         ISubModuleSectionsRepository SubModuleSectionsRepository { get; }
+         IUserWiseOtherScreenRepository UserWiseOtherScreenRepository { get; }
     }
 }

@@ -21,6 +21,7 @@ namespace Layer.Model.HRMS.Security
         public int OrgId { get; set; }
         public string ModuleName { get; set; }
         public string IconName { get; set; }
+        public bool IsActive { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<int> UpdatedBy { get; set; }
