@@ -18,6 +18,7 @@ namespace Layer.Data.Interfaces.HRMS.Security
     }
     public interface IScreenRepository : IGenericRepository<Screen>
     {
+        IEnumerable<ScreenViewModel> GetAllWithParent(int orgId);
     }
     public interface ISubModulesRepository : IGenericRepository<SubModules>
     {

@@ -21,6 +21,122 @@ namespace OfficeSolution.Controllers
         {
             _unitOfWork = new UnitOfWork(_dbContext);
         }
+        #region ScreenSection....
+        public IActionResult ScreenSetup()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetAllScreen()
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.ScreenRepository.GetAllWithParent(session.UserInfo.OrgId);
+                return PartialView("_GetAllScreen", data);
+            }
+            catch (Exception)
+            {
+                return PartialView("_GetAllScreen", Enumerable.Empty<Screen>());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult GetScreen(int screenId)
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.ScreenRepository.Get(screenId, session.UserInfo.OrgId);
+
+                return new JsonResult(data, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new Screen(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+
+        }
+        [HttpPost]
+        public IActionResult DeleteScreen(int screenId)
+        {
+            try
+            {
+
+                var oldData = _unitOfWork.ScreenRepository.Get(screenId, session.UserInfo.OrgId);
+                if (oldData != null)
+                {
+                    _returnId = _unitOfWork.ScreenRepository.Delete(screenId, session.UserInfo.OrgId);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Screen Deleted Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    _vmReturn = ReturnMessage.SetInfoMessage("No Screen Data found!!");
+                }
+
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult SaveScreen(Screen model)
+        {
+            try
+            {
+                _dbContext.Open();
+                var oldData = _unitOfWork.ScreenRepository.Get(model.ScreenCode, model.OrgId);
+                if (oldData == null)
+                {
+                    model.CreatedBy = session.UserInfo.UserId;
+                    model.CreatedDate = DateTime.UtcNow;
+                    model.OrgId = session.UserInfo.OrgId;
+                    _returnId = _unitOfWork.ScreenRepository.Create(model);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Screen Saved Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    model.CreatedBy = oldData.CreatedBy;
+                    model.CreatedDate = oldData.CreatedDate;
+                    model.UpdatedBy = session.UserInfo.UserId;
+                    model.UpdatedDate = DateTime.UtcNow;
+                    _returnId = _unitOfWork.ScreenRepository.Update(model);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Screen Updated!!") : ReturnMessage.SetErrorMessage();
+                }
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+        #endregion SubModuleSection...
+
+
         #region SubModuleSection....
         public IActionResult SubModuleSectionSetup()
         {
