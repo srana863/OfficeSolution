@@ -3,6 +3,7 @@ using Layer.Data.Helpers;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
 using Layer.Model.HRMS.Security;
+using Layer.Model.ViewModel.Security;
 using QueryGenerator;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,16 @@ namespace Layer.Data.Implementations.HRMS.Security
         {
             var query = CRUD<SubModules>.Select(o => o.OrgId == o.OrgId);
             return _dbContext._connection.Query<SubModules>(query, new { OrgId = orgId });
+        }
+
+        public IEnumerable<SubModulesViewModel> GetAllWithParent(int orgId)
+        {
+            var query = @"SELECT SM.SubModuleId,SM.OrgId,SM.ModuleId,SM.SubModuleName,SM.IconName,SM.IsActive,SM.CreatedBy,SM.CreatedDate,SM.UpdatedBy,SM.UpdatedDate,
+                M.ModuleName
+                FROM Security.SubModules SM
+                INNER JOIN Security.Modules M ON M.ModuleId=SM.ModuleId
+                WHERE SM.OrgId=ISNULL(@OrgId,SM.OrgId)";
+            return _dbContext._connection.Query<SubModulesViewModel>(query, new { OrgId = orgId });
         }
 
         public int Update(SubModules entity)

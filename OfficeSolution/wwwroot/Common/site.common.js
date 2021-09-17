@@ -437,7 +437,7 @@ function clearFormField(excludes) {
                 $(this).val('');
             }
         });
-        $('input[type=checkbox]').attr('checked', false);
+        $('input[type=checkbox]').prop('checked', false);
     }
 }
 

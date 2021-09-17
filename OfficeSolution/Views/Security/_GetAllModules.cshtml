@@ -1,0 +1,65 @@
+﻿
+@model IEnumerable<Layer.Model.HRMS.Security.Modules>
+@{
+
+    int sl = 1;
+
+    <table id="tblModulesDetails" class="table table-bordered table-striped dataTable">
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Module Name</th>
+                <th>Icon Name</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model.OrderByDescending(o => o.ModuleName))
+                {
+            <tr>
+                <td>@sl @{sl++;}</td>
+                <td>@item.ModuleName</td>
+                <td>@item.IconName</td>
+                <td>
+                    @if (item.IsActive)
+                    {
+
+
+                        <p style="color:green">Active</p>
+                    }
+                    else
+                    {
+                        <p style="color:red">Inactive</p>
+                    }
+                </td>
+                <td>
+                    <button type="button" class="btn btn-success btn-sm btnEdit" data-id="@item.ModuleId"><i class="fa fa-edit"></i> Edit </button>
+                    <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="@item.ModuleId"><i class="fa fa-trash"></i> Delete </button>
+                </td>
+            </tr>
+                }
+            }
+
+        </tbody>
+        @if (Model.Any())
+        {
+            <tfoot>
+                <tr>
+                    <th>SL</th>
+                    <th>Module Name</th>
+                    <th>Icon Name</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+        }
+    </table>
+
+}
+<script type="text/javascript">
+    makePaginationWithExport("tblModulesDetails");
+</script>
+

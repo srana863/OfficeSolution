@@ -15,7 +15,7 @@ function getModuleCombo(controlId, isDefaultRecordRequired) {
 function getSubModuleCombo(controlId, moduleId, isDefaultRecordRequired) {
     var url = '/Common/GetSubModuleCombo';
     var data = {
-        moduleId=moduleId
+        moduleId:moduleId
     };
     loadCombo(controlId, url, data, isDefaultRecordRequired);
 }
@@ -23,8 +23,8 @@ function getSubModuleCombo(controlId, moduleId, isDefaultRecordRequired) {
 function getSubModuleSectionsCombo(controlId, moduleId, subModuleId, isDefaultRecordRequired) {
     var url = '/Common/GetSubModuleSectionsCombo';
     var data = {
-        moduleId=moduleId,
-        subModuleId=subModuleId
+        moduleId:moduleId,
+        subModuleId:subModuleId
     };
     loadCombo(controlId, url, data, isDefaultRecordRequired);
 }
@@ -33,9 +33,9 @@ function getSubModuleSectionsCombo(controlId, moduleId, subModuleId, isDefaultRe
 function getScreenCombo(controlId, moduleId, subModuleId, sectionId, isDefaultRecordRequired) {
     var url = '/Common/GetScreenCombo';
     var data = {
-        moduleId=moduleId,
-        subModuleId=subModuleId,
-        sectionId=sectionId
+        moduleId:moduleId,
+        subModuleId:subModuleId,
+        sectionId:sectionId
     };
     loadCombo(controlId, url, data, isDefaultRecordRequired);
 }

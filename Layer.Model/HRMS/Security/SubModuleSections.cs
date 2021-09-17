@@ -29,7 +29,7 @@ namespace Layer.Model.HRMS.Security
 
         public string IconName { get; set; }
 
-        public int SecrionOrder { get; set; }
+        public int SectionOrder { get; set; }
 
         public bool IsActive { get; set; }
 

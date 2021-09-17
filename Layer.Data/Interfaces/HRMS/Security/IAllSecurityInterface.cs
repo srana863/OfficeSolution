@@ -1,5 +1,6 @@
 ﻿using Layer.Data.Interfaces.Common;
 using Layer.Model.HRMS.Security;
+using Layer.Model.ViewModel.Security;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,9 +21,11 @@ namespace Layer.Data.Interfaces.HRMS.Security
     }
     public interface ISubModulesRepository : IGenericRepository<SubModules>
     {
+        IEnumerable<SubModulesViewModel> GetAllWithParent(int orgId);
     }
     public interface ISubModuleSectionsRepository : IGenericRepository<SubModuleSections>
     {
+        IEnumerable<SubModuleSectionsViewModel> GetAllWithParent(int orgId);
     }
     public interface IUserWiseOtherScreenRepository : IGenericRepository<UserWiseOtherScreen>
     {

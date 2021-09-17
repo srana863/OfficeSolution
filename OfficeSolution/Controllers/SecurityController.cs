@@ -21,6 +21,351 @@ namespace OfficeSolution.Controllers
         {
             _unitOfWork = new UnitOfWork(_dbContext);
         }
+        #region SubModuleSection....
+        public IActionResult SubModuleSectionSetup()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetAllSubModuleSections()
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.SubModuleSectionsRepository.GetAllWithParent(session.UserInfo.OrgId);
+                return PartialView("_GetAllSubModuleSections", data);
+            }
+            catch (Exception)
+            {
+                return PartialView("_GetAllSubModuleSections", Enumerable.Empty<SubModuleSections>());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult GetSubModuleSections(int sectionId)
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, session.UserInfo.OrgId);
+
+                return new JsonResult(data, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new SubModuleSections(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+
+        }
+        [HttpPost]
+        public IActionResult DeleteSubModuleSections(int sectionId)
+        {
+            try
+            {
+
+                var oldData = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, session.UserInfo.OrgId);
+                if (oldData != null)
+                {
+                    _returnId = _unitOfWork.SubModuleSectionsRepository.Delete(sectionId, session.UserInfo.OrgId);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Section Deleted Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    _vmReturn = ReturnMessage.SetInfoMessage("No Sub Module Section Data found!!");
+                }
+
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult SaveSubModuleSections(SubModuleSections model)
+        {
+            try
+            {
+                _dbContext.Open();
+                var oldData = _unitOfWork.SubModuleSectionsRepository.Get(model.SectionId, model.OrgId);
+                if (oldData == null)
+                {
+                    model.CreatedBy = session.UserInfo.UserId;
+                    model.CreatedDate = DateTime.UtcNow;
+                    model.OrgId = session.UserInfo.OrgId;
+                    _returnId = _unitOfWork.SubModuleSectionsRepository.Create(model);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Section Saved Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    model.CreatedBy = oldData.CreatedBy;
+                    model.CreatedDate = oldData.CreatedDate;
+                    model.UpdatedBy = session.UserInfo.UserId;
+                    model.UpdatedDate = DateTime.UtcNow;
+                    _returnId = _unitOfWork.SubModuleSectionsRepository.Update(model);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Section Updated!!") : ReturnMessage.SetErrorMessage();
+                }
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+        #endregion SubModuleSection...
+
+
+        #region SubModule....
+        public IActionResult SubModuleSetup()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetAllSubModules()
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.SubModulesRepository.GetAllWithParent(session.UserInfo.OrgId);
+                return PartialView("_GetAllSubModules", data);
+            }
+            catch (Exception)
+            {
+                return PartialView("_GetAllSubModules", Enumerable.Empty<SubModules>());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult GetSubModules(int subModuleId)
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.SubModulesRepository.Get(subModuleId, session.UserInfo.OrgId);
+
+                return new JsonResult(data, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new SubModules(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+
+        }
+        [HttpPost]
+        public IActionResult DeleteSubModules(int subModuleId)
+        {
+            try
+            {
+
+                var oldData = _unitOfWork.SubModulesRepository.Get(subModuleId, session.UserInfo.OrgId);
+                if (oldData != null)
+                {
+                    _returnId = _unitOfWork.SubModulesRepository.Delete(subModuleId, session.UserInfo.OrgId);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Deleted Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    _vmReturn = ReturnMessage.SetInfoMessage("No Sub Module Data found!!");
+                }
+
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult SaveSubModules(SubModules model)
+        {
+            try
+            {
+                _dbContext.Open();
+                var oldData = _unitOfWork.SubModulesRepository.Get(model.SubModuleId, model.OrgId);
+                if (oldData == null)
+                {
+                    model.CreatedBy = session.UserInfo.UserId;
+                    model.CreatedDate = DateTime.UtcNow;
+                    model.OrgId = session.UserInfo.OrgId;
+                    _returnId = _unitOfWork.SubModulesRepository.Create(model);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Saved Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    model.CreatedBy = oldData.CreatedBy;
+                    model.CreatedDate = oldData.CreatedDate;
+                    model.UpdatedBy = session.UserInfo.UserId;
+                    model.UpdatedDate = DateTime.UtcNow;
+                    _returnId = _unitOfWork.SubModulesRepository.Update(model);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Updated!!") : ReturnMessage.SetErrorMessage();
+                }
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+        #endregion SubModule...
+
+        #region Module....
+        public IActionResult ModuleSetup()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult GetAllModules()
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.ModulesRepository.GetAll(session.UserInfo.OrgId);
+                return PartialView("_GetAllModules", data);
+            }
+            catch (Exception)
+            {
+                return PartialView("_GetAllModules", Enumerable.Empty<Modules>());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+        [HttpGet]
+        public IActionResult GetModules(int moduleId)
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.ModulesRepository.Get(moduleId, session.UserInfo.OrgId);
+
+                return new JsonResult(data, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new Modules(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+
+        }
+        [HttpPost]
+        public IActionResult DeleteModules(int moduleId)
+        {
+            try
+            {
+
+                var oldData = _unitOfWork.ModulesRepository.Get(moduleId, session.UserInfo.OrgId);
+                if (oldData != null)
+                {
+                    _returnId = _unitOfWork.ModulesRepository.Delete(moduleId, session.UserInfo.OrgId);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Module Deleted Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    _vmReturn = ReturnMessage.SetInfoMessage("No Module Data found!!");
+                }
+
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+        [HttpPost]
+        public IActionResult SaveModules(Modules model)
+        {
+            try
+            {
+                _dbContext.Open();
+                var oldData = _unitOfWork.ModulesRepository.Get(model.ModuleId, model.OrgId);
+                if (oldData == null)
+                {
+                    model.CreatedBy = session.UserInfo.UserId;
+                    model.CreatedDate = DateTime.UtcNow;
+                    model.OrgId = session.UserInfo.OrgId;
+                    _returnId = _unitOfWork.ModulesRepository.Create(model);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Module Saved Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    model.CreatedBy = oldData.CreatedBy;
+                    model.CreatedDate = oldData.CreatedDate;
+                    model.UpdatedBy = session.UserInfo.UserId;
+                    model.UpdatedDate = DateTime.UtcNow;
+                    _returnId = _unitOfWork.ModulesRepository.Update(model);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Module Updated!!") : ReturnMessage.SetErrorMessage();
+                }
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+        #endregion Module...
 
         #region User Role....
         public IActionResult UserRolesSetup()
