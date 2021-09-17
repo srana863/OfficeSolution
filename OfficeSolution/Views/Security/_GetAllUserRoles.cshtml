@@ -17,7 +17,7 @@
         <tbody>
             @if (Model.Any())
             {
-                foreach (var item in Model)
+                foreach (var item in Model.OrderByDescending(o => o.RoleId))
                 {
                     <tr>
                         <td>@sl @{sl++;}</td>
@@ -60,6 +60,6 @@
 
 }
 <script type="text/javascript">
-    makePagination("tblUserRolesDetails");
+    makePaginationWithExport("tblUserRolesDetails");
 </script>
 

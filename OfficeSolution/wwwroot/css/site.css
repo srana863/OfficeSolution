@@ -78,3 +78,14 @@ body {
     padding: 0.35rem !important;
     vertical-align: top;
 }
+.buttons-html5, .buttons-print, .buttons-colvis, .buttons-columnVisibility {
+    background-color: #008CBA !important;
+}
+.card-header{
+    background-color: #008CBA !important;
+}
+
+.page-item.active .page-link {
+    background-color: #008CBA !important;
+    border-color: #007bff;
+}

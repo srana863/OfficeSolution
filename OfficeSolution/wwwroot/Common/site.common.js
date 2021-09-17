@@ -17,16 +17,22 @@ function makePagination(tableId) {
     //$('#' + tableId + '_filter').empty().append('<label><input type="search" placeholder="Search" class="form-control" aria-controls="' + tableId + '"></label>');
 }
 
+function makePaginationWithExport(tableId) {
+    $('#' + tableId).DataTable({
+        "responsive": true, "lengthChange": true, "autoWidth": true,
+        "buttons": ["excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#' + tableId+'_wrapper .col-md-6:eq(0)');
+}
 
 // this function skips the first column in search
-function makePaginationWithExport(tableId, column, title, message, orientation, fileName) {
-    orientation = null ? "portrait" : orientation;
-    $('#' + tableId).DataTable({
-        "responsive": true, "lengthChange": false, "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#' + tableId+'_wrapper.col-md-6:eq(0)');
+//function makePaginationWithExport(tableId, column, title, message, orientation, fileName) {
+//    orientation = null ? "portrait" : orientation;
+//    $('#' + tableId).DataTable({
+//        "responsive": true, "lengthChange": false, "autoWidth": false,
+//        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+//    }).buttons().container().appendTo('#' + tableId+'_wrapper.col-md-6:eq(0)');
 
-}
+//}
 function getBaseUrl() {
     var re = new RegExp(/^.*\//);
     return re.exec(window.location.href);
