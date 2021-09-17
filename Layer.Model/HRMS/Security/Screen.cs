@@ -24,19 +24,36 @@ namespace Layer.Model.HRMS.Security
     
         [PKey]
         public int ScreenCode { get; set; }
+
         public string ScreenName { get; set; }
-        public Nullable<int> ModuleId { get; set; }
-        public Nullable<int> SubModuleId { get; set; }
-        public Nullable<int> SectionId { get; set; }
-        public Nullable<int> ScreenOrder { get; set; }
+
+        public int OrgId { get; set; }
+
+        public int ModuleId { get; set; }
+
+        public int SubModuleId { get; set; }
+
+        public int SectionId { get; set; }
+
+        public int ScreenOrder { get; set; }
+
         public string URL { get; set; }
+
         public string ControllerName { get; set; }
+
         public string ActionName { get; set; }
+
         public string Description { get; set; }
-        public System.DateTime SetDate { get; set; }
         public bool IsActive { get; set; }
-        public Nullable<int> UserId { get; set; }
-    
+
+        public int CreatedBy { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public int? UpdatedBy { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<RoleWiseScreenPermission> RoleWiseScreenPermissions { get; set; }
     }

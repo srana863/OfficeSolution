@@ -18,16 +18,27 @@ namespace Layer.Model.HRMS.Security
     {
         [PKey]
         public int SL { get; set; }
-        public int UserId { get; set; }
-        public int CompanyId { get; set; }
+
+        public long UserId { get; set; }
+
+        public int OrgId { get; set; }
+
         public int ScreenCode { get; set; }
+
         public bool CanAdd { get; set; }
+
         public bool CanModify { get; set; }
+
         public bool CanView { get; set; }
-        public System.DateTime SetDate { get; set; }
+
+        public bool IsActive { get; set; }
+
         public int CreatedBy { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public Nullable<int> UpdatedBy { get; set; }
-        public Nullable<System.DateTime> UpdatedDate { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public int? UpdatedBy { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
     }
 }

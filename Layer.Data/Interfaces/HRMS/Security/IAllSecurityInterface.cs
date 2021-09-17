@@ -9,4 +9,23 @@ namespace Layer.Data.Interfaces.HRMS.Security
     public interface IUserRolesRepository: IGenericRepository<UserRoles>
     {
     }
+    public interface IModulesRepository : IGenericRepository<Modules>
+    {
+    }
+    public interface IRoleWiseScreenPermissionRepository : IGenericRepository<RoleWiseScreenPermission>
+    {
+    }
+    public interface IScreenRepository : IGenericRepository<Screen>
+    {
+    }
+    public interface ISubModulesRepository : IGenericRepository<SubModules>
+    {
+    }
+    public interface ISubModuleSectionsRepository : IGenericRepository<SubModuleSections>
+    {
+    }
+    public interface IUserWiseOtherScreenRepository : IGenericRepository<UserWiseOtherScreen>
+    {
+    }
+
 }

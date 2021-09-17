@@ -13,16 +13,28 @@ namespace Layer.Model.HRMS.Security
     using System;
     using System.Collections.Generic;
 
-    [Table("SubModule", "Security")]
-    public partial class SubModule
+    [Table("SubModules", "Security")]
+    public partial class SubModules
     {
         [PKey]
         public int SubModuleId { get; set; }
+
+        public int OrgId { get; set; }
+
         public int ModuleId { get; set; }
+
         public string SubModuleName { get; set; }
-        public string AreaName { get; set; }
-        public Nullable<System.DateTime> SetDate { get; set; }
-        public Nullable<int> UserID { get; set; }
+
         public string IconName { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public int CreatedBy { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
+        public int? UpdatedBy { get; set; }
+
+        public DateTime? UpdatedDate { get; set; }
     }
 }

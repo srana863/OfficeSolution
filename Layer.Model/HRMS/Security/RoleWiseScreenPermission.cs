@@ -17,8 +17,9 @@ namespace Layer.Model.HRMS.Security
     public partial class RoleWiseScreenPermission
     {
         [PKey]
+        public int PermissionSL { get; set; }
         public int RoleId { get; set; }
-        public int CompanyId { get; set; }
+        public int OrgId { get; set; }
         public int ScreenCode { get; set; }
         public bool CanAdd { get; set; }
         public bool CanModify { get; set; }

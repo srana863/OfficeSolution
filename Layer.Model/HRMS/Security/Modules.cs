@@ -18,9 +18,13 @@ namespace Layer.Model.HRMS.Security
     {
         [PKey]
         public int ModuleId { get; set; }
+        public int OrgId { get; set; }
         public string ModuleName { get; set; }
-        public Nullable<System.DateTime> SetDate { get; set; }
         public string IconName { get; set; }
-        public Nullable<int> UserID { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public Nullable<int> UpdatedBy { get; set; }
+        public Nullable<System.DateTime> UpdatedDate { get; set; }
+
     }
 }

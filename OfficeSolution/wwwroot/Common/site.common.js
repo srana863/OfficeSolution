@@ -24,90 +24,9 @@ function makePaginationWithExport(tableId) {
     }).buttons().container().appendTo('#' + tableId+'_wrapper .col-md-6:eq(0)');
 }
 
-// this function skips the first column in search
-//function makePaginationWithExport(tableId, column, title, message, orientation, fileName) {
-//    orientation = null ? "portrait" : orientation;
-//    $('#' + tableId).DataTable({
-//        "responsive": true, "lengthChange": false, "autoWidth": false,
-//        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-//    }).buttons().container().appendTo('#' + tableId+'_wrapper.col-md-6:eq(0)');
-
-//}
 function getBaseUrl() {
     var re = new RegExp(/^.*\//);
     return re.exec(window.location.href);
-}
-// this function skips search for the given columns in searchEscapeColumns
-function makePaginationWithExportEscapeSearchForGivenColumns(tableId, column, searchEscapeColumns, title, message, orientation, fileName) {
-    orientation = null ? "portrait" : orientation;
-
-    $('#' + tableId).dataTable({
-        "paging": true,
-        "ordering": true,
-        "info": true,
-        "aoColumnDefs": [{ "bSearchable": false, "aTargets": searchEscapeColumns }],
-        "columnDefs": [
-        {
-            "type": "html",
-        }
-        ],
-        "dom": 'T<"clear">lfrtip',
-        "tableTools": {
-            "sSwfPath": "/plugins/datatables/DataTables/extensions/TableTools/swf/copy_csv_xls_pdf.swf",
-            "aButtons": [
-                 {
-                     "sExtends": "csv",
-                     "sTitle": title,
-                     "sFileName": fileName + '.csv',
-                     "bHeader": true,
-                     "mColumns": column,
-                 },
-                 {
-                     "sExtends": "xls",
-                     "sTitle": title,
-                     "sFileName": fileName + '.xls',
-                     "bHeader": true,
-                     "mColumns": column,
-                 },
-                 {
-                     "sExtends": "pdf",
-                     "sPdfOrientation": orientation,
-                     "sTitle": title,
-                     "sPdfMessage": message,
-                     "sFileName": fileName + '.pdf',
-                     "bHeader": true,
-                     "mColumns": column,
-                 },
-                {
-                    "sExtends": "print",
-                }
-            ],
-        },
-
-    });
-
-}
-
-function makePaginationWithExportButton(tableId) {
-    $('#' + tableId).dataTable({
-        "paging": true,
-        "ordering": true,
-        "info": true,
-        "dom": 'T<"clear">lfrtip',
-        "tableTools": {
-            "aButtons": [
-                "copy",
-                "csv",
-                "xls",
-                {
-                    "sExtends": "pdf",
-                    "sPdfOrientation": "landscape",
-                    "sPdfMessage": "Test"
-                },
-                "print"
-            ]
-        }
-    });
 }
 
 function showNotification(type, message) {
