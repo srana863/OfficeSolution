@@ -1,4 +1,12 @@
-﻿function getUserRoleCombo(controlId, isDefaultRecordRequired) {
+﻿
+function getUserCombo(controlId, isDefaultRecordRequired) {
+    var url = '/Common/GetUserCombo';
+    var data = {
+    };
+    loadCombo(controlId, url, data, isDefaultRecordRequired);
+}
+
+function getUserRoleCombo(controlId, isDefaultRecordRequired) {
     var url = '/Common/GetUserRoleCombo';
     var data = {
     };

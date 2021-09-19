@@ -1,85 +1,41 @@
 ﻿@{
-    ViewBag.Title = "Screen Setup";
+    ViewBag.Title = "User Wise Screen Setup";
 }
 
 <section class="content">
     <div class="container-fluid">
         <div class="card card-blue">
             <div class="card-header">
-                <h3 class="card-title">Screen Setup</h3>
+                <h3 class="card-title">User Wise Screen Setup</h3>
             </div>
-            <form class="form-horizontal" id="frmScreen">
+            <form class="form-horizontal" id="frmUserWiseOtherScreen">
                 <div class="card-body">
-                    <input type="hidden" class="form-control form-element" id="ScreenCode" name="ScreenCode" />
-                    <input type="hidden" class="form-control form-element" id="OrgId" name="OrgId" />
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">Module Name<span style="color:red">*</span></label>
+                        <label class="col-sm-2 control-label">User Name<span style="color:red">*</span></label>
                         <div class="col-sm-4">
-                            <select class="form-control form-element validation" data-v-index="0" required id="ModuleId" name="ModuleId"></select>
+                            <select class="form-control form-element validation" data-v-index="0" required id="UserId" name="UserId"></select>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">Sub Module Name<span style="color:red">*</span></label>
+                        <label class="col-sm-2 control-label">Module</label>
                         <div class="col-sm-4">
-                            <select class="form-control form-element validation" data-v-index="0" required id="SubModuleId" name="SubModuleId"></select>
+                            <select class="form-control form-element validation" id="ModuleId" name="ModuleId"></select>
                         </div>
-
-                        <label class="col-sm-2 control-label">Section<span style="color:red">*</span></label>
+                        <label class="col-sm-2 control-label">Sub Module</label>
                         <div class="col-sm-4">
-                            <select class="form-control form-element validation" data-v-index="0" required id="SectionId" name="SectionId"></select>
-                        </div>
-
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label">Screen Name<span style="color:red">*</span></label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control form-element validation" required id="ScreenName" name="ScreenName" />
+                            <select class="form-control form-element validation" id="SubModuleId" name="SubModuleId"></select>
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 control-label">Controller Name<span style="color:red">*</span></label>
+                        <label class="col-sm-2 control-label">Screen</label>
                         <div class="col-sm-4">
-                            <input type="text" class="form-control form-element validation" required id="ControllerName" name="ControllerName" />
-                        </div>
-                        <label class="col-sm-2 control-label">Action Name<span style="color:red">*</span></label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control form-element validation" required id="ActionName" name="ActionName" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label">URL<span style="color:red">*</span></label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control form-element validation" required id="URL" name="URL" />
-                        </div>
-                        <label class="col-sm-2 control-label">Screen Order<span style="color:red">*</span></label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control form-element validation number-only" required id="ScreenOrder" name="ScreenOrder" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label">Icon Name</label>
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control form-element validation" id="IconName" name="IconName" />
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 control-label">Description</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control form-element validation" id="Description" name="Description"></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="offset-sm-2 col-sm-10">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input form-elemen" id="IsActive" name="IsActive">
-                                <label class="form-check-label form-elemen" for="IsActive">Is Active</label>
-                            </div>
+                            <select class="form-control form-element validation" id="ScreenCode" name="ScreenCode"></select>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <button type="button" id="btnSave" class="btn btn-success pull-right"><i class="fa fa-save"></i> Save </button>
-                    <button type="reset" id="btnClear" class="btn btn-danger pull-right"><i class="fa fa-refresh"></i> Clear</button>
+                    <button type="button" id="btnAdd" class="btn btn-success pull-right"><i class="fa fa-plus"></i> Add </button>
+                    <button type="reset" id="btnRefresh" class="btn btn-danger pull-right"><i class="fa fa-refresh"></i> Refresh</button>
                 </div>
                 <!-- /.card-footer -->
             </form>
@@ -92,20 +48,24 @@
     <div class="container-fluid">
         <div class="card card-blue">
             <div class="card-header">
-                <h3 class="card-title">Screen List</h3>
+                <h3 class="card-title">Other Screen List (Except Role Wise Screen)</h3>
             </div>
             <div class="card-body">
                 <div id="formDetails"></div>
+            </div>
+            <div class="card-footer">
+                <button type="button" id="btnSave" class="btn btn-success pull-right"><i class="fa fa-save"></i> Save </button>
+                <button type="reset" id="btnClear" class="btn btn-danger pull-right"><i class="fa fa-refresh"></i> Clear</button>
             </div>
         </div>
     </div>
 </section>
 
 @section Scripts {
-    <script src="~/pageJs/security/Screen.js"></script>
+    <script src="~/pageJs/security/UserWiseOtherScreen.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            Screen.init();
+            UserWiseOtherScreen.init();
         });
     </script>
 }

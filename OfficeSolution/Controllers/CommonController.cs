@@ -18,6 +18,20 @@ namespace OfficeSolution.Controllers
             _unitOfWork = new UnitOfWork(_dbContext);
         }
 
+        public JsonResult GetUserCombo()
+        {
+            var data = _unitOfWork.UsersRepository.GetAll(session.UserInfo.OrgId);
+            if (data != null)
+                data = data.Where(o => o.IsActive).OrderBy(o => o.UserFullName);
+            var list = data.Select(o => new SelectListItem
+            {
+                Value = o.RoleId.ToString(),
+                Text = o.UserFullName.ToString() + '-' +o.Username + '(' + o.Designation + ')'
+            });
+
+            return new JsonResult(list, new JsonSerializerOptions());
+        }
+
         public JsonResult GetUserRoleCombo()
         {
             var data = _unitOfWork.UserRolesRepository.GetAll(session.UserInfo.OrgId);
@@ -103,7 +117,7 @@ namespace OfficeSolution.Controllers
                     {
                         if (sectionId > 0)
                         {
-                            data = data.Where(o => o.IsActive == true && o.ModuleId == moduleId && o.SubModuleId == subModuleId && o.SectionId==sectionId).OrderBy(o => o.ScreenName);
+                            data = data.Where(o => o.IsActive == true && o.ModuleId == moduleId && o.SubModuleId == subModuleId && o.SectionId == sectionId).OrderBy(o => o.ScreenName);
                         }
                         else
                         {

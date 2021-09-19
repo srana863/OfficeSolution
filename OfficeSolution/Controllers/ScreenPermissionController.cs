@@ -114,12 +114,12 @@ namespace OfficeSolution.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllUserWiseOtherScreen(int roleId, int? moduleId = null, int? subModuleId = null)
+        public IActionResult GetAllUserWiseOtherScreen(int userId, int? moduleId = null, int? subModuleId = null)
         {
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.UserWiseOtherScreenRepository.GetAllWithParent(session.UserInfo.OrgId, roleId, moduleId, subModuleId);
+                var data = _unitOfWork.UserWiseOtherScreenRepository.GetAllWithParent(session.UserInfo.OrgId, userId, moduleId, subModuleId);
                 return PartialView("_GetAllUserWiseOtherScreen", data);
             }
             catch (Exception)
@@ -185,38 +185,63 @@ namespace OfficeSolution.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveUserWiseOtherScreen(UserWiseOtherScreen model)
+        public IActionResult SaveUserWiseOtherScreen(IEnumerable<UserWiseOtherScreen> userScreenDetailsViewModel)
         {
-            try
+            using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
-                _dbContext.Open();
-                var oldData = _unitOfWork.UserWiseOtherScreenRepository.Get(model.SL, model.OrgId);
-                if (oldData == null)
+                try
                 {
-                    model.CreatedBy = session.UserInfo.UserId;
-                    model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = session.UserInfo.OrgId;
-                    _returnId = _unitOfWork.UserWiseOtherScreenRepository.Create(model);
-                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Wise Screen Permission Saved Successfully!") : ReturnMessage.SetErrorMessage();
+                    if (userScreenDetailsViewModel.Any())
+                    {
+                        _dbContext.Open();
+                        var oldData = new UserWiseOtherScreen();
+                        foreach (var item in userScreenDetailsViewModel)
+                        {
+                            _returnId = 0;
+                            oldData = _unitOfWork.UserWiseOtherScreenRepository.Get(item.SL, session.UserInfo.OrgId);
+                            if (oldData == null)
+                            {
+                                item.CreatedBy = session.UserInfo.UserId;
+                                item.CreatedDate = DateTime.UtcNow;
+                                item.OrgId = session.UserInfo.OrgId;
+                                _returnId = _unitOfWork.UserWiseOtherScreenRepository.Create(item);
+
+                            }
+                            else
+                            {
+                                item.OrgId = oldData.OrgId;
+                                item.CreatedBy = oldData.CreatedBy;
+                                item.CreatedDate = oldData.CreatedDate;
+                                item.UpdatedBy = session.UserInfo.UserId;
+                                item.UpdatedDate = DateTime.UtcNow;
+                                _returnId = _unitOfWork.UserWiseOtherScreenRepository.Update(item);
+                            }
+
+                        }
+
+                        if (_returnId > 0)
+                        {
+                            transactionScope.Complete();
+                            transactionScope.Dispose();
+                            _vmReturn = ReturnMessage.SetSuccessMessage("Operation Completed Successfully!");
+                        }
+
+                    }
+                    else
+                    {
+                        _vmReturn = ReturnMessage.SetInfoMessage("No Data Selected!!");
+                    }
+                    return new JsonResult(_vmReturn, new JsonSerializerOptions());
                 }
-                else
+                catch (Exception e)
                 {
-                    model.CreatedBy = oldData.CreatedBy;
-                    model.CreatedDate = oldData.CreatedDate;
-                    model.UpdatedBy = session.UserInfo.UserId;
-                    model.UpdatedDate = DateTime.UtcNow;
-                    _returnId = _unitOfWork.UserWiseOtherScreenRepository.Update(model);
-                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Wise Screen Permission Updated!!") : ReturnMessage.SetErrorMessage();
+                    transactionScope.Dispose();
+                    return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
                 }
-                return new JsonResult(_vmReturn, new JsonSerializerOptions());
-            }
-            catch (Exception)
-            {
-                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
-            }
-            finally
-            {
-                _dbContext.Close();
+                finally
+                {
+                    _dbContext.Close();
+                }
             }
 
         }

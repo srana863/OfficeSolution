@@ -31,7 +31,7 @@ namespace Layer.Data.Interfaces.HRMS.Security
     }
     public interface IUserWiseOtherScreenRepository : IGenericRepository<UserWiseOtherScreen>
     {
-        IEnumerable<UserWiseOtherScreenViewModel> GetAllWithParent(int orgId, int roleId, int? moduleId, int? subModuleId);
+        IEnumerable<UserWiseOtherScreenViewModel> GetAllWithParent(int orgId, int userId, int? moduleId, int? subModuleId);
     }
 
 }

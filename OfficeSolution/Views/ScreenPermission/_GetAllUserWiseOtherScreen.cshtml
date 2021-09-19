@@ -1,5 +1,83 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<Layer.Model.ViewModel.Security.UserWiseOtherScreenViewModel>
+
+
+<table id="tblPermissionDetails" class="table table-bordered table-striped dataTable">
+    <thead>
+        <tr>
+            <th hidden>SL</th>
+            <th hidden>ScreenCode</th>
+            <th>Module</th>
+            <th>Sub Module</th>
+            <th>Screen</th>
+            <th>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input form-element" id="AllView" name="AllView">
+                    <label class="form-check-label form-element" for="AllView">View</label>
+                </div>
+            </th>
+            <th>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input form-element" id="AllModify" name="AllModify">
+                    <label class="form-check-label form-element" for="AllModify">Modify</label>
+                </div>
+            </th>
+            <th>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input form-element" id="AllAdd" name="AllAdd">
+                    <label class="form-check-label form-element" for="AllAdd">Add</label>
+                </div>
+            </th>
+            <th>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input form-element" id="AllStatus" name="AllStatus">
+                    <label class="form-check-label form-element" for="AllStatus">Status</label>
+                </div>
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.Any())
+        {
+            string canView = string.Empty;
+            string canModify = string.Empty;
+            string canAdd = string.Empty;
+            string status = string.Empty;
+            string newId = string.Empty;
+            foreach (var item in Model)
+            {
+                canView = item.CanView ? "checked" : "";
+                canModify = item.CanModify ? "checked" : "";
+                canAdd = item.CanAdd ? "checked" : "";
+                status = item.IsActive ? "checked" : "";
+                newId = "NS" + item.SL;
+                <tr id="@newId" class="ok">
+                    <td hidden><input type="hidden" value="@item.SL" /></td>
+                    <td hidden><input type="hidden" value="@item.ScreenCode" /></td>
+                    <td>@item.ModuleName</td>
+                    <td>@item.SubModuleName</td>
+                    <td>@item.ScreenName</td>
+                    <td style="align-content:center">
+                        <input type="checkbox" @canView class="flat-red canView">
+                    </td>
+                    <td style="align-content:center">
+                        <input type="checkbox" @canModify class="flat-red canModify">
+                    </td>
+                    <td style="align-content:center">
+                        <input type="checkbox" @canAdd class="flat-red canAdd">
+                    </td>
+                    <td style="align-content:center">
+                        <input type="checkbox" @status class="flat-red status">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm btnDelete" data-nsid="@item.SL" data-id="@newId"><i class="fa fa-trash"></i> Delete </button>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<script type="text/javascript">
+    makePaginationWithExport("tblPermissionDetails");
+</script>
