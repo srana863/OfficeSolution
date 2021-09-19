@@ -104,6 +104,38 @@ namespace OfficeSolution.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        public IActionResult DeleteRoleWiseScreenPermissio(int sl)
+        {
+            try
+            {
+
+                var oldData = _unitOfWork.RoleWiseScreenPermissionRepository.Get(sl, session.UserInfo.OrgId);
+                if (oldData != null)
+                {
+                    _returnId = _unitOfWork.RoleWiseScreenPermissionRepository.Delete(sl, session.UserInfo.OrgId);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Role Wise Screen Permission Deleted Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    _vmReturn = ReturnMessage.SetInfoMessage("No Role Wise Screen Permission Data found!!");
+                }
+
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+
         #endregion RoleWiseScreenPermission...
 
 

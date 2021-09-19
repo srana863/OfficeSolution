@@ -115,7 +115,8 @@
             var screenName = $('#ScreenCode option:selected').html();
             var isExist = 0;
             $('#tblPermissionDetails>tbody tr').each(function () {
-                $projectName = $(this).find('td').eq(1).text().trim();
+                $projectName = $(this).find('td:eq(4)').text();
+               
                 var chk = $(this).attr('class');
                 if (chk.indexOf("odd") >= 0) {
                     if (chk.indexOf("ok") <= -1) {
@@ -123,7 +124,7 @@
                     }
                 }
 
-                if ($projectName == ScreenCode) {
+                if ($projectName == screenName) {
                     showNotification(3, "Already Exist!");
                     isExist = 1;
                 }
@@ -188,7 +189,6 @@
                 permissionData.CanModify = $(this).find('td').eq(6).find('input[type="checkbox"]').prop("checked");
                 permissionData.CanAdd = $(this).find('td').eq(7).find('input[type="checkbox"]').prop("checked");
                 permissionData.IsActive = $(this).find('td').eq(8).find('input[type="checkbox"]').prop("checked");
-                alert(permissionData.UserId);
                 userScreenDetailsViewModel.push(permissionData);
             });
         }

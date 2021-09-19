@@ -33,6 +33,7 @@
                     <label class="form-check-label form-element" for="AllStatus">Status</label>
                 </div>
             </th>
+            <th hidden>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -66,6 +67,9 @@
                     </td>
                     <td style="align-content:center">
                         <input type="checkbox" @status class="flat-red Status">
+                    </td>
+                    <td hidden>
+                        <button type="button" class="btn btn-danger btn-sm btnDelete" data-nsid="@item.PermissionSL" data-id="@newId"><i class="fa fa-trash"></i> Delete </button>
                     </td>
                 </tr>
             }

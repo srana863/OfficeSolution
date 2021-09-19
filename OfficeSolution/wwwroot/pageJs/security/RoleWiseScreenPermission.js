@@ -24,6 +24,32 @@
         $('#btnSave').click(saveData);
         $('#btnClear').click(resetform);
 
+        $(document).on('click', '.btnDelete', function () {
+            var sl = $(this).data('nsid');
+            if (sl > 0) {
+                $.confirm({
+                    title: 'Delete Message',
+                    text: 'Do you want to delete this?',
+                    confirm: function () {
+                        var url = "/ScreenPermission/DeleteRoleWiseScreenPermissio";
+                        ajaxRequest(url, 'POST', { sl: sl }, true, false, function (res) {
+                            showNotification(res.MessageType, res.Message);
+                            loadRoleWiseScreenPermissionData();
+                        });
+                    },
+                    cancel: function () {
+                        return false;
+                    },
+                    confirmButton: "Yes",
+                    cancelButton: "No"
+                });
+
+            } else {
+                showNotification(3, "Select Screen!!");
+            }
+
+        });
+
         $(document).on('click', '#AllAdd', function () {
             if (this.checked) {
                 $('.CanAdd:checkbox').each(function () {
@@ -33,7 +59,7 @@
                 $('.CanAdd:checkbox').each(function () {
                     this.checked = false;
                 });
-            } 
+            }
         });
         $(document).on('click', '#AllStatus', function () {
             if (this.checked) {
@@ -69,7 +95,7 @@
                 });
             }
         });
-       
+
 
     };
     var resetform = function () {
@@ -107,7 +133,7 @@
                 roleScreenDetailsViewModel.push(permissionData);
             });
         }
-        if (roleScreenDetailsViewModel.length > 0) {            
+        if (roleScreenDetailsViewModel.length > 0) {
             var url = "/ScreenPermission/SaveRoleWiseScreenPermission";
             $.post(url, { roleScreenDetailsViewModel: roleScreenDetailsViewModel }, function (res) {
                 showNotification(res.MessageType, res.Message);
