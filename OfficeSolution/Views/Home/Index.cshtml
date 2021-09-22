@@ -1,76 +1,89 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    Layout = null;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Login Here</title>
-    @{
-        Layout = null;
-    }
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.css">
-    <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="~/plugins/fontawesome-free/css/fontawesome.css">
-    <!--===============================================================================================-->
-    <link type="text/css" href="~/css/util.css" rel="stylesheet" />
-    <link type="text/css" href="~/css/main.css" rel="stylesheet" />
-    <!--===============================================================================================-->
+    <title>AdminLTE 3 | Top Navigation</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
 </head>
-<body>
+<body class="hold-transition layout-top-nav">
+    <div class="wrapper">
 
-    <div class="limiter">
-        <div class="container-login100">
-            <div class="wrap-login100">
-                <form class="login100-form validate-form">
-                    <span class="login100-form-title p-b-26">
-                        Welcome
-                    </span>
-                    <span class="login100-form-title p-b-48">
-                        <i class="zmdi zmdi-font"></i>
-                    </span>
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
+            <div class="container">
+                <a href="../../index3.html" class="navbar-brand">
+                    <img src="../../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light">OfficeSolution</span>
+                </a>
 
-                    <div class="wrap-input100 validate-input" data-validate="Valid email is: a@b.c">
-                        <input class="input100" type="text" name="email">
-                        <span class="focus-input100" data-placeholder="Email"></span>
-                    </div>
+                <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                    <div class="wrap-input100 validate-input" data-validate="Enter password">
-                        <span class="btn-show-pass">
-                            <i class="zmdi zmdi-eye"></i>
-                        </span>
-                        <input class="input100" type="password" name="pass">
-                        <span class="focus-input100" data-placeholder="Password"></span>
-                    </div>
+                <!-- Right navbar links -->
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                    @await Html.PartialAsync("_LoginPartial")
+                </ul>
+            </div>
+        </nav>
+        <!-- /.navbar -->
 
-                    <div class="container-login100-form-btn">
-                        <div class="wrap-login100-form-btn">
-                            <div class="login100-form-bgbtn"></div>
-                            <button class="login100-form-btn" action="">
-                                Login
-                            </button>
-                        </div>
-                    </div>
+        <div class="content-wrapper">
+            <div class="content-header">
+                <div class="container">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0"> Dashboard</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active">Dashboard</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
 
-                    <div class="text-center p-t-115">
-                        <span class="txt1">
-                            Don’t have an account?
-                        </span>
-
-                        <a class="txt2" href="#">
-                            Sign Up
-                        </a>
-                    </div>
-                </form>
+            <div class="content">
+                <div id="formDetails" class="container">
+                    
+                </div><!-- /.container-fluid -->
             </div>
         </div>
+
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-inline">
+                Anything you want
+            </div>
+            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+        </footer>
     </div>
-
-
-    <div id="dropDownSelect1"></div>
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="~/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- ./wrapper -->
+    <!-- REQUIRED SCRIPTS -->
+    <!-- jQuery -->
+    <script src="../../plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="../../dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="../../dist/js/demo.js"></script>
+    <script>
+        $(document).ready(function () {
+            var url = "/Home/GetModulesWithSub";
+            $("#formDetails").load(url);
+        });      
+    </script>
 </body>
 </html>

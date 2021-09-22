@@ -1,6 +1,7 @@
 ﻿using Layer.Data.Helpers;
 using Layer.Data.Implementations.HRMS.Emp;
 using Layer.Data.Implementations.HRMS.Security;
+using Layer.Data.Implementations.HRMS.Settings;
 using Layer.Data.Interfaces;
 using Layer.Data.Interfaces.Common;
 using Layer.Data.Interfaces.HRMS.Emp;
@@ -24,6 +25,7 @@ namespace Layer.Data.Implementations
         public ISubModulesRepository SubModulesRepository { get; }
         public ISubModuleSectionsRepository SubModuleSectionsRepository { get; }
         public IUserWiseOtherScreenRepository UserWiseOtherScreenRepository { get; }
+        public IUsersRepository UsersRepository { get; }
 
         public UnitOfWork(DbContext _dbContext)
         {
@@ -35,6 +37,7 @@ namespace Layer.Data.Implementations
             SubModulesRepository = new SubModulesRepository(_dbContext);
             SubModuleSectionsRepository = new SubModuleSectionsRepository(_dbContext);
             UserWiseOtherScreenRepository = new UserWiseOtherScreenRepository(_dbContext);
+            UsersRepository = new UsersRepository(_dbContext);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Layer.Model.Common;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,6 +32,14 @@ namespace OfficeSolution
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.LoginPath = "/Home/Login";
+                options.Cookie.Name = "MyCookie";
+            });
+
             services.AddMvc(setupAction =>
             {
                 setupAction.EnableEndpointRouting = false;
@@ -38,7 +47,7 @@ namespace OfficeSolution
             {
                 jsonOptions.JsonSerializerOptions.PropertyNamingPolicy = null;
             })
-             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,11 +65,12 @@ namespace OfficeSolution
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
             //new added
             app.UseCookiePolicy();

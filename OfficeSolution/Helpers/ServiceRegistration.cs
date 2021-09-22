@@ -12,7 +12,7 @@ namespace HRMS.API.Helpers
     {
         public static void AddInfrastructure(this IServiceCollection services)
         {
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            //services.AddTransient<IUnitOfWork, UnitOfWork>();
             //services.AddTransient<IUserRepository, UserRepository>();
         }
     }

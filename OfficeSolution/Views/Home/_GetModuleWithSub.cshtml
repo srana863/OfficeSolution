@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Layer.Model.ViewModel.Settings.ModuleViewModel>
+@{
+    int sl = 0;
+    <div class="row">
+        @if (Model.Any())
+        {
+            foreach (var module in Model)
+            {
+                foreach (var sub in module.SubModuleViewModels)
+                {
+                    <div class="col-lg-3 col-6">
+                        <!-- small card -->
+                        <div class="@GetClass(sl)">
+                            <div class="inner">
+                                <h5>@sub.SubModuleName</h5>
+
+                                <p>@module.ModuleName</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <a href="#" class="small-box-footer">
+                                More info <i class="fas fa-arrow-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    sl++;
+                }
+
+            }
+        }
+
+    </div>
+}
+
+@functions{
+    public string GetClass(int serial)
+    {
+        switch (serial % 4)
+        {
+            case 1:
+                return "small-box bg-success";
+            case 2:
+                return "small-box bg-warning";
+            case 3:
+                return "small-box bg-danger";
+            default:
+                return "small-box bg-info";
+        }
+
+    }
+}

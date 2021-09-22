@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Layer.Data.Implementations.HRMS.Settings
 {
@@ -41,10 +42,10 @@ namespace Layer.Data.Implementations.HRMS.Settings
             return _dbContext._connection.Query<Users>(query, new { OrgId = orgId });
         }
 
-        public UserInfoSession GetUserByUserName(string username)
+        public async Task<UserInfoSession> GetUserByUserName(string username)
         {
             var query = CRUD<Users>.Select(o => o.Username == o.Username);
-            return _dbContext._connection.Query<UserInfoSession>(query, new { Username = username }).FirstOrDefault();
+            return await _dbContext._connection.QueryFirstOrDefaultAsync<UserInfoSession>(query, new { Username = username });
         }
 
         public int Update(Users entity)

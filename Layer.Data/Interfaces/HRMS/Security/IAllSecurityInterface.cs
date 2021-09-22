@@ -1,9 +1,11 @@
 ﻿using Layer.Data.Interfaces.Common;
 using Layer.Model.HRMS.Security;
 using Layer.Model.ViewModel.Security;
+using Layer.Model.ViewModel.Settings;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Layer.Data.Interfaces.HRMS.Security
 {
@@ -12,6 +14,7 @@ namespace Layer.Data.Interfaces.HRMS.Security
     }
     public interface IModulesRepository : IGenericRepository<Modules>
     {
+        IEnumerable<ModuleViewModel> GetModulesWithSub();
     }
     public interface IRoleWiseScreenPermissionRepository : IGenericRepository<RoleWiseScreenPermission>
     {

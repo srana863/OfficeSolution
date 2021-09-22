@@ -21,10 +21,7 @@ namespace Layer.Model.HRMS.Settings
 
         public string Password { get; set; }
 
-        [NotMapped]
-        public byte[] PasswordHash { get; set; }
-
-        public byte[] PasswordSalt { get; set; }
+        public string PasswordSalt { get; set; }
 
         public int? RoleId { get; set; }
 
