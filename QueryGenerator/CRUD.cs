@@ -155,6 +155,10 @@ namespace QueryGenerator
             {
                 return true;
             }
+            if (type == typeof(Nullable<long>) || type == typeof(long))
+            {
+                return true;
+            }
             if (type == typeof(string))
                 return true;
             if (type.IsGenericType)

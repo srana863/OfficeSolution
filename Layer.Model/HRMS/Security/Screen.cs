@@ -34,7 +34,7 @@ namespace Layer.Model.HRMS.Security
         public int SubModuleId { get; set; }
 
         public int SectionId { get; set; }
-
+        public string IconName { get; set; }
         public int ScreenOrder { get; set; }
 
         public string URL { get; set; }

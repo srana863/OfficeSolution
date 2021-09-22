@@ -100,3 +100,14 @@ input.has-error, select.has-error {
 .form-group {
     margin-bottom: 0.5rem !important;
 }
+
+.control-label {
+    text-align: right !important;
+    font-style: oblique !important;
+    font-size: small !important;
+}
+.form-check-label, .form-control {
+    font-style: oblique !important;
+    font-size: small !important;
+    font-weight:bold !important;
+}

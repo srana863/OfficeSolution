@@ -18,9 +18,11 @@ namespace Layer.Data.Interfaces.HRMS.Security
     }
     public interface IRoleWiseScreenPermissionRepository : IGenericRepository<RoleWiseScreenPermission>
     {
+        IEnumerable<RoleWiseScreenPermissionViewModel> GetAllWithParent(int orgId, int roleId, int? moduleId, int? subModuleId);
     }
     public interface IScreenRepository : IGenericRepository<Screen>
     {
+        IEnumerable<ScreenViewModel> GetAllWithParent(int orgId);
     }
     public interface ISubModulesRepository : IGenericRepository<SubModules>
     {
@@ -32,6 +34,7 @@ namespace Layer.Data.Interfaces.HRMS.Security
     }
     public interface IUserWiseOtherScreenRepository : IGenericRepository<UserWiseOtherScreen>
     {
+        IEnumerable<UserWiseOtherScreenViewModel> GetAllWithParent(int orgId, int userId, int? moduleId, int? subModuleId);
     }
 
 }

@@ -24,6 +24,7 @@ namespace Layer.Model.HRMS.Security
         public bool CanAdd { get; set; }
         public bool CanModify { get; set; }
         public bool CanView { get; set; }
+        public bool IsActive { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }
         public Nullable<int> UpdatedBy { get; set; }

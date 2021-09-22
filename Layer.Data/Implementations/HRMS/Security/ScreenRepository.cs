@@ -3,6 +3,7 @@ using Layer.Data.Helpers;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
 using Layer.Model.HRMS.Security;
+using Layer.Model.ViewModel.Security;
 using QueryGenerator;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,18 @@ namespace Layer.Data.Implementations.HRMS.Security
         {
             var query = CRUD<Screen>.Select(o => o.OrgId == o.OrgId);
             return _dbContext._connection.Query<Screen>(query, new { OrgId = orgId });
+        }
+
+        public IEnumerable<ScreenViewModel> GetAllWithParent(int orgId)
+        {
+            var query = @"SELECT S.ScreenCode,S.ScreenName,S.OrgId,S.ModuleId,S.SubModuleId,S.SectionId,S.ScreenOrder,S.IconName,S.URL,S.ControllerName,S.ActionName,S.Description,S.IsActive,S.CreatedBy,S.CreatedDate,S.UpdatedBy,S.UpdatedDate,
+                SMS.SectionName,SM.SubModuleName,M.ModuleName
+                FROM Security.Screen S
+                INNER JOIN Security.SubModuleSections SMS ON SMS.SectionId=S.SectionId AND SMS.OrgId=S.OrgId
+                INNER JOIN Security.SubModules SM ON SM.SubModuleId=S.SubModuleId AND SM.OrgId=S.OrgId
+                INNER JOIN Security.Modules M ON M.ModuleId=S.ModuleId AND M.OrgId=S.OrgId
+                WHERE S.OrgId=ISNULL(@OrgId,S.OrgId)";
+            return _dbContext._connection.Query<ScreenViewModel>(query, new { OrgId = orgId });
         }
 
         public int Update(Screen entity)
