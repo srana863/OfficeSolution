@@ -13,4 +13,24 @@ namespace Layer.Data.Interfaces.HRMS.Settings
     {
         Task<UserInfoSession> GetUserByUserName(string username);
     }
+    public interface IUserDetailsRepository : IGenericRepository<UserDetails>
+    {
+    }
+    public interface IDocumentTypeRepository : IGenericRepository<DocumentType>
+    {
+    }
+    public interface IOrganizationProfileRepository : IGenericRepository<OrganizationProfile>
+    {
+    }
+    public interface IOrgAuthoriseOrKeyPersonRepository : IGenericRepository<OrgAuthoriseOrKeyPerson>
+    {
+    }
+    public interface IOrgDocumentRepository : IGenericRepository<OrgDocument>
+    {
+    }
+    public interface IOrgTradingHoursRepository : IGenericRepository<OrgTradingHours>
+    {
+    }
+
+    
 }

@@ -14,7 +14,7 @@ namespace Layer.Model.HRMS.Settings
     using System.Collections.Generic;
 
     [Table("OrgTradingHour", "Settings")]
-    public partial class OrgTradingHour
+    public partial class OrgTradingHours
     {
         [PKey]
         public int SL { get; set; }
