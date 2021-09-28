@@ -4,6 +4,7 @@ using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
 using Layer.Model.HRMS.Security;
 using Layer.Model.ViewModel.Security;
+using Layer.Model.ViewModel.Settings;
 using QueryGenerator;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,39 @@ namespace Layer.Data.Implementations.HRMS.Security
                 WHERE SMS.OrgId=ISNULL(@OrgId,SMS.OrgId)";
             return _dbContext._connection.Query<SubModuleSectionsViewModel>(query, new { OrgId = orgId });
         }
+        public IEnumerable<SectionViewModel> GetSectionsWithScreen()
+        {
+            var sql = @"SELECT s.SectionId,s.SectionName,s.IconName,sc.ScreenCode,sc.ScreenName,sc.URL,
+                        sc.IconName,sc.ControllerName,sc.ActionName
+                        FROM Security.SubModuleSections s 
+                        INNER JOIN Security.Screen sc on s.SectionId=sc.SectionId 
+                        WHERE s.SubModuleId=5
+                        ORDER BY s.SectionOrder ASC,sc.ScreenOrder ASC";
 
+            var moduleDictionary = new Dictionary<int, SectionViewModel>();
+
+
+            var list = _dbContext._connection.Query<SectionViewModel, Model.ViewModel.Settings.ScreenViewModel, SectionViewModel>(
+                sql,
+                (s, sm) =>
+                {
+                    SectionViewModel module;
+
+                    if (!moduleDictionary.TryGetValue(s.SectionId, out module))
+                    {
+                        module = s;
+                        module.ScreenViewModels = new List<Model.ViewModel.Settings.ScreenViewModel>();
+                        moduleDictionary.Add(module.SectionId, module);
+                    }
+
+                    module.ScreenViewModels.Add(sm);
+                    return module;
+                },
+                splitOn: "ScreenCode")
+            .Distinct()
+            .ToList();
+            return list;
+        }
         public int Update(SubModuleSections entity)
         {
             var query = CRUD<SubModuleSections>.Update(o => o.SectionId == o.SectionId && o.OrgId == o.OrgId);

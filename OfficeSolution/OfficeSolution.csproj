@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Layer.Data\Layer.Data.csproj" />
-    <ProjectReference Include="..\Layer.Model\Layer.Model.csproj" />
   </ItemGroup>
 
 </Project>
