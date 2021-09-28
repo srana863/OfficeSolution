@@ -22,7 +22,7 @@ namespace Layer.Data.Interfaces.HRMS.Security
     }
     public interface IScreenRepository : IGenericRepository<Screen>
     {
-        IEnumerable<ScreenViewModel> GetAllWithParent(int orgId);
+        IEnumerable<Model.ViewModel.Security.ScreenViewModel> GetAllWithParent(int orgId);
     }
     public interface ISubModulesRepository : IGenericRepository<SubModules>
     {
@@ -31,6 +31,7 @@ namespace Layer.Data.Interfaces.HRMS.Security
     public interface ISubModuleSectionsRepository : IGenericRepository<SubModuleSections>
     {
         IEnumerable<SubModuleSectionsViewModel> GetAllWithParent(int orgId);
+        IEnumerable<SectionViewModel> GetSectionsWithScreen();
     }
     public interface IUserWiseOtherScreenRepository : IGenericRepository<UserWiseOtherScreen>
     {
