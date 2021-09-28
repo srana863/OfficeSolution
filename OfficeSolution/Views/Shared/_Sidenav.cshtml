@@ -5,72 +5,84 @@
     <span class="brand-text font-weight-light">AdminLTE 3</span>
 </a>
 @{
+
+    @*<nav class="sidebar" style="position:relative;">
+        <h5>Header</h5>
+
+        <ul>
+            <li>First Item</li>
+            <a href="#" onClick="return false;">
+            <li class="expandingNav">
+                <span class="link">Second Item</span></a>
+
+                <ul class="hidden" style="margin-left:15px;">
+                    <li>subitem 1</li>
+                    <li>subitem 2</li>
+                    <li>subitem 3</li>
+                    <li>subitem 4</li>
+                </ul>
+            </li>
+            <li>Third Item</li>
+        </ul>
+    </nav>*@
+
+
     <div class="sidebar">
         <nav class="mt-2">
-                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Dashboard
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="./index.html" class="nav-link active">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Dashboard v1</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./index2.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Dashboard v2</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="./index3.html" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Dashboard v3</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    @if (Model.Any())
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+
+                @if (Model.Any())
+                {
+                    foreach (var s in Model)
                     {
-                        foreach (var s in Model)
-                        {
-                            <li class="nav-item">
-                                <a href="#" class="nav-link">
-                                    <i class="nav-icon fas fa-copy"></i>
-                                    <p>
-                                        @s.SectionName
-                                        <i class="fas fa-angle-left right"></i>
-                                        <span class="badge badge-info right">6</span>
-                                    </p>
-                                </a>
-                                <ul class="nav nav-treeview">
+                        <li class="nav-item expandingNav">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-home"></i>
+                                <p>
+                                    @s.SectionName
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview lichild">
+                                @foreach (var sc in s.ScreenViewModels)
+                                {
                                     <li class="nav-item">
-                                        <a href="pages/layout/top-nav.html" class="nav-link">
+                                        <a href="@sc.URL" class="nav-link">
                                             <i class="far fa-circle nav-icon"></i>
-                                            <p>Top Navigation</p>
+                                            <p>@sc.ScreenName</p>
                                         </a>
                                     </li>
-                                    @foreach (var sc in s.ScreenViewModels)
-                                    {
-                                        <li class="nav-item">
-                                            <a href="@sc.URL" class="nav-link">
-                                                <i class="far fa-circle nav-icon"></i>
-                                                <p>@sc.ScreenName</p>
-                                            </a>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-                        }
+                                }
+                            </ul>
+                        </li>
                     }
 
-                </ul>
+
+                }
+
+            </ul>
         </nav>
     </div>
+
 }
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(document).on('click', '.expandingNav', function (e) {
+            if ($(e.target).closest('ul').find('li').length) {
+                alert($(e.target).closest('ul').find('li').length);
+                if ($('ul.lichild').hasClass('menu-open')) {
+                    alert("nav-up");
+                    $('ul.lichild').children('.hidden').slideUp();
+                    $('ul.lichild').removeClass('menu-open');
+                } else {
+                    alert("nav-down");
+                    $('ul.lichild').children('.hidden').slideDown();
+                    $('ul.lichild').addClass('menu-open');
+                }
+            }
+        });
+    });
+</script>
+
