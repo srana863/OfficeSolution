@@ -19,5 +19,10 @@ namespace Layer.Data.Interfaces.Common
         ISubModuleSectionsRepository SubModuleSectionsRepository { get; }
         IUserWiseOtherScreenRepository UserWiseOtherScreenRepository { get; }
         IUsersRepository UsersRepository { get; }
+        IDocumentTypeRepository DocumentTypeRepository { get; }
+        IOrganizationProfileRepository OrganizationProfileRepository { get; }
+        IOrgAuthoriseOrKeyPersonRepository OrgAuthoriseOrKeyPersonRepository { get; }
+        IOrgDocumentRepository OrgDocumentRepository { get; }
+        IOrgTradingHoursRepository OrgTradingHoursRepository { get; }
     }
 }

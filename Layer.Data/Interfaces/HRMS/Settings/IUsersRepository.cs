@@ -18,6 +18,7 @@ namespace Layer.Data.Interfaces.HRMS.Settings
     }
     public interface IDocumentTypeRepository : IGenericRepository<DocumentType>
     {
+       IEnumerable<DocumentType> GetAllWithParent(int orgId);
     }
     public interface IOrganizationProfileRepository : IGenericRepository<OrganizationProfile>
     {

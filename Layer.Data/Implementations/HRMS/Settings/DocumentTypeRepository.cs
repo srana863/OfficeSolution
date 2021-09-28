@@ -41,6 +41,12 @@ namespace Layer.Data.Implementations.HRMS.Settings
             return _dbContext._connection.Query<DocumentType>(query, new { OrgId = orgId });
         }
 
+        public IEnumerable<DocumentType> GetAllWithParent(int orgId)
+        {
+            var query = CRUD<DocumentType>.Select(o => o.OrgId == o.OrgId);
+            return _dbContext._connection.Query<DocumentType>(query, new { OrgId = orgId });
+        }
+
         public int Update(DocumentType entity)
         {
             var query = CRUD<DocumentType>.Update(o => o.DocTypeId == o.DocTypeId && o.OrgId == o.OrgId);

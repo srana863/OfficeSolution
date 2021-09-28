@@ -7,5 +7,6 @@ namespace Layer.Model.ViewModel.Settings
 {
     public class OrganizationProfileViewModel : OrganizationProfile
     {
+
     }
 }
