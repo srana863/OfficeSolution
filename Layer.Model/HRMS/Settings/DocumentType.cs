@@ -19,7 +19,7 @@ namespace Layer.Model.HRMS.Settings
         [PKey]
         public int DocTypeId { get; set; }
         public int OrgId { get; set; }
-        public string DocName { get; set; }
+        public string DocTypeName { get; set; }
         public bool IsActive { get; set; }
         public int CreatedBy { get; set; }
         public System.DateTime CreatedDate { get; set; }

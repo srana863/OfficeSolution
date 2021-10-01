@@ -26,6 +26,13 @@ namespace Layer.Data.Implementations
         public ISubModuleSectionsRepository SubModuleSectionsRepository { get; }
         public IUserWiseOtherScreenRepository UserWiseOtherScreenRepository { get; }
         public IUsersRepository UsersRepository { get; }
+        public IDocumentTypeRepository DocumentTypeRepository { get; }
+        public IOrganizationProfileRepository OrganizationProfileRepository { get; }
+        public IOrgAuthoriseOrKeyPersonRepository OrgAuthoriseOrKeyPersonRepository { get; }
+        public IOrgDocumentRepository OrgDocumentRepository { get; }
+        public IOrgTradingHoursRepository OrgTradingHoursRepository { get; }
+
+
 
         public UnitOfWork(DbContext _dbContext)
         {
@@ -38,6 +45,11 @@ namespace Layer.Data.Implementations
             SubModuleSectionsRepository = new SubModuleSectionsRepository(_dbContext);
             UserWiseOtherScreenRepository = new UserWiseOtherScreenRepository(_dbContext);
             UsersRepository = new UsersRepository(_dbContext);
+            DocumentTypeRepository = new DocumentTypeRepository(_dbContext);
+            OrganizationProfileRepository = new OrganizationProfileRepository(_dbContext);
+            OrgAuthoriseOrKeyPersonRepository = new OrgAuthoriseOrKeyPersonRepository(_dbContext);
+            OrgDocumentRepository = new OrgDocumentRepository(_dbContext);
+            OrgTradingHoursRepository = new OrgTradingHoursRepository(_dbContext);
         }
     }
 }
