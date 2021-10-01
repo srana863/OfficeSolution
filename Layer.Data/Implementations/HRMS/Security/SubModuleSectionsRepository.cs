@@ -53,20 +53,20 @@ namespace Layer.Data.Implementations.HRMS.Security
                 WHERE SMS.OrgId=ISNULL(@OrgId,SMS.OrgId)";
             return _dbContext._connection.Query<SubModuleSectionsViewModel>(query, new { OrgId = orgId });
         }
-        public IEnumerable<SectionViewModel> GetSectionsWithScreen()
+        public IEnumerable<SectionViewModel> GetSectionsWithScreen(int subModuleId)
         {
             var sql = @"SELECT s.SectionId,s.SectionName,s.IconName,sc.ScreenCode,sc.ScreenName,sc.URL,
                         sc.IconName,sc.ControllerName,sc.ActionName
                         FROM Security.SubModuleSections s 
                         INNER JOIN Security.Screen sc on s.SectionId=sc.SectionId 
-                        WHERE s.SubModuleId=5
+                        WHERE s.SubModuleId=@SubModuleId
                         ORDER BY s.SectionOrder ASC,sc.ScreenOrder ASC";
 
             var moduleDictionary = new Dictionary<int, SectionViewModel>();
 
 
             var list = _dbContext._connection.Query<SectionViewModel, Model.ViewModel.Settings.ScreenViewModel, SectionViewModel>(
-                sql,
+                sql, 
                 (s, sm) =>
                 {
                     SectionViewModel module;
@@ -81,6 +81,7 @@ namespace Layer.Data.Implementations.HRMS.Security
                     module.ScreenViewModels.Add(sm);
                     return module;
                 },
+                new { SubModuleId = subModuleId },
                 splitOn: "ScreenCode")
             .Distinct()
             .ToList();

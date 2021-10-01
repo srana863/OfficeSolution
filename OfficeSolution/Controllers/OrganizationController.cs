@@ -9,9 +9,9 @@ namespace OfficeSolution.Controllers
     public class OrganizationController : BaseController
     {
 
-        public IActionResult Profile()
+        public IActionResult Profile(int subModuleId)
         {
-            return View();
+            return View(subModuleId);
         }
     }
 }

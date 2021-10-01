@@ -1,6 +1,10 @@
-﻿<aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidenavmenu">
+﻿@model Int32
 
+<aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidenavmenu">
+    @await Component.InvokeAsync("SideNav",new {subModuleId=Model});
 </aside>
+
+
 
 <div class="content-wrapper">
     <section class="content">
@@ -10,12 +14,3 @@
     </section>
     <!-- /.content -->
 </div>
-
-@section Scripts {
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var url = "/SideNav/GetSideNav";
-            $("#sidenavmenu").load(url);
-        });
-    </script>
-}

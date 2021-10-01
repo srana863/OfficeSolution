@@ -31,7 +31,7 @@ namespace Layer.Data.Interfaces.HRMS.Security
     public interface ISubModuleSectionsRepository : IGenericRepository<SubModuleSections>
     {
         IEnumerable<SubModuleSectionsViewModel> GetAllWithParent(int orgId);
-        IEnumerable<SectionViewModel> GetSectionsWithScreen();
+        IEnumerable<SectionViewModel> GetSectionsWithScreen(int subModuleId);
     }
     public interface IUserWiseOtherScreenRepository : IGenericRepository<UserWiseOtherScreen>
     {
