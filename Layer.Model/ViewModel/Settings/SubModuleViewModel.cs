@@ -13,5 +13,9 @@ namespace Layer.Model.ViewModel.Settings
         public string SubModuleName { get; set; }
 
         public string IconName { get; set; }
+
+        public string ActionName { get; set; }
+
+        public string ControllerName { get; set; }
     }
 }

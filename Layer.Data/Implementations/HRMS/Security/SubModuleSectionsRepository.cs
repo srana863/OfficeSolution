@@ -87,6 +87,43 @@ namespace Layer.Data.Implementations.HRMS.Security
             .ToList();
             return list;
         }
+
+        public IEnumerable<SectionViewModel> GetSectionsWithScreen(string actionName, string controllerName)
+        {
+            var sql = @"SELECT s.SectionId,s.SectionName,s.IconName,sc.ScreenCode,sc.ScreenName,sc.URL,
+                        sc.IconName,sc.ControllerName,sc.ActionName
+                        FROM Security.SubModuleSections s 
+                        INNER JOIN Security.Screen sc ON s.SectionId=sc.SectionId 
+                        INNER JOIN Security.SubModules sm ON s.SubModuleId=sm.SubModuleId
+                        WHERE sm.ActionName=@ActionName AND sm.ControllerName=@ControllerName
+                        ORDER BY s.SectionOrder ASC,sc.ScreenOrder ASC";
+
+            var moduleDictionary = new Dictionary<int, SectionViewModel>();
+
+
+            var list = _dbContext._connection.Query<SectionViewModel, Model.ViewModel.Settings.ScreenViewModel, SectionViewModel>(
+                sql,
+                (s, sm) =>
+                {
+                    SectionViewModel module;
+
+                    if (!moduleDictionary.TryGetValue(s.SectionId, out module))
+                    {
+                        module = s;
+                        module.ScreenViewModels = new List<Model.ViewModel.Settings.ScreenViewModel>();
+                        moduleDictionary.Add(module.SectionId, module);
+                    }
+
+                    module.ScreenViewModels.Add(sm);
+                    return module;
+                },
+                new { ActionName = actionName, ControllerName = controllerName },
+                splitOn: "ScreenCode")
+            .Distinct()
+            .ToList();
+            return list;
+        }
+
         public int Update(SubModuleSections entity)
         {
             var query = CRUD<SubModuleSections>.Update(o => o.SectionId == o.SectionId && o.OrgId == o.OrgId);

@@ -45,7 +45,7 @@ namespace Layer.Data.Implementations.HRMS.Security
 
         public IEnumerable<ModuleViewModel> GetModulesWithSub()
         {
-            var sql = @"SELECT m.ModuleId,m.ModuleName,m.IconName,sm.SubModuleId,sm.SubModuleName,sm.IconName 
+            var sql = @"SELECT m.ModuleId,m.ModuleName,m.IconName,sm.SubModuleId,sm.SubModuleName,sm.IconName,sm.ControllerName,sm.ActionName 
                         FROM Security.Modules m INNER JOIN Security.SubModules sm ON m.ModuleId=sm.ModuleId 
                         ORDER BY m.ModuleId";
 

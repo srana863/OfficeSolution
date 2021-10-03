@@ -5,28 +5,6 @@
     <span class="brand-text font-weight-light">AdminLTE 3</span>
 </a>
 @{
-
-    @*<nav class="sidebar" style="position:relative;">
-        <h5>Header</h5>
-
-        <ul>
-            <li>First Item</li>
-            <a href="#" onClick="return false;">
-            <li class="expandingNav">
-                <span class="link">Second Item</span></a>
-
-                <ul class="hidden" style="margin-left:15px;">
-                    <li>subitem 1</li>
-                    <li>subitem 2</li>
-                    <li>subitem 3</li>
-                    <li>subitem 4</li>
-                </ul>
-            </li>
-            <li>Third Item</li>
-        </ul>
-    </nav>*@
-
-
     <div class="sidebar">
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
@@ -65,24 +43,4 @@
     </div>
 
 }
-
-
-<script type="text/javascript">
-    $(document).ready(function () {
-        $(document).on('click', '.expandingNav', function (e) {
-            if ($(e.target).closest('ul').find('li').length) {
-                alert($(e.target).closest('ul').find('li').length);
-                if ($('ul.lichild').hasClass('menu-open')) {
-                    alert("nav-up");
-                    $('ul.lichild').children('.hidden').slideUp();
-                    $('ul.lichild').removeClass('menu-open');
-                } else {
-                    alert("nav-down");
-                    $('ul.lichild').children('.hidden').slideDown();
-                    $('ul.lichild').addClass('menu-open');
-                }
-            }
-        });
-    });
-</script>
 
