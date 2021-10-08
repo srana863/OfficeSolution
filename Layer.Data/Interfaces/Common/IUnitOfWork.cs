@@ -1,4 +1,5 @@
 ﻿using Layer.Data.Interfaces.HRMS.Emp;
+using Layer.Data.Interfaces.HRMS.Recruitment;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Data.Interfaces.HRMS.Settings;
 using System;
@@ -24,5 +25,6 @@ namespace Layer.Data.Interfaces.Common
         IOrgAuthoriseOrKeyPersonRepository OrgAuthoriseOrKeyPersonRepository { get; }
         IOrgDocumentRepository OrgDocumentRepository { get; }
         IOrgTradingHoursRepository OrgTradingHoursRepository { get; }
+        IRecruitmentRepo RecruitmentRepo { get; }
     }
 }

@@ -27,19 +27,19 @@ namespace OfficeSolution.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            var isAutheticated = HttpContext.User.Identity.IsAuthenticated;
             //fake session
             session = new AppSession();
-            //userinfo = new UserInfoSession { 
-            //    UserId= Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value),
-            //    OrgId= Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "OrgId")?.Value),
-            //    Username= "srana863",
-            //    UserFullName= "Md. Sohel Rana",
-            //    Designation= "Maintenance Engineer",
-            //    RoleId =1,
-            //    IsActive=true
-                
-            //};
-         
+            userinfo = new UserInfoSession { 
+                UserId= isAutheticated ? Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value):0,
+                OrgId= isAutheticated ? Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "OrgId")?.Value):0,
+                Username= "srana863",
+                UserFullName= "Md. Sohel Rana",
+                Designation= "Maintenance Engineer",
+                RoleId =1,
+                IsActive=true
+            };
+
             //need to work here
             if (HttpContext.Session.GetString("appSession") != null)
             {

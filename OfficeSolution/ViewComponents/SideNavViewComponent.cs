@@ -19,21 +19,21 @@ namespace OfficeSolution.ViewComponents
             _dbContext = new DbContext(AppSetting.DefaultConnection, "System.Data.SqlClient");
             _unitOfWork = new UnitOfWork(_dbContext);
         }
-        public IViewComponentResult Invoke(int subModuleId,string actionName,string controllerName)
+        public IViewComponentResult Invoke(string actionName,string controllerName,string homeActionName,string homeControllerName,bool home=false)
         {
             _dbContext.Open();
             IEnumerable<SectionViewModel> res;
-            if (subModuleId > 0) {
-                res = _unitOfWork.SubModuleSectionsRepository.GetSectionsWithScreen(subModuleId);
+            if (home) {
+                res = _unitOfWork.SubModuleSectionsRepository.GetSectionsWithScreen(actionName, controllerName,home);
             }
             else { 
                 res = _unitOfWork.SubModuleSectionsRepository.GetSectionsWithScreen(actionName,controllerName);
             }
             _dbContext.Close();
             var sub = new SubModuleViewModel();
-            sub.SubModuleId = subModuleId;
-            sub.ActionName = actionName;
-            sub.ControllerName = controllerName;
+
+            sub.ActionName = homeActionName;
+            sub.ControllerName = homeControllerName;
 
             return View(new SideNavViewModel {SubModuleViewModel= sub , SectionViewModels=res});
         }

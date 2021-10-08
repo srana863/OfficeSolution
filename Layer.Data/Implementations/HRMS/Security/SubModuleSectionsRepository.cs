@@ -53,20 +53,25 @@ namespace Layer.Data.Implementations.HRMS.Security
                 WHERE SMS.OrgId=ISNULL(@OrgId,SMS.OrgId)";
             return _dbContext._connection.Query<SubModuleSectionsViewModel>(query, new { OrgId = orgId });
         }
-        public IEnumerable<SectionViewModel> GetSectionsWithScreen(int subModuleId)
+        public IEnumerable<SectionViewModel> GetSectionsWithScreen(string actionName, string controllerName, bool home=true)
         {
-            var sql = @"SELECT s.SectionId,s.SectionName,s.IconName,sc.ScreenCode,sc.ScreenName,sc.URL,
+            var sql = @"DECLARE @SubModuleId int
+                        SET @SubModuleId = (SELECT SubModuleId FROM Security.SubModules
+					                        WHERE ActionName= @ActionName AND ControllerName = @ControllerName
+					                        )
+                        SELECT s.SectionId,s.SectionName,s.IconName,sc.ScreenCode,sc.ScreenName,sc.URL,
                         sc.IconName,sc.ControllerName,sc.ActionName
                         FROM Security.SubModuleSections s 
-                        INNER JOIN Security.Screen sc on s.SectionId=sc.SectionId 
-                        WHERE s.SubModuleId=@SubModuleId
+                        INNER JOIN Security.Screen sc ON s.SectionId=sc.SectionId 
+                        INNER JOIN Security.SubModules sm ON s.SubModuleId=sm.SubModuleId
+                        WHERE sc.SubModuleId = @SubModuleId
                         ORDER BY s.SectionOrder ASC,sc.ScreenOrder ASC";
 
             var moduleDictionary = new Dictionary<int, SectionViewModel>();
 
 
             var list = _dbContext._connection.Query<SectionViewModel, Model.ViewModel.Settings.ScreenViewModel, SectionViewModel>(
-                sql, 
+                sql,
                 (s, sm) =>
                 {
                     SectionViewModel module;
@@ -81,7 +86,7 @@ namespace Layer.Data.Implementations.HRMS.Security
                     module.ScreenViewModels.Add(sm);
                     return module;
                 },
-                new { SubModuleId = subModuleId },
+                new { ActionName = actionName, ControllerName = controllerName },
                 splitOn: "ScreenCode")
             .Distinct()
             .ToList();
@@ -90,12 +95,16 @@ namespace Layer.Data.Implementations.HRMS.Security
 
         public IEnumerable<SectionViewModel> GetSectionsWithScreen(string actionName, string controllerName)
         {
-            var sql = @"SELECT s.SectionId,s.SectionName,s.IconName,sc.ScreenCode,sc.ScreenName,sc.URL,
+            var sql = @"DECLARE @SubModuleId int
+                        SET @SubModuleId = (SELECT SubModuleId FROM Security.Screen 
+					                        WHERE ActionName= @ActionName AND ControllerName = @ControllerName
+					                        )
+                        SELECT s.SectionId,s.SectionName,s.IconName,sc.ScreenCode,sc.ScreenName,sc.URL,
                         sc.IconName,sc.ControllerName,sc.ActionName
                         FROM Security.SubModuleSections s 
                         INNER JOIN Security.Screen sc ON s.SectionId=sc.SectionId 
                         INNER JOIN Security.SubModules sm ON s.SubModuleId=sm.SubModuleId
-                        WHERE sm.ActionName=@ActionName AND sm.ControllerName=@ControllerName
+                        WHERE sc.SubModuleId = @SubModuleId
                         ORDER BY s.SectionOrder ASC,sc.ScreenOrder ASC";
 
             var moduleDictionary = new Dictionary<int, SectionViewModel>();

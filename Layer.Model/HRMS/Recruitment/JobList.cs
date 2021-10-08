@@ -25,7 +25,7 @@ namespace Layer.Model.HRMS.Recruitment
         public string JobTitle { get; set; }
         public string JobDescription { get; set; }
         public bool IsActive { get; set; }
-        public System.DateTime PostingDate { get; set; }
+        public Nullable<System.DateTime> PostingDate { get; set; }
         public Nullable<System.DateTime> ExpiredDate { get; set; }
         public int JobTypeId { get; set; }
         public decimal WorkingHours { get; set; }

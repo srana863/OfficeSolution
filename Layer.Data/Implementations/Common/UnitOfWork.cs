@@ -1,10 +1,12 @@
 ﻿using Layer.Data.Helpers;
 using Layer.Data.Implementations.HRMS.Emp;
+using Layer.Data.Implementations.HRMS.Recruitment;
 using Layer.Data.Implementations.HRMS.Security;
 using Layer.Data.Implementations.HRMS.Settings;
 using Layer.Data.Interfaces;
 using Layer.Data.Interfaces.Common;
 using Layer.Data.Interfaces.HRMS.Emp;
+using Layer.Data.Interfaces.HRMS.Recruitment;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Data.Interfaces.HRMS.Settings;
 using Layer.Model.Common;
@@ -31,8 +33,7 @@ namespace Layer.Data.Implementations
         public IOrgAuthoriseOrKeyPersonRepository OrgAuthoriseOrKeyPersonRepository { get; }
         public IOrgDocumentRepository OrgDocumentRepository { get; }
         public IOrgTradingHoursRepository OrgTradingHoursRepository { get; }
-
-
+        public IRecruitmentRepo RecruitmentRepo { get; }
 
         public UnitOfWork(DbContext _dbContext)
         {
@@ -50,6 +51,7 @@ namespace Layer.Data.Implementations
             OrgAuthoriseOrKeyPersonRepository = new OrgAuthoriseOrKeyPersonRepository(_dbContext);
             OrgDocumentRepository = new OrgDocumentRepository(_dbContext);
             OrgTradingHoursRepository = new OrgTradingHoursRepository(_dbContext);
+            RecruitmentRepo = new RecruitmentRepo(_dbContext);
         }
     }
 }
