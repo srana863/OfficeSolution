@@ -8,13 +8,19 @@
         $('#SOCMainContainer').hide();
         $('#btnSave').click(saveData);
         $('#btnClear').click(resetForm);
-        $('#JobDescriptions').summernote();
+        $('#JobDescription').summernote({ height: 150});
 
         $(document).on('click', '.btnEdit', function () {
-            var moduleId = $(this).data('id');
-            var url = "/Security/GetJobList";
-            ajaxRequest(url, 'GET', { moduleId: moduleId }, true, false, function (res) {
+            var jobId= $(this).data('id');
+            var url = "/Recruitment/GetJob";
+            ajaxRequest(url, 'GET', { id: jobId }, true, false, function (res) {
+                $('#JobTypeContainer').hide();
+                $('#SOCMainContainer').show();
+                $('#SOCCode').remove();
+                var input = $('<input type="text" class="form-control form-element validation" required id="SOCCode" name="SOCCode" readonly/>');
+                $('#SOCContainer').append(input);
                 setFormData(res, null);
+                $('#JobDescription').summernote('code', res.JobDescription);
             });
         });
 
@@ -26,7 +32,7 @@
                     title: 'Delete Message',
                     text: 'Do you want to delete this?',
                     confirm: function () {
-                        var url = "/Security/DeleteJobList";
+                        var url = "/Recruitment/DeleteJobList";
                         ajaxRequest(url, 'POST', { moduleId: moduleId }, true, false, function (res) {
                             showNotification(res.MessageType, res.Message);
                             if (res.MessageType == '1' || res.MessageType == 'Success') {
@@ -46,11 +52,14 @@
             }
         });
 
-        $('#JobType').on('change',onChangeJobType);
+        $('#JobType').on('change', onChangeJobType);
     };
 
     var resetForm = function () {
+        $('#SOCMainContainer').hide();
+        $('#JobTypeContainer').show();
         clearFormField();
+        $('#JobDescription').summernote('reset');
         iValidation.RemoveValidation('frmJobList');
     };
 
@@ -61,7 +70,6 @@
     var saveData = function () {
         if (iValidation.Validate('frmJobList')) {
             var model = getFormData('form-element');
-            model.IsActive = $('#IsActive').prop("checked");
             var url = "/Recruitment/SaveJobList";
             ajaxRequest(url, 'POST', model, false, true, function (res) {
                 showNotification(res.MessageType, res.Message);
@@ -76,7 +84,6 @@
     var onChangeJobType = function () {
         var type = $(this).val();
         
-
         if (type == "new") {
             $('#SOCMainContainer').show();
             $('#SOCCode').remove();
@@ -99,6 +106,7 @@
             $('#SOCMainContainer').hide();
         }
     };
+ 
     return {
         init: init
     };

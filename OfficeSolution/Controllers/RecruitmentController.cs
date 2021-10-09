@@ -48,6 +48,27 @@ namespace OfficeSolution.Controllers
 
         }
 
+        [HttpGet]
+        public IActionResult GetJob(int id)
+        {
+            try
+            {
+                _dbContext.Open();
+
+                var data = _unitOfWork.RecruitmentRepo.Get(id,userinfo.OrgId);
+
+                return Ok(data);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+        }
+
         [HttpPost]
         public IActionResult SaveJobList(JobList model)
         {
