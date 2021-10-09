@@ -1,3 +1,9 @@
-﻿label.msg-error {
-    color:red !important;
+﻿.form-control.has-error {
+    border-color: #a94442 !important;
+}
+
+label.msg-error {
+    color: #a94442;
+    font-size: .85em;
+    margin-top: 2px;
 }
