@@ -20,7 +20,7 @@ namespace OfficeSolution.Controllers
 
         public JsonResult GetUserCombo()
         {
-            var data = _unitOfWork.UsersRepository.GetAll(session.UserInfo.OrgId);
+            var data = _unitOfWork.UsersRepository.GetAll(userinfo.OrgId);
             if (data != null)
                 data = data.Where(o => o.IsActive).OrderBy(o => o.UserFullName);
             var list = data.Select(o => new SelectListItem
@@ -34,7 +34,7 @@ namespace OfficeSolution.Controllers
 
         public JsonResult GetUserRoleCombo()
         {
-            var data = _unitOfWork.UserRolesRepository.GetAll(session.UserInfo.OrgId);
+            var data = _unitOfWork.UserRolesRepository.GetAll(userinfo.OrgId);
             if (data != null)
                 data = data.Where(o => o.IsActive).OrderBy(o => o.RoleName);
             var list = data.Select(o => new SelectListItem
@@ -47,7 +47,7 @@ namespace OfficeSolution.Controllers
         }
         public JsonResult GetModuleCombo()
         {
-            var data = _unitOfWork.ModulesRepository.GetAll(session.UserInfo.OrgId);
+            var data = _unitOfWork.ModulesRepository.GetAll(userinfo.OrgId);
             if (data != null)
                 data = data.Where(o => o.IsActive).OrderBy(o => o.ModuleName);
             var list = data.Select(o => new SelectListItem
@@ -60,7 +60,7 @@ namespace OfficeSolution.Controllers
         }
         public JsonResult GetSubModuleCombo(int? moduleId = 0)
         {
-            var data = _unitOfWork.SubModulesRepository.GetAll(session.UserInfo.OrgId);
+            var data = _unitOfWork.SubModulesRepository.GetAll(userinfo.OrgId);
             if (data != null)
             {
                 if (moduleId > 0)
@@ -83,7 +83,7 @@ namespace OfficeSolution.Controllers
 
         public JsonResult GetSubModuleSectionsCombo(int? moduleId = 0, int? subModuleId = 0)
         {
-            var data = _unitOfWork.SubModuleSectionsRepository.GetAll(session.UserInfo.OrgId);
+            var data = _unitOfWork.SubModuleSectionsRepository.GetAll(userinfo.OrgId);
             if (data != null)
             {
                 if (moduleId > 0)
@@ -108,7 +108,7 @@ namespace OfficeSolution.Controllers
         }
         public JsonResult GetScreenCombo(int? moduleId = 0, int? subModuleId = 0, int? sectionId = 0)
         {
-            var data = _unitOfWork.ScreenRepository.GetAll(session.UserInfo.OrgId);
+            var data = _unitOfWork.ScreenRepository.GetAll(userinfo.OrgId);
             if (data != null)
             {
                 if (moduleId > 0)

@@ -1,4 +1,4 @@
-﻿var Modules = function () {
+﻿var Login = function () {
     var init = function () {
         initialEvent();
         //loadModules();

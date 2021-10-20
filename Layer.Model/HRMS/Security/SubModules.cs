@@ -27,6 +27,10 @@ namespace Layer.Model.HRMS.Security
 
         public string IconName { get; set; }
 
+        public string ControllerName { get; set; }
+
+        public string ActionName { get; set; }
+
         public bool IsActive { get; set; }
 
         public int CreatedBy { get; set; }

@@ -21,6 +21,11 @@ namespace OfficeSolution.Controllers
         {
             _unitOfWork = new UnitOfWork(_dbContext);
         }
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         #region ScreenSection....
         public IActionResult ScreenSetup()
         {
@@ -33,7 +38,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ScreenRepository.GetAllWithParent(session.UserInfo.OrgId);
+                var data = _unitOfWork.ScreenRepository.GetAllWithParent(userinfo.OrgId);
                 return PartialView("_GetAllScreen", data);
             }
             catch (Exception)
@@ -53,7 +58,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ScreenRepository.Get(screenId, session.UserInfo.OrgId);
+                var data = _unitOfWork.ScreenRepository.Get(screenId, userinfo.OrgId);
 
                 return new JsonResult(data, new JsonSerializerOptions());
             }
@@ -74,10 +79,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.ScreenRepository.Get(screenId, session.UserInfo.OrgId);
+                var oldData = _unitOfWork.ScreenRepository.Get(screenId, userinfo.OrgId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.ScreenRepository.Delete(screenId, session.UserInfo.OrgId);
+                    _returnId = _unitOfWork.ScreenRepository.Delete(screenId, userinfo.OrgId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Screen Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -109,7 +114,7 @@ namespace OfficeSolution.Controllers
                 {
                     model.CreatedBy = session.UserInfo.UserId;
                     model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = session.UserInfo.OrgId;
+                    model.OrgId = userinfo.OrgId;
                     _returnId = _unitOfWork.ScreenRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Screen Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }
@@ -149,7 +154,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.SubModuleSectionsRepository.GetAllWithParent(session.UserInfo.OrgId);
+                var data = _unitOfWork.SubModuleSectionsRepository.GetAllWithParent(userinfo.OrgId);
                 return PartialView("_GetAllSubModuleSections", data);
             }
             catch (Exception)
@@ -169,7 +174,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, session.UserInfo.OrgId);
+                var data = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, userinfo.OrgId);
 
                 return new JsonResult(data, new JsonSerializerOptions());
             }
@@ -190,10 +195,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, session.UserInfo.OrgId);
+                var oldData = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, userinfo.OrgId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.SubModuleSectionsRepository.Delete(sectionId, session.UserInfo.OrgId);
+                    _returnId = _unitOfWork.SubModuleSectionsRepository.Delete(sectionId, userinfo.OrgId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Section Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -225,7 +230,7 @@ namespace OfficeSolution.Controllers
                 {
                     model.CreatedBy = session.UserInfo.UserId;
                     model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = session.UserInfo.OrgId;
+                    model.OrgId = userinfo.OrgId;
                     _returnId = _unitOfWork.SubModuleSectionsRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Section Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }
@@ -265,7 +270,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.SubModulesRepository.GetAllWithParent(session.UserInfo.OrgId);
+                var data = _unitOfWork.SubModulesRepository.GetAllWithParent(userinfo.OrgId);
                 return PartialView("_GetAllSubModules", data);
             }
             catch (Exception)
@@ -285,7 +290,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.SubModulesRepository.Get(subModuleId, session.UserInfo.OrgId);
+                var data = _unitOfWork.SubModulesRepository.Get(subModuleId, userinfo.OrgId);
 
                 return new JsonResult(data, new JsonSerializerOptions());
             }
@@ -306,10 +311,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.SubModulesRepository.Get(subModuleId, session.UserInfo.OrgId);
+                var oldData = _unitOfWork.SubModulesRepository.Get(subModuleId, userinfo.OrgId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.SubModulesRepository.Delete(subModuleId, session.UserInfo.OrgId);
+                    _returnId = _unitOfWork.SubModulesRepository.Delete(subModuleId, userinfo.OrgId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -341,7 +346,7 @@ namespace OfficeSolution.Controllers
                 {
                     model.CreatedBy = session.UserInfo.UserId;
                     model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = session.UserInfo.OrgId;
+                    model.OrgId = userinfo.OrgId;
                     _returnId = _unitOfWork.SubModulesRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }
@@ -380,7 +385,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ModulesRepository.GetAll(session.UserInfo.OrgId);
+                var data = _unitOfWork.ModulesRepository.GetAll(userinfo.OrgId);
                 return PartialView("_GetAllModules", data);
             }
             catch (Exception)
@@ -400,7 +405,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ModulesRepository.Get(moduleId, session.UserInfo.OrgId);
+                var data = _unitOfWork.ModulesRepository.Get(moduleId, userinfo.OrgId);
 
                 return new JsonResult(data, new JsonSerializerOptions());
             }
@@ -421,10 +426,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.ModulesRepository.Get(moduleId, session.UserInfo.OrgId);
+                var oldData = _unitOfWork.ModulesRepository.Get(moduleId, userinfo.OrgId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.ModulesRepository.Delete(moduleId, session.UserInfo.OrgId);
+                    _returnId = _unitOfWork.ModulesRepository.Delete(moduleId, userinfo.OrgId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Module Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -456,7 +461,7 @@ namespace OfficeSolution.Controllers
                 {
                     model.CreatedBy = session.UserInfo.UserId;
                     model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = session.UserInfo.OrgId;
+                    model.OrgId = userinfo.OrgId;
                     _returnId = _unitOfWork.ModulesRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Module Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }
@@ -495,7 +500,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.UserRolesRepository.GetAll(session.UserInfo.OrgId);
+                var data = _unitOfWork.UserRolesRepository.GetAll(userinfo.OrgId);
                 return PartialView("_GetAllUserRoles", data);
             }
             catch (Exception)
@@ -515,7 +520,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.UserRolesRepository.Get(roleId, session.UserInfo.OrgId);
+                var data = _unitOfWork.UserRolesRepository.Get(roleId, userinfo.OrgId);
 
                 return new JsonResult(data, new JsonSerializerOptions ());
             }
@@ -536,10 +541,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.UserRolesRepository.Get(roleId, session.UserInfo.OrgId);
+                var oldData = _unitOfWork.UserRolesRepository.Get(roleId, userinfo.OrgId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.UserRolesRepository.Delete(roleId, session.UserInfo.OrgId);
+                    _returnId = _unitOfWork.UserRolesRepository.Delete(roleId, userinfo.OrgId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Role Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -571,7 +576,7 @@ namespace OfficeSolution.Controllers
                 {
                     model.CreatedBy = session.UserInfo.UserId;
                     model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = session.UserInfo.OrgId;
+                    model.OrgId = userinfo.OrgId;
                     _returnId = _unitOfWork.UserRolesRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Role Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }

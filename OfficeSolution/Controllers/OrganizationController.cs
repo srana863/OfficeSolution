@@ -19,6 +19,11 @@ namespace OfficeSolution.Controllers
             _unitOfWork = new UnitOfWork(_dbContext);
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public IActionResult Profile(int subModuleId)
         {
             return View(subModuleId);
