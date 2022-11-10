@@ -30,7 +30,7 @@ namespace OfficeSolution.Controllers
             _unitOfWork = new UnitOfWork(_dbContext);
         }
 
-        [Authorize]
+        //[Authorize]
         public IActionResult Index()
         {
             return View();
@@ -43,15 +43,16 @@ namespace OfficeSolution.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel login, [FromQuery]string ReturnUrl) 
+        public async Task<IActionResult> Login([FromBody] LoginViewModel login, [FromQuery] string ReturnUrl)
         {
             try
             {
 
                 _dbContext.Open();
-                var hasUser =await _unitOfWork.UsersRepository.GetUserByUserName(login.Username);
+                var hasUser = await _unitOfWork.UsersRepository.GetUserByUserName(login.Username);
                 if (hasUser != null)
                 {
+
                     if (login.Password == DataEncryptionUtilities.GenerateDecryptedString(hasUser.Password))
                     {
                         var claims = new List<Claim>
@@ -65,7 +66,7 @@ namespace OfficeSolution.Controllers
                         var claimsIdentity = new ClaimsIdentity(
                         claims,
                         CookieAuthenticationDefaults.AuthenticationScheme);
-                        
+
                         await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity),
@@ -103,7 +104,8 @@ namespace OfficeSolution.Controllers
 
 
         [HttpGet]
-        public IActionResult GetModulesWithSub() {
+        public IActionResult GetModulesWithSub()
+        {
             try
             {
                 _dbContext.Open();
@@ -113,6 +115,44 @@ namespace OfficeSolution.Controllers
             catch (Exception)
             {
                 return PartialView("_GetModuleWithSub", Enumerable.Empty<ModuleViewModel>());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetFacultyProfile(int facultyid)
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.ModulesRepository.GetModulesWithSub();
+                return PartialView("_GetFacultyProfile", data);
+            }
+            catch (Exception)
+            {
+                return PartialView("_GetFacultyProfile", Enumerable.Empty<ModuleViewModel>());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetFacultyProfiles(string serachTxt)
+        {
+            try
+            {
+                _dbContext.Open();
+                var data = _unitOfWork.ModulesRepository.GetModulesWithSub();
+                return PartialView("_GetFacultyProfiles", data);
+            }
+            catch (Exception)
+            {
+                return PartialView("_GetFacultyProfiles", Enumerable.Empty<ModuleViewModel>());
             }
             finally
             {

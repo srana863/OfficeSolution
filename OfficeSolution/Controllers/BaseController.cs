@@ -18,6 +18,7 @@ namespace OfficeSolution.Controllers
         public DbContext _dbContext;
         public AppSession session;
         public UserInfoSession userinfo;
+        public string controllerName;
 
         public BaseController()
         {
@@ -27,6 +28,8 @@ namespace OfficeSolution.Controllers
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            controllerName = ControllerContext.ActionDescriptor.ControllerName;
+
             var isAutheticated = HttpContext.User.Identity.IsAuthenticated;
             //fake session
             session = new AppSession();

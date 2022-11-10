@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Layer.Model.ViewModel.Settings.ModuleViewModel>
+@{
+    int sl = 0;
+    <div class="row">
+
+        @if (Model.Any())
+        {
+            foreach (var module in Model)
+            {
+                foreach (var sub in module.SubModuleViewModels)
+                {
+                    <div class="col-lg-3 col-6">
+                        <div class="box box-primary rounded border border-primary" style="margin-bottom:10px;">
+                            <div class="box-body box-profile">
+                                <img class="profile-user-img img-responsive img-circle mx-auto d-block" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+                                <h3 class="profile-username text-center">@sub.SubModuleName</h3>
+                                <p class="text-muted text-center">@sub.SubModuleName</p>
+
+                                <ul class="list-group list-group-unbordered text-center">
+                                    <li class="list-group-item">
+                                        <b>Followers</b> <a class="pull-right">@sub.SubModuleName</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Following</b> <a class="pull-right">@sub.SubModuleName</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Friends</b> <a class="pull-right">@sub.SubModuleName</a>
+                                    </li>
+                                </ul>
+
+                                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                            </div><!-- /.box-body -->
+                        </div>
+                    </div>
+
+                    sl++;
+                }
+
+            }
+        }
+
+    </div>
+}
+
+@functions {
+    public string GetClass(int serial)
+    {
+        switch (serial % 4)
+        {
+            case 1:
+                return "small-box bg-success";
+            case 2:
+                return "small-box bg-warning";
+            case 3:
+                return "small-box bg-danger";
+            default:
+                return "small-box bg-info";
+        }
+
+    }
+}
+
+
+
