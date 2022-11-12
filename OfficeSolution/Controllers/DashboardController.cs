@@ -1,6 +1,4 @@
-﻿using Layer.Data.Implementations.HRMS.Emp;
-using Layer.Data.Interfaces.Common;
-using Layer.Data.Interfaces.HRMS.Emp;
+﻿using Layer.Data.Interfaces.Common;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,10 +9,10 @@ namespace OfficeSolution.Controllers
 {
     public class DashboardController : BaseController
     {
-        private readonly IDepartmentRepository _departmentRepository;
+       // private readonly IDepartmentRepository _departmentRepository;
         public DashboardController()
         {
-            _departmentRepository = new DepartmentRepository(_dbContext);
+           
         }
 
         public IActionResult Index()
@@ -24,7 +22,8 @@ namespace OfficeSolution.Controllers
         public IActionResult GetAll() 
         {
             _dbContext.Open();
-            var data = _departmentRepository.GetAll(2);
+            //var data = _departmentRepository.GetAll(2);
+            var data = string.Empty;
             _dbContext.Close();
             return PartialView("_GetAll",data);
         }

@@ -23,27 +23,27 @@ namespace Layer.Data.Implementations.HRMS.Security
             var query = CRUD<UserRoles>.Insert();
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
-        public int Delete(int id, int orgId)
+        public int Delete(int id, int InstituteId)
         {
-            var query = CRUD<UserRoles>.Delete(o => o.RoleId == o.RoleId && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<int>(query, new { RoleId = id, OrgId = orgId }).Single();
+            var query = CRUD<UserRoles>.Delete(o => o.RoleId == o.RoleId && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<int>(query, new { RoleId = id, InstituteId = InstituteId }).Single();
         }
 
-        public UserRoles Get(int id, int orgId)
+        public UserRoles Get(int id, int InstituteId)
         {
-            var query = CRUD<UserRoles>.Select(o => o.RoleId == o.RoleId && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<UserRoles>(query, new { RoleId = id, OrgId = orgId }).FirstOrDefault();
+            var query = CRUD<UserRoles>.Select(o => o.RoleId == o.RoleId && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<UserRoles>(query, new { RoleId = id, InstituteId = InstituteId }).FirstOrDefault();
         }
 
-        public IEnumerable<UserRoles> GetAll(int orgId)
+        public IEnumerable<UserRoles> GetAll(int InstituteId)
         {
-            var query = CRUD<UserRoles>.Select(o => o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<UserRoles>(query, new { OrgId = orgId });
+            var query = CRUD<UserRoles>.Select(o => o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<UserRoles>(query, new { InstituteId = InstituteId });
         }
 
         public int Update(UserRoles entity)
         {
-            var query = CRUD<UserRoles>.Update(o => o.RoleId == o.RoleId && o.OrgId == o.OrgId);
+            var query = CRUD<UserRoles>.Update(o => o.RoleId == o.RoleId && o.InstituteId == o.InstituteId);
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
     }

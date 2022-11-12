@@ -25,22 +25,22 @@ namespace Layer.Data.Implementations.HRMS.Security
             var query = CRUD<Modules>.Insert();
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
-        public int Delete(int id, int orgId)
+        public int Delete(int id, int InstituteId)
         {
-            var query = CRUD<Modules>.Delete(o => o.ModuleId == o.ModuleId && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<int>(query, new { ModuleId = id, OrgId = orgId }).Single();
+            var query = CRUD<Modules>.Delete(o => o.ModuleId == o.ModuleId && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<int>(query, new { ModuleId = id, InstituteId = InstituteId }).Single();
         }
 
-        public Modules Get(int id, int orgId)
+        public Modules Get(int id, int InstituteId)
         {
-            var query = CRUD<Modules>.Select(o => o.ModuleId == o.ModuleId && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<Modules>(query, new { ModuleId = id, OrgId = orgId }).FirstOrDefault();
+            var query = CRUD<Modules>.Select(o => o.ModuleId == o.ModuleId && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<Modules>(query, new { ModuleId = id, InstituteId = InstituteId }).FirstOrDefault();
         }
 
-        public IEnumerable<Modules> GetAll(int orgId)
+        public IEnumerable<Modules> GetAll(int InstituteId)
         {
-            var query = CRUD<Modules>.Select(o => o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<Modules>(query, new { OrgId = orgId });
+            var query = CRUD<Modules>.Select(o => o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<Modules>(query, new { InstituteId = InstituteId });
         }
 
         public IEnumerable<ModuleViewModel> GetModulesWithSub()
@@ -76,7 +76,7 @@ namespace Layer.Data.Implementations.HRMS.Security
 
         public int Update(Modules entity)
         {
-            var query = CRUD<Modules>.Update(o => o.ModuleId == o.ModuleId && o.OrgId == o.OrgId);
+            var query = CRUD<Modules>.Update(o => o.ModuleId == o.ModuleId && o.InstituteId == o.InstituteId);
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
     }

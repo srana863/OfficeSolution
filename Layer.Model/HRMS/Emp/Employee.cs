@@ -18,7 +18,7 @@ namespace Layer.Model.HRMS.Emp
     {
         [PKey]
         public string EmployeeCode { get; set; }
-        public int OrgId { get; set; }
+        public int InstituteId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
@@ -32,9 +32,9 @@ namespace Layer.Model.HRMS.Emp
         public Nullable<System.DateTime> JobEndDate { get; set; }
         public string Email { get; set; }
         public string PhoneNo { get; set; }
-        public int CreatedBy { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public Nullable<int> UpdatedBy { get; set; }
+        public int AddedByUserId { get; set; }
+        public System.DateTime AddedDate { get; set; }
+        public Nullable<int> UpdatedByUserId { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     }
 }

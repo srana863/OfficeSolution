@@ -12,45 +12,52 @@ using System.Threading.Tasks;
 
 namespace Layer.Data.Implementations.HRMS.Settings
 {
-    public class UsersRepository : DataCommon, IUsersRepository
+    public class UserRepository : DataCommon, IUserRepository
     {
-        public UsersRepository(DbContext dbContext)
+        public UserRepository(DbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public int Create(Users entity)
+        public int Create(User entity)
         {
-            var query = CRUD<Users>.Insert();
+            var query = CRUD<User>.Insert();
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
-        public int Delete(int id, int orgId)
+        public int Delete(int id, int InstituteId)
         {
-            var query = CRUD<Users>.Delete(o => o.UserId == o.UserId && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<int>(query, new { UserId = id, OrgId = orgId }).Single();
+            var query = CRUD<User>.Delete(o => o.UserId == o.UserId && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<int>(query, new { UserId = id, InstituteId = InstituteId }).Single();
         }
 
-        public Users Get(int id, int orgId)
+        public User Get(int id, int InstituteId)
         {
-            var query = CRUD<Users>.Select(o => o.UserId == o.UserId && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<Users>(query, new { UserId = id, OrgId = orgId }).FirstOrDefault();
+            var query = CRUD<User>.Select(o => o.UserId == o.UserId && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<User>(query, new { UserId = id, InstituteId = InstituteId }).FirstOrDefault();
         }
 
-        public IEnumerable<Users> GetAll(int orgId)
+        public IEnumerable<User> GetAll(int InstituteId)
         {
-            var query = CRUD<Users>.Select(o => o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<Users>(query, new { OrgId = orgId });
+            var query = CRUD<User>.Select(o => o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<User>(query, new { InstituteId = InstituteId });
         }
 
-        public async Task<UserInfoSession> GetUserByUserName(string username)
+        public async Task<UserInfoSession> GetUserByUserName(string UserName)
         {
-            var query = CRUD<Users>.Select(o => o.Username == o.Username);
-            return await _dbContext._connection.QueryFirstOrDefaultAsync<UserInfoSession>(query, new { Username = username });
+            var query = @"SELECT U.UserId,U.UserName,U.UserEmail,U.UserFullName,U.InstituteId,U.FacultyId,U.Password,U.RoleId,U.IsActive,U.AddedByUserId,U.AddedDate,U.UpdatedByUserId,U.UpdatedDate, D.DeptName DepartmentName, De.DesignationName,R.RoleName,I.InstituteName,ISNULL(F.Image, (CASE WHEN F.Gender=1 Then 'male.png' When F.Gender=2 then 'female.png' else 'other.png' end) )Image
+                FROM Setting.Users U
+                INNER JOIN Institute.Institute I ON I.InstituteId=U.InstituteId
+                INNER JOIN Institute.Faculty F ON F.FacultyId=U.FacultyId AND F.InstituteId=U.InstituteId
+                INNER JOIN Institute.Department D ON D.DepartmentId=F.DepartmentId AND D.InstituteId=U.InstituteId
+                INNER JOIN Institute.Designation De ON De.DesignationId=F.DesignationId AND De.InstituteId=U.InstituteId
+                INNER JOIN Security.UserRoles R ON R.RoleId=U.RoleId AND R.InstituteId=U.InstituteId
+                WHERE U.UserName=@UserName";
+            return await _dbContext._connection.QueryFirstOrDefaultAsync<UserInfoSession>(query, new { UserName = UserName });
         }
 
-        public int Update(Users entity)
+        public int Update(User entity)
         {
-            var query = CRUD<Users>.Update(o => o.UserId == o.UserId && o.OrgId == o.OrgId);
+            var query = CRUD<User>.Update(o => o.UserId == o.UserId && o.InstituteId == o.InstituteId);
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
     }

@@ -1,17 +1,13 @@
 ﻿using Layer.Data.Implementations;
-using Layer.Data.Implementations.HRMS.Settings;
 using Layer.Data.Interfaces.Common;
-using Layer.Data.Interfaces.HRMS.Settings;
 using Layer.Model.Common;
-using Layer.Model.HRMS.Settings;
+using Layer.Model.HRMS.Institute;
+using Layer.Model.ViewModel.Institute;
 using Layer.Model.ViewModel.Settings;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using OfficeSolution.Models;
 using System;
 using System.Collections.Generic;
@@ -49,7 +45,7 @@ namespace OfficeSolution.Controllers
             {
 
                 _dbContext.Open();
-                var hasUser = await _unitOfWork.UsersRepository.GetUserByUserName(login.Username);
+                var hasUser = await _unitOfWork.UserRepository.GetUserByUserName(login.UserName);
                 if (hasUser != null)
                 {
 
@@ -59,8 +55,16 @@ namespace OfficeSolution.Controllers
                         {
                             new Claim(ClaimTypes.Name, hasUser.UserFullName),
                             new Claim("UserId",hasUser.UserId.ToString()),
-                            new Claim("Username", hasUser.Username),
-                            new Claim("OrgId", hasUser.OrgId.ToString())
+                            new Claim("UserName", hasUser.UserName),
+                            new Claim("InstituteId", hasUser.InstituteId.ToString()),
+                            new Claim("UserFullName", hasUser.UserFullName),
+                            new Claim("DesignationName", hasUser.DesignationName),
+                            new Claim("DepartmentName", hasUser.DesignationName),
+                            new Claim("RoleName", hasUser.RoleName),
+                            new Claim("InstituteName", hasUser.InstituteName),
+                            new Claim("Image", hasUser.Image),
+                            new Claim("RoleId", hasUser.RoleId.ToString())
+
                         };
 
                         var claimsIdentity = new ClaimsIdentity(
@@ -99,7 +103,7 @@ namespace OfficeSolution.Controllers
             await HttpContext.SignOutAsync(
             CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -133,7 +137,7 @@ namespace OfficeSolution.Controllers
             }
             catch (Exception)
             {
-                return PartialView("_GetFacultyProfile", Enumerable.Empty<ModuleViewModel>());
+                return PartialView("_GetFacultyProfile", new ModuleViewModel());
             }
             finally
             {
@@ -147,17 +151,46 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ModulesRepository.GetModulesWithSub();
-                return PartialView("_GetFacultyProfiles", data);
+                var faViewModel = new FacultyViewModel();
+
+                List<FacultyViewModel> listViewModel = new List<FacultyViewModel>();
+
+                var facultyExpertiseAreas = Enumerable.Empty<FacultyExpertiseAreaViewModel>();
+                var facultyProfessionalInterests = Enumerable.Empty<FacultyProfessionalInterestViewModel>();
+
+                var data = _unitOfWork.FacultyRepository.GetAllFaculty(userinfo.InstituteId);
+
+                if (data.Any())
+                {
+                    foreach (var item in data)
+                    {
+                        faViewModel = new FacultyViewModel();
+                        faViewModel = item;
+
+                        facultyExpertiseAreas = _unitOfWork.FacultyExpertiseAreaRepository.GetAllFacultyExpertiseArea(item.FacultyId, item.InstituteId);
+                        faViewModel.FacultyExpertiseAreaViewModel = facultyExpertiseAreas;
+                        facultyProfessionalInterests = _unitOfWork.FacultyProfessionalInterestRepository.GetAllFacultyProfessionalInterest(item.FacultyId, item.InstituteId);
+                        faViewModel.FacultyProfessionalInterestViewModel = facultyProfessionalInterests;
+
+                        listViewModel.Add(faViewModel);
+                    }
+
+                    
+                }
+                IEnumerable<FacultyViewModel> res = listViewModel;
+
+                return PartialView("_GetFacultyProfiles", res);
             }
             catch (Exception)
             {
-                return PartialView("_GetFacultyProfiles", Enumerable.Empty<ModuleViewModel>());
+                return PartialView("_GetFacultyProfiles", Enumerable.Empty<FacultyViewModel>());
             }
             finally
             {
                 _dbContext.Close();
             }
+
+           
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

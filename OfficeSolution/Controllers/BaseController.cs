@@ -1,4 +1,6 @@
 ﻿using Layer.Model.Common;
+using Layer.Model.Enums;
+using Layer.Model.HRMS.Institute;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -6,6 +8,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -33,16 +36,34 @@ namespace OfficeSolution.Controllers
             var isAutheticated = HttpContext.User.Identity.IsAuthenticated;
             //fake session
             session = new AppSession();
-            userinfo = new UserInfoSession { 
-                UserId= isAutheticated ? Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value):0,
-                OrgId= isAutheticated ? Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "OrgId")?.Value):0,
-                Username= "srana863",
-                UserFullName= "Md. Sohel Rana",
-                Designation= "Maintenance Engineer",
-                RoleId =1,
-                IsActive=true
-            };
+           
+            if (isAutheticated)
+            {
+                userinfo = new UserInfoSession
+                {
+                    UserId = isAutheticated ? Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value) : 0,
+                    InstituteId = isAutheticated ? Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "InstituteId")?.Value) : 0,
+                    UserName = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserName")?.Value) : null,
+                    UserFullName = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserFullName")?.Value) : null,
+                    DesignationName = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DesignationName")?.Value) : null,
+                    RoleId = isAutheticated ? Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "RoleId")?.Value) : (int)UserRole.User,
+                    InstituteName = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "InstituteName")?.Value) : null,
+                    DepartmentName = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DepartmentName")?.Value) : null,
+                    Image = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Image")?.Value) : null,
+                    RoleName = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "RoleName")?.Value) : null,
+                    IsActive = true
 
+                };
+
+            }
+            else {
+                userinfo = new UserInfoSession
+                {
+                    InstituteId = 0,
+                    RoleId = (int)UserRole.User
+                };
+            }
+            session.UserInfo = userinfo;
             //need to work here
             if (HttpContext.Session.GetString("appSession") != null)
             {
@@ -51,7 +72,7 @@ namespace OfficeSolution.Controllers
             }
             else
             {
-               // session.UserInfo = fakesession;
+                // session.UserInfo = fakesession;
                 //session = JsonConvert.DeserializeObject<AppSession>(HttpContext.Session.GetString("appSession"));
             }
             base.OnActionExecuting(filterContext);

@@ -11,17 +11,17 @@ namespace Layer.Model.HRMS.Emp
         [PKey]
         public int DeptId { get; set; }
 
-        public int OrgId { get; set; }
+        public int InstituteId { get; set; }
 
         public string DeptName { get; set; }
 
         public bool IsActive { get; set; }
 
-        public int CreatedBy { get; set; }
+        public int AddedByUserId { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime AddedDate { get; set; }
 
-        public int? UpdatedBy { get; set; }
+        public int? UpdatedByUserId { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
     }

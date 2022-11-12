@@ -13,7 +13,7 @@ using System.Text;
 
 namespace Layer.Data.Implementations.HRMS.Security
 {
-    class SubModuleSectionsRepository : DataCommon, ISubModuleSectionsRepository
+    public class SubModuleSectionsRepository : DataCommon, ISubModuleSectionsRepository
     {
         public SubModuleSectionsRepository(DbContext dbContext)
         {
@@ -25,33 +25,33 @@ namespace Layer.Data.Implementations.HRMS.Security
             var query = CRUD<SubModuleSections>.Insert();
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
-        public int Delete(int id, int orgId)
+        public int Delete(int id, int InstituteId)
         {
-            var query = CRUD<SubModuleSections>.Delete(o => o.SectionId == o.SectionId && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<int>(query, new { SectionId = id, OrgId = orgId }).Single();
+            var query = CRUD<SubModuleSections>.Delete(o => o.SectionId == o.SectionId && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<int>(query, new { SectionId = id, InstituteId = InstituteId }).Single();
         }
 
-        public SubModuleSections Get(int id, int orgId)
+        public SubModuleSections Get(int id, int InstituteId)
         {
-            var query = CRUD<SubModuleSections>.Select(o => o.SectionId == o.SectionId && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<SubModuleSections>(query, new { SectionId = id, OrgId = orgId }).FirstOrDefault();
+            var query = CRUD<SubModuleSections>.Select(o => o.SectionId == o.SectionId && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<SubModuleSections>(query, new { SectionId = id, InstituteId = InstituteId }).FirstOrDefault();
         }
 
-        public IEnumerable<SubModuleSections> GetAll(int orgId)
+        public IEnumerable<SubModuleSections> GetAll(int InstituteId)
         {
-            var query = CRUD<SubModuleSections>.Select(o => o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<SubModuleSections>(query, new { OrgId = orgId });
+            var query = CRUD<SubModuleSections>.Select(o => o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<SubModuleSections>(query, new { InstituteId = InstituteId });
         }
 
-        public IEnumerable<SubModuleSectionsViewModel> GetAllWithParent(int orgId)
+        public IEnumerable<SubModuleSectionsViewModel> GetAllWithParent(int InstituteId)
         {
-            var query = @"SELECT SMS.SectionId,SMS.SectionName,SMS.OrgId,SMS.ModuleId,SMS.SubModuleId,SMS.IconName,SMS.SectionOrder,SMS.IsActive,SMS.CreatedBy,SMS.CreatedDate,SMS.UpdatedBy,SMS.UpdatedDate,
+            var query = @"SELECT SMS.SectionId,SMS.SectionName,SMS.InstituteId,SMS.ModuleId,SMS.SubModuleId,SMS.IconName,SMS.SectionOrder,SMS.IsActive,SMS.AddedByUserId,SMS.AddedDate,SMS.UpdatedByUserId,SMS.UpdatedDate,
                 M.ModuleName,SM.SubModuleName
                 FROM Security.SubModuleSections SMS
-                INNER JOIN Security.Modules M ON M.ModuleId=SMS.ModuleId AND M.OrgId=SMS.OrgId
-                INNER JOIN Security.SubModules SM ON SM.SubModuleId=SMS.SubModuleId AND SM.OrgId=SMS.OrgId
-                WHERE SMS.OrgId=ISNULL(@OrgId,SMS.OrgId)";
-            return _dbContext._connection.Query<SubModuleSectionsViewModel>(query, new { OrgId = orgId });
+                INNER JOIN Security.Modules M ON M.ModuleId=SMS.ModuleId AND M.InstituteId=SMS.InstituteId
+                INNER JOIN Security.SubModules SM ON SM.SubModuleId=SMS.SubModuleId AND SM.InstituteId=SMS.InstituteId
+                WHERE SMS.InstituteId=ISNULL(@InstituteId,SMS.InstituteId)";
+            return _dbContext._connection.Query<SubModuleSectionsViewModel>(query, new { InstituteId = InstituteId });
         }
         public IEnumerable<SectionViewModel> GetSectionsWithScreen(string actionName, string controllerName, bool home=true)
         {
@@ -135,7 +135,7 @@ namespace Layer.Data.Implementations.HRMS.Security
 
         public int Update(SubModuleSections entity)
         {
-            var query = CRUD<SubModuleSections>.Update(o => o.SectionId == o.SectionId && o.OrgId == o.OrgId);
+            var query = CRUD<SubModuleSections>.Update(o => o.SectionId == o.SectionId && o.InstituteId == o.InstituteId);
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
     }

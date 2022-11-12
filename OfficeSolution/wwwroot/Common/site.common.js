@@ -103,6 +103,18 @@ function formatJsonDate(jsonDate) {
     return date;
 }
 
+function datefromjsonUS(jsonDate) {
+ 
+    var today = new Date(jsonDate).toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'numeric',
+        year: 'numeric'
+    }).split(' ').join('-');
+
+    return today;
+
+}
+
 function formatJsonDateToStringDate(jsonDate) {
     if (jsonDate) {
         var d = new Date(parseInt(jsonDate.slice(6, -2)));
@@ -112,6 +124,7 @@ function formatJsonDateToStringDate(jsonDate) {
         }
         var date = 1 + d.getMonth() + '/' + day + '/' + d.getFullYear();
         return date;
+        
     }
 
     return null;

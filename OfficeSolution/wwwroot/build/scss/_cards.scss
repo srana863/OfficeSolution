@@ -354,7 +354,7 @@ html.maximized-card {
     margin-left: 40px;
   }
 
-  .username {
+  .UserName {
     color: $gray-700;
     display: block;
     font-weight: 600;
@@ -515,7 +515,7 @@ html.maximized-card {
 
   .card-comments {
     background-color: lighten($dark, 1.25%);
-    .username {
+    .UserName {
       color: $gray-400;
     }
     .card-comment {

@@ -1,40 +1,40 @@
-﻿@model IEnumerable<Layer.Model.ViewModel.Settings.ModuleViewModel>
+﻿@model IEnumerable<Layer.Model.ViewModel.Institute.FacultyViewModel>
 @{
     int sl = 0;
     <div class="row">
 
         @if (Model.Any())
         {
-            foreach (var module in Model)
+            foreach (var item in Model)
             {
-                foreach (var sub in module.SubModuleViewModels)
-                {
-                    <div class="col-lg-3 col-6">
-                        <div class="box box-primary rounded border border-primary" style="margin-bottom:10px;">
-                            <div class="box-body box-profile">
-                                <img class="profile-user-img img-responsive img-circle mx-auto d-block" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
-                                <h3 class="profile-username text-center">@sub.SubModuleName</h3>
-                                <p class="text-muted text-center">@sub.SubModuleName</p>
 
-                                <ul class="list-group list-group-unbordered text-center">
-                                    <li class="list-group-item">
-                                        <b>Followers</b> <a class="pull-right">@sub.SubModuleName</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Following</b> <a class="pull-right">@sub.SubModuleName</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Friends</b> <a class="pull-right">@sub.SubModuleName</a>
-                                    </li>
-                                </ul>
+                <div class="col-lg-3 col-6">
+                    <div class="box box-primary rounded border border-primary" style="margin-bottom:10px;">
+                        <div class="box-body box-profile">
+                            <img class="profile-user-img img-responsive img-circle mx-auto d-block" src="@Url.Content("~/profileimages/"+item.Image)" alt="User profile picture">
+                            <h3 class="profile-UserName text-center">@item.FacultyFullName</h3>
+                            <p class="text-muted text-center">@item.Education</p>
 
-                                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
-                            </div><!-- /.box-body -->
-                        </div>
+                            <ul class="list-group list-group-unbordered text-center">
+                                <li class="list-group-item">
+                                    <b>Followers</b> <a class="pull-right">@item.DesignationName</a>
+                                </li>
+                                
+                                <li class="list-group-item">
+                                    <b>Following</b> <a class="pull-right">@item.DepartmentName</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Friends</b> <a class="pull-right">@item.Email</a>
+                                </li>
+                            </ul>
+
+                            <a href="#" class="btn btn-primary btn-block"><b>Details</b></a>
+                        </div><!-- /.box-body -->
                     </div>
+                </div>
 
-                    sl++;
-                }
+                sl++;
+
 
             }
         }

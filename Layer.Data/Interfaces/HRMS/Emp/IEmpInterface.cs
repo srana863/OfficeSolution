@@ -6,7 +6,5 @@ using System.Text;
 
 namespace Layer.Data.Interfaces.HRMS.Emp
 {
-    public interface IDepartmentRepository : IGenericRepository<Department>
-    {
-    }
+    
 }

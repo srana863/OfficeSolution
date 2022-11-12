@@ -24,40 +24,40 @@ namespace Layer.Data.Implementations.HRMS.Security
             var query = CRUD<RoleWiseScreenPermission>.Insert();
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
-        public int Delete(int id, int orgId)
+        public int Delete(int id, int InstituteId)
         {
-            var query = CRUD<RoleWiseScreenPermission>.Delete(o => o.PermissionSL == o.PermissionSL && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<int>(query, new { PermissionSL = id, OrgId = orgId }).Single();
+            var query = CRUD<RoleWiseScreenPermission>.Delete(o => o.PermissionSL == o.PermissionSL && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<int>(query, new { PermissionSL = id, InstituteId = InstituteId }).Single();
         }
 
-        public RoleWiseScreenPermission Get(int id, int orgId)
+        public RoleWiseScreenPermission Get(int id, int InstituteId)
         {
-            var query = CRUD<RoleWiseScreenPermission>.Select(o => o.PermissionSL == o.PermissionSL && o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<RoleWiseScreenPermission>(query, new { PermissionSL = id, OrgId = orgId }).FirstOrDefault();
+            var query = CRUD<RoleWiseScreenPermission>.Select(o => o.PermissionSL == o.PermissionSL && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<RoleWiseScreenPermission>(query, new { PermissionSL = id, InstituteId = InstituteId }).FirstOrDefault();
         }
 
-        public IEnumerable<RoleWiseScreenPermission> GetAll(int orgId)
+        public IEnumerable<RoleWiseScreenPermission> GetAll(int InstituteId)
         {
-            var query = CRUD<RoleWiseScreenPermission>.Select(o => o.OrgId == o.OrgId);
-            return _dbContext._connection.Query<RoleWiseScreenPermission>(query, new { OrgId = orgId });
+            var query = CRUD<RoleWiseScreenPermission>.Select(o => o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<RoleWiseScreenPermission>(query, new { InstituteId = InstituteId });
         }
 
-        public IEnumerable<RoleWiseScreenPermissionViewModel> GetAllWithParent(int orgId, int roleId, int? moduleId, int? subModuleId)
+        public IEnumerable<RoleWiseScreenPermissionViewModel> GetAllWithParent(int InstituteId, int roleId, int? moduleId, int? subModuleId)
         {
-            var query = @"SELECT RWSP.PermissionSL,RWSP.RoleId,S.OrgId,S.ScreenCode,RWSP.CanAdd,RWSP.CanModify,RWSP.CanView,RWSP.IsActive,RWSP.CreatedBy,RWSP.CreatedDate,RWSP.UpdatedBy,RWSP.UpdatedDate,
+            var query = @"SELECT RWSP.PermissionSL,RWSP.RoleId,S.InstituteId,S.ScreenCode,RWSP.CanAdd,RWSP.CanModify,RWSP.CanView,RWSP.IsActive,RWSP.AddedByUserId,RWSP.AddedDate,RWSP.UpdatedByUserId,RWSP.UpdatedDate,
                 S.ModuleId,S.SubModuleId,S.SectionId,SMS.SectionName,SM.SubModuleName,M.ModuleName,S.ScreenName
                 FROM Security.Screen S
-                INNER JOIN Security.SubModuleSections SMS ON SMS.SectionId=S.SectionId AND SMS.OrgId=S.OrgId
-                INNER JOIN Security.SubModules SM ON SM.SubModuleId=S.SubModuleId AND SM.OrgId=S.OrgId
-                INNER JOIN Security.Modules M ON M.ModuleId=S.ModuleId AND M.OrgId=S.OrgId
-				LEFT JOIN Security.RoleWiseScreenPermission RWSP ON RWSP.ScreenCode=S.ScreenCode AND RWSP.OrgId=S.OrgId AND RWSP.RoleId=@RoleId
-                WHERE S.OrgId=@OrgId
+                INNER JOIN Security.SubModuleSections SMS ON SMS.SectionId=S.SectionId AND SMS.InstituteId=S.InstituteId
+                INNER JOIN Security.SubModules SM ON SM.SubModuleId=S.SubModuleId AND SM.InstituteId=S.InstituteId
+                INNER JOIN Security.Modules M ON M.ModuleId=S.ModuleId AND M.InstituteId=S.InstituteId
+				LEFT JOIN Security.RoleWiseScreenPermission RWSP ON RWSP.ScreenCode=S.ScreenCode AND RWSP.InstituteId=S.InstituteId AND RWSP.RoleId=@RoleId
+                WHERE S.InstituteId=@InstituteId
 				AND S.ModuleId=ISNULL(@ModuleId,S.ModuleId)
 				AND S.SubModuleId=ISNULL(@SubModuleId,S.SubModuleId)";
             return _dbContext._connection.Query<RoleWiseScreenPermissionViewModel>(query,
                 new
                 {
-                    OrgId = orgId,
+                    InstituteId = InstituteId,
                     RoleId=roleId,
                     ModuleId = moduleId>0 ? moduleId : null,
                     SubModuleId = subModuleId > 0 ? subModuleId : null,
@@ -66,7 +66,7 @@ namespace Layer.Data.Implementations.HRMS.Security
 
         public int Update(RoleWiseScreenPermission entity)
         {
-            var query = CRUD<RoleWiseScreenPermission>.Update(o => o.PermissionSL == o.PermissionSL && o.OrgId == o.OrgId);
+            var query = CRUD<RoleWiseScreenPermission>.Update(o => o.PermissionSL == o.PermissionSL && o.InstituteId == o.InstituteId);
             return _dbContext._connection.Query<int>(query, entity).Single();
         }
     }

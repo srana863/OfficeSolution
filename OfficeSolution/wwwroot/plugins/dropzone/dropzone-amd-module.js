@@ -2210,7 +2210,7 @@ module.exports = !fails(function () {
     || String(new URLSearchParams('?a=1')) !== 'a=1'
     || !searchParams[ITERATOR]
     // throws in Edge
-    || new URL('https://a@b').username !== 'a'
+    || new URL('https://a@b').UserName !== 'a'
     || new URLSearchParams(new URLSearchParams('a=b')).get('a') !== 'b'
     // not punycoded in Edge
     || new URL('http://тест').host !== 'xn--e1aybc'
@@ -5946,10 +5946,10 @@ var isSpecial = function (url) {
 };
 
 var includesCredentials = function (url) {
-  return url.username != '' || url.password != '';
+  return url.UserName != '' || url.password != '';
 };
 
-var cannotHaveUsernamePasswordPort = function (url) {
+var cannotHaveUserNamePasswordPort = function (url) {
   return !url.host || url.cannotBeABaseURL || url.scheme == 'file';
 };
 
@@ -6019,7 +6019,7 @@ var parseURL = function (url, input, stateOverride, base) {
 
   if (!stateOverride) {
     url.scheme = '';
-    url.username = '';
+    url.UserName = '';
     url.password = '';
     url.host = null;
     url.port = null;
@@ -6119,7 +6119,7 @@ var parseURL = function (url, input, stateOverride, base) {
       case RELATIVE:
         url.scheme = base.scheme;
         if (char == EOF) {
-          url.username = base.username;
+          url.UserName = base.UserName;
           url.password = base.password;
           url.host = base.host;
           url.port = base.port;
@@ -6128,7 +6128,7 @@ var parseURL = function (url, input, stateOverride, base) {
         } else if (char == '/' || (char == '\\' && isSpecial(url))) {
           state = RELATIVE_SLASH;
         } else if (char == '?') {
-          url.username = base.username;
+          url.UserName = base.UserName;
           url.password = base.password;
           url.host = base.host;
           url.port = base.port;
@@ -6136,7 +6136,7 @@ var parseURL = function (url, input, stateOverride, base) {
           url.query = '';
           state = QUERY;
         } else if (char == '#') {
-          url.username = base.username;
+          url.UserName = base.UserName;
           url.password = base.password;
           url.host = base.host;
           url.port = base.port;
@@ -6145,7 +6145,7 @@ var parseURL = function (url, input, stateOverride, base) {
           url.fragment = '';
           state = FRAGMENT;
         } else {
-          url.username = base.username;
+          url.UserName = base.UserName;
           url.password = base.password;
           url.host = base.host;
           url.port = base.port;
@@ -6161,7 +6161,7 @@ var parseURL = function (url, input, stateOverride, base) {
         } else if (char == '/') {
           state = AUTHORITY;
         } else {
-          url.username = base.username;
+          url.UserName = base.UserName;
           url.password = base.password;
           url.host = base.host;
           url.port = base.port;
@@ -6194,7 +6194,7 @@ var parseURL = function (url, input, stateOverride, base) {
             }
             var encodedCodePoints = percentEncode(codePoint, userinfoPercentEncodeSet);
             if (seenPasswordToken) url.password += encodedCodePoints;
-            else url.username += encodedCodePoints;
+            else url.UserName += encodedCodePoints;
           }
           buffer = '';
         } else if (
@@ -6433,7 +6433,7 @@ var URLConstructor = function URL(url /* , base */) {
     that.href = serializeURL.call(that);
     that.origin = getOrigin.call(that);
     that.protocol = getProtocol.call(that);
-    that.username = getUsername.call(that);
+    that.UserName = getUserName.call(that);
     that.password = getPassword.call(that);
     that.host = getHost.call(that);
     that.hostname = getHostname.call(that);
@@ -6450,7 +6450,7 @@ var URLPrototype = URLConstructor.prototype;
 var serializeURL = function () {
   var url = getInternalURLState(this);
   var scheme = url.scheme;
-  var username = url.username;
+  var UserName = url.UserName;
   var password = url.password;
   var host = url.host;
   var port = url.port;
@@ -6461,7 +6461,7 @@ var serializeURL = function () {
   if (host !== null) {
     output += '//';
     if (includesCredentials(url)) {
-      output += username + (password ? ':' + password : '') + '@';
+      output += UserName + (password ? ':' + password : '') + '@';
     }
     output += serializeHost(host);
     if (port !== null) output += ':' + port;
@@ -6489,8 +6489,8 @@ var getProtocol = function () {
   return getInternalURLState(this).scheme + ':';
 };
 
-var getUsername = function () {
-  return getInternalURLState(this).username;
+var getUserName = function () {
+  return getInternalURLState(this).UserName;
 };
 
 var getPassword = function () {
@@ -6560,15 +6560,15 @@ if (DESCRIPTORS) {
       var url = getInternalURLState(this);
       parseURL(url, String(protocol) + ':', SCHEME_START);
     }),
-    // `URL.prototype.username` accessors pair
-    // https://url.spec.whatwg.org/#dom-url-username
-    username: accessorDescriptor(getUsername, function (username) {
+    // `URL.prototype.UserName` accessors pair
+    // https://url.spec.whatwg.org/#dom-url-UserName
+    UserName: accessorDescriptor(getUserName, function (UserName) {
       var url = getInternalURLState(this);
-      var codePoints = arrayFrom(String(username));
-      if (cannotHaveUsernamePasswordPort(url)) return;
-      url.username = '';
+      var codePoints = arrayFrom(String(UserName));
+      if (cannotHaveUserNamePasswordPort(url)) return;
+      url.UserName = '';
       for (var i = 0; i < codePoints.length; i++) {
-        url.username += percentEncode(codePoints[i], userinfoPercentEncodeSet);
+        url.UserName += percentEncode(codePoints[i], userinfoPercentEncodeSet);
       }
     }),
     // `URL.prototype.password` accessors pair
@@ -6576,7 +6576,7 @@ if (DESCRIPTORS) {
     password: accessorDescriptor(getPassword, function (password) {
       var url = getInternalURLState(this);
       var codePoints = arrayFrom(String(password));
-      if (cannotHaveUsernamePasswordPort(url)) return;
+      if (cannotHaveUserNamePasswordPort(url)) return;
       url.password = '';
       for (var i = 0; i < codePoints.length; i++) {
         url.password += percentEncode(codePoints[i], userinfoPercentEncodeSet);
@@ -6600,7 +6600,7 @@ if (DESCRIPTORS) {
     // https://url.spec.whatwg.org/#dom-url-port
     port: accessorDescriptor(getPort, function (port) {
       var url = getInternalURLState(this);
-      if (cannotHaveUsernamePasswordPort(url)) return;
+      if (cannotHaveUserNamePasswordPort(url)) return;
       port = String(port);
       if (port == '') url.port = null;
       else parseURL(url, port, PORT);

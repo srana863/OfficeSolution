@@ -1,4 +1,25 @@
 ﻿
+function getGenderCombo(controlId, isDefaultRecordRequired) {
+    var url = '/Common/GetGenderCombo';
+    var data = {
+    };
+    loadCombo(controlId, url, data, isDefaultRecordRequired);
+}
+
+function getDepartmentCombo(controlId, isDefaultRecordRequired) {
+    var url = '/Common/GetDepartmentCombo';
+    var data = {
+    };
+    loadCombo(controlId, url, data, isDefaultRecordRequired);
+}
+
+function getDesignationCombo(controlId, isDefaultRecordRequired) {
+    var url = '/Common/GetDesignationCombo';
+    var data = {
+    };
+    loadCombo(controlId, url, data, isDefaultRecordRequired);
+}
+
 function getUserCombo(controlId, isDefaultRecordRequired) {
     var url = '/Common/GetUserCombo';
     var data = {

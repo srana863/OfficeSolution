@@ -1704,7 +1704,7 @@
   text-align: center;
 }
 
-.widget-user .widget-user-username {
+.widget-user .widget-user-UserName {
   font-size: 25px;
   font-weight: 300;
   margin-bottom: 0;
@@ -1739,7 +1739,7 @@
   padding: 1rem;
 }
 
-.widget-user-2 .widget-user-username {
+.widget-user-2 .widget-user-UserName {
   font-size: 25px;
   font-weight: 300;
   margin-bottom: 5px;
@@ -1750,7 +1750,7 @@
   margin-top: 0;
 }
 
-.widget-user-2 .widget-user-username,
+.widget-user-2 .widget-user-UserName,
 .widget-user-2 .widget-user-desc {
   margin-left: 75px;
 }

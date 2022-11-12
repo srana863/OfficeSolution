@@ -1,5 +1,6 @@
-﻿using Layer.Data.Interfaces.HRMS.Emp;
-using Layer.Data.Interfaces.HRMS.Recruitment;
+﻿using Layer.Data.Implementations.HRMS.Institute;
+using Layer.Data.Interfaces.HRMS.Emp;
+using Layer.Data.Interfaces.HRMS.Institute;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Data.Interfaces.HRMS.Settings;
 using System;
@@ -11,7 +12,6 @@ namespace Layer.Data.Interfaces.Common
 {
     public interface IUnitOfWork
     {
-        IDepartmentRepository DepartmentRepository { get; }
         IUserRolesRepository UserRolesRepository { get; }
         IModulesRepository ModulesRepository { get; }
         IScreenRepository ScreenRepository { get; }
@@ -19,12 +19,20 @@ namespace Layer.Data.Interfaces.Common
         ISubModulesRepository SubModulesRepository { get; }
         ISubModuleSectionsRepository SubModuleSectionsRepository { get; }
         IUserWiseOtherScreenRepository UserWiseOtherScreenRepository { get; }
-        IUsersRepository UsersRepository { get; }
-        IDocumentTypeRepository DocumentTypeRepository { get; }
-        IOrganizationProfileRepository OrganizationProfileRepository { get; }
-        IOrgAuthoriseOrKeyPersonRepository OrgAuthoriseOrKeyPersonRepository { get; }
-        IOrgDocumentRepository OrgDocumentRepository { get; }
-        IOrgTradingHoursRepository OrgTradingHoursRepository { get; }
-        IRecruitmentRepo RecruitmentRepo { get; }
+        IUserRepository UserRepository { get; }
+
+        IProfessionalInterestRepository ProfessionalInterestRepository { get; }
+
+        IInstituteRepository InstituteRepository { get; }
+        IFacultyRepository FacultyRepository { get; }
+        IFacultyProfessionalInterestRepository FacultyProfessionalInterestRepository { get; }
+        IFacultyExpertiseAreaRepository FacultyExpertiseAreaRepository { get; }
+        IDesignationRepository DesignationRepository { get; }
+        IDepartmentRepository DepartmentRepository { get; }
+        ICourseRepository CourseRepository { get; }
+
+        IAreaOfExpertiseRepository AreaOfExpertiseRepository { get; }
+
+
     }
 }

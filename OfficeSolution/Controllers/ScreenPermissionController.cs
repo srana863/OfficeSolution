@@ -2,6 +2,7 @@
 using Layer.Data.Interfaces.Common;
 using Layer.Model.Common;
 using Layer.Model.HRMS.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ using System.Transactions;
 
 namespace OfficeSolution.Controllers
 {
+    [Authorize]
     public class ScreenPermissionController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -31,7 +33,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.RoleWiseScreenPermissionRepository.GetAllWithParent(session.UserInfo.OrgId,roleId,moduleId,subModuleId);
+                var data = _unitOfWork.RoleWiseScreenPermissionRepository.GetAllWithParent(session.UserInfo.InstituteId,roleId,moduleId,subModuleId);
                 return PartialView("_GetAllRoleWiseScreenPermission", data);
             }
             catch (Exception e)
@@ -59,21 +61,21 @@ namespace OfficeSolution.Controllers
                         foreach (var item in roleScreenDetailsViewModel)
                         {
                             _returnId = 0;
-                            oldData = _unitOfWork.RoleWiseScreenPermissionRepository.Get(item.PermissionSL, session.UserInfo.OrgId);
+                            oldData = _unitOfWork.RoleWiseScreenPermissionRepository.Get(item.PermissionSL, session.UserInfo.InstituteId);
                             if (oldData == null)
                             {
-                                item.CreatedBy = session.UserInfo.UserId;
-                                item.CreatedDate = DateTime.UtcNow;
-                                item.OrgId = session.UserInfo.OrgId;
+                                item.AddedByUserId = session.UserInfo.UserId;
+                                item.AddedDate = DateTime.UtcNow;
+                                item.InstituteId = session.UserInfo.InstituteId;
                                 _returnId = _unitOfWork.RoleWiseScreenPermissionRepository.Create(item);
 
                             }
                             else
                             {
-                                item.OrgId = oldData.OrgId;
-                                item.CreatedBy = oldData.CreatedBy;
-                                item.CreatedDate = oldData.CreatedDate;
-                                item.UpdatedBy = session.UserInfo.UserId;
+                                item.InstituteId = oldData.InstituteId;
+                                item.AddedByUserId = oldData.AddedByUserId;
+                                item.AddedDate = oldData.AddedDate;
+                                item.UpdatedByUserId = session.UserInfo.UserId;
                                 item.UpdatedDate = DateTime.UtcNow;
                                 _returnId = _unitOfWork.RoleWiseScreenPermissionRepository.Update(item);
                             }
@@ -111,10 +113,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.RoleWiseScreenPermissionRepository.Get(sl, session.UserInfo.OrgId);
+                var oldData = _unitOfWork.RoleWiseScreenPermissionRepository.Get(sl, session.UserInfo.InstituteId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.RoleWiseScreenPermissionRepository.Delete(sl, session.UserInfo.OrgId);
+                    _returnId = _unitOfWork.RoleWiseScreenPermissionRepository.Delete(sl, session.UserInfo.InstituteId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Role Wise Screen Permission Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -151,7 +153,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.UserWiseOtherScreenRepository.GetAllWithParent(session.UserInfo.OrgId, userId, moduleId, subModuleId);
+                var data = _unitOfWork.UserWiseOtherScreenRepository.GetAllWithParent(session.UserInfo.InstituteId, userId, moduleId, subModuleId);
                 return PartialView("_GetAllUserWiseOtherScreen", data);
             }
             catch (Exception)
@@ -171,7 +173,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.UserWiseOtherScreenRepository.Get(sl, session.UserInfo.OrgId);
+                var data = _unitOfWork.UserWiseOtherScreenRepository.Get(sl, session.UserInfo.InstituteId);
 
                 return new JsonResult(data, new JsonSerializerOptions());
             }
@@ -192,10 +194,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.UserWiseOtherScreenRepository.Get(sl, session.UserInfo.OrgId);
+                var oldData = _unitOfWork.UserWiseOtherScreenRepository.Get(sl, session.UserInfo.InstituteId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.UserWiseOtherScreenRepository.Delete(sl, session.UserInfo.OrgId);
+                    _returnId = _unitOfWork.UserWiseOtherScreenRepository.Delete(sl, session.UserInfo.InstituteId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Wise Screen Permission Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -230,21 +232,21 @@ namespace OfficeSolution.Controllers
                         foreach (var item in userScreenDetailsViewModel)
                         {
                             _returnId = 0;
-                            oldData = _unitOfWork.UserWiseOtherScreenRepository.Get(item.SL, session.UserInfo.OrgId);
+                            oldData = _unitOfWork.UserWiseOtherScreenRepository.Get(item.SL, session.UserInfo.InstituteId);
                             if (oldData == null)
                             {
-                                item.CreatedBy = session.UserInfo.UserId;
-                                item.CreatedDate = DateTime.UtcNow;
-                                item.OrgId = session.UserInfo.OrgId;
+                                item.AddedByUserId = session.UserInfo.UserId;
+                                item.AddedDate = DateTime.UtcNow;
+                                item.InstituteId = session.UserInfo.InstituteId;
                                 _returnId = _unitOfWork.UserWiseOtherScreenRepository.Create(item);
 
                             }
                             else
                             {
-                                item.OrgId = oldData.OrgId;
-                                item.CreatedBy = oldData.CreatedBy;
-                                item.CreatedDate = oldData.CreatedDate;
-                                item.UpdatedBy = session.UserInfo.UserId;
+                                item.InstituteId = oldData.InstituteId;
+                                item.AddedByUserId = oldData.AddedByUserId;
+                                item.AddedDate = oldData.AddedDate;
+                                item.UpdatedByUserId = session.UserInfo.UserId;
                                 item.UpdatedDate = DateTime.UtcNow;
                                 _returnId = _unitOfWork.UserWiseOtherScreenRepository.Update(item);
                             }

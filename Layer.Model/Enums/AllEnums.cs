@@ -45,12 +45,19 @@ namespace Layer.Model.Enums
         Reject = 0,
         Accept = 1
     }
+    public enum Gender
+    {
+        Male = 1,
+        Female = 2,
+        Other = 3
+    }
+
     public enum UserRole
     {
         SuperAdmin = 1,
         Admin = 2,
-        HOUser = 3,
-        BranchUser = 4
+        Faculty = 3,
+        User = 4
     }
     public enum InventoryLocation
     {

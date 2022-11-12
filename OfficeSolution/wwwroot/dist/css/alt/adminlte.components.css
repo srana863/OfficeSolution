@@ -7754,7 +7754,7 @@ html.maximized-card {
   margin-left: 40px;
 }
 
-.card-comments .username {
+.card-comments .UserName {
   color: #495057;
   display: block;
   font-weight: 600;
@@ -9905,7 +9905,7 @@ html.maximized-card {
   background-color: #373d44;
 }
 
-.dark-mode .card-comments .username {
+.dark-mode .card-comments .UserName {
   color: #ced4da;
 }
 

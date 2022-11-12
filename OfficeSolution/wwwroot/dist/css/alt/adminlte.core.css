@@ -21943,14 +21943,14 @@ body.text-sm .control-sidebar {
   width: 40px;
 }
 
-.user-block .username,
+.user-block .UserName,
 .user-block .description,
 .user-block .comment {
   display: block;
   margin-left: 50px;
 }
 
-.user-block .username {
+.user-block .UserName {
   font-size: 16px;
   font-weight: 600;
   margin-top: -1px;
@@ -21967,13 +21967,13 @@ body.text-sm .control-sidebar {
   height: 1.875rem;
 }
 
-.user-block.user-block-sm .username,
+.user-block.user-block-sm .UserName,
 .user-block.user-block-sm .description,
 .user-block.user-block-sm .comment {
   margin-left: 40px;
 }
 
-.user-block.user-block-sm .username {
+.user-block.user-block-sm .UserName {
   font-size: 14px;
 }
 

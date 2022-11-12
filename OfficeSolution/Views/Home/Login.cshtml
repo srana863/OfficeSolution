@@ -35,7 +35,7 @@
 
                 <form name="">
                     <div class="input-group mb-3">
-                        <input type="text" id="username" class="form-control" placeholder="Username">
+                        <input type="text" id="UserName" class="form-control" placeholder="UserName">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -98,7 +98,7 @@
             $('#btnSave').click(function () {
                 $('.button-loader').button('loading');
                 var request = JSON.stringify({
-                    Username: $('#username').val(),
+                    UserName: $('#UserName').val(),
                     Password: $('#password').val()
                 });
 
@@ -115,7 +115,7 @@
                     },
                     error: function (result) {
                         $('.button-loader').button('reset');
-                        toastr.error('Wrong Username or Password! Try Again');
+                        toastr.error('Wrong UserName or Password! Try Again');
                     }
                 });
             })

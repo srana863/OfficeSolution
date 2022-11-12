@@ -4,6 +4,7 @@ using Layer.Data.Interfaces.Common;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
 using Layer.Model.HRMS.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace OfficeSolution.Controllers
 {
+    [Authorize]
     public class SecurityController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -38,7 +40,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ScreenRepository.GetAllWithParent(userinfo.OrgId);
+                var data = _unitOfWork.ScreenRepository.GetAllWithParent(userinfo.InstituteId);
                 return PartialView("_GetAllScreen", data);
             }
             catch (Exception)
@@ -58,7 +60,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ScreenRepository.Get(screenId, userinfo.OrgId);
+                var data = _unitOfWork.ScreenRepository.Get(screenId, userinfo.InstituteId);
 
                 return new JsonResult(data, new JsonSerializerOptions());
             }
@@ -79,10 +81,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.ScreenRepository.Get(screenId, userinfo.OrgId);
+                var oldData = _unitOfWork.ScreenRepository.Get(screenId, userinfo.InstituteId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.ScreenRepository.Delete(screenId, userinfo.OrgId);
+                    _returnId = _unitOfWork.ScreenRepository.Delete(screenId, userinfo.InstituteId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Screen Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -109,20 +111,20 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var oldData = _unitOfWork.ScreenRepository.Get(model.ScreenCode, model.OrgId);
+                var oldData = _unitOfWork.ScreenRepository.Get(model.ScreenCode, model.InstituteId);
                 if (oldData == null)
                 {
-                    model.CreatedBy = session.UserInfo.UserId;
-                    model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = userinfo.OrgId;
+                    model.AddedByUserId = session.UserInfo.UserId;
+                    model.AddedDate = DateTime.UtcNow;
+                    model.InstituteId = userinfo.InstituteId;
                     _returnId = _unitOfWork.ScreenRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Screen Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
                 {
-                    model.CreatedBy = oldData.CreatedBy;
-                    model.CreatedDate = oldData.CreatedDate;
-                    model.UpdatedBy = session.UserInfo.UserId;
+                    model.AddedByUserId = oldData.AddedByUserId;
+                    model.AddedDate = oldData.AddedDate;
+                    model.UpdatedByUserId = session.UserInfo.UserId;
                     model.UpdatedDate = DateTime.UtcNow;
                     _returnId = _unitOfWork.ScreenRepository.Update(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Screen Updated!!") : ReturnMessage.SetErrorMessage();
@@ -154,7 +156,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.SubModuleSectionsRepository.GetAllWithParent(userinfo.OrgId);
+                var data = _unitOfWork.SubModuleSectionsRepository.GetAllWithParent(userinfo.InstituteId);
                 return PartialView("_GetAllSubModuleSections", data);
             }
             catch (Exception)
@@ -174,7 +176,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, userinfo.OrgId);
+                var data = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, userinfo.InstituteId);
 
                 return new JsonResult(data, new JsonSerializerOptions());
             }
@@ -195,10 +197,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, userinfo.OrgId);
+                var oldData = _unitOfWork.SubModuleSectionsRepository.Get(sectionId, userinfo.InstituteId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.SubModuleSectionsRepository.Delete(sectionId, userinfo.OrgId);
+                    _returnId = _unitOfWork.SubModuleSectionsRepository.Delete(sectionId, userinfo.InstituteId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Section Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -225,20 +227,20 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var oldData = _unitOfWork.SubModuleSectionsRepository.Get(model.SectionId, model.OrgId);
+                var oldData = _unitOfWork.SubModuleSectionsRepository.Get(model.SectionId, model.InstituteId);
                 if (oldData == null)
                 {
-                    model.CreatedBy = session.UserInfo.UserId;
-                    model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = userinfo.OrgId;
+                    model.AddedByUserId = session.UserInfo.UserId;
+                    model.AddedDate = DateTime.UtcNow;
+                    model.InstituteId = userinfo.InstituteId;
                     _returnId = _unitOfWork.SubModuleSectionsRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Section Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
                 {
-                    model.CreatedBy = oldData.CreatedBy;
-                    model.CreatedDate = oldData.CreatedDate;
-                    model.UpdatedBy = session.UserInfo.UserId;
+                    model.AddedByUserId = oldData.AddedByUserId;
+                    model.AddedDate = oldData.AddedDate;
+                    model.UpdatedByUserId = session.UserInfo.UserId;
                     model.UpdatedDate = DateTime.UtcNow;
                     _returnId = _unitOfWork.SubModuleSectionsRepository.Update(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Section Updated!!") : ReturnMessage.SetErrorMessage();
@@ -270,7 +272,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.SubModulesRepository.GetAllWithParent(userinfo.OrgId);
+                var data = _unitOfWork.SubModulesRepository.GetAllWithParent(userinfo.InstituteId);
                 return PartialView("_GetAllSubModules", data);
             }
             catch (Exception)
@@ -290,7 +292,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.SubModulesRepository.Get(subModuleId, userinfo.OrgId);
+                var data = _unitOfWork.SubModulesRepository.Get(subModuleId, userinfo.InstituteId);
 
                 return new JsonResult(data, new JsonSerializerOptions());
             }
@@ -311,10 +313,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.SubModulesRepository.Get(subModuleId, userinfo.OrgId);
+                var oldData = _unitOfWork.SubModulesRepository.Get(subModuleId, userinfo.InstituteId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.SubModulesRepository.Delete(subModuleId, userinfo.OrgId);
+                    _returnId = _unitOfWork.SubModulesRepository.Delete(subModuleId, userinfo.InstituteId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -341,20 +343,20 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var oldData = _unitOfWork.SubModulesRepository.Get(model.SubModuleId, model.OrgId);
+                var oldData = _unitOfWork.SubModulesRepository.Get(model.SubModuleId, model.InstituteId);
                 if (oldData == null)
                 {
-                    model.CreatedBy = session.UserInfo.UserId;
-                    model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = userinfo.OrgId;
+                    model.AddedByUserId = session.UserInfo.UserId;
+                    model.AddedDate = DateTime.UtcNow;
+                    model.InstituteId = userinfo.InstituteId;
                     _returnId = _unitOfWork.SubModulesRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
                 {
-                    model.CreatedBy = oldData.CreatedBy;
-                    model.CreatedDate = oldData.CreatedDate;
-                    model.UpdatedBy = session.UserInfo.UserId;
+                    model.AddedByUserId = oldData.AddedByUserId;
+                    model.AddedDate = oldData.AddedDate;
+                    model.UpdatedByUserId = session.UserInfo.UserId;
                     model.UpdatedDate = DateTime.UtcNow;
                     _returnId = _unitOfWork.SubModulesRepository.Update(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Sub Module Updated!!") : ReturnMessage.SetErrorMessage();
@@ -385,7 +387,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ModulesRepository.GetAll(userinfo.OrgId);
+                var data = _unitOfWork.ModulesRepository.GetAll(userinfo.InstituteId);
                 return PartialView("_GetAllModules", data);
             }
             catch (Exception)
@@ -405,7 +407,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ModulesRepository.Get(moduleId, userinfo.OrgId);
+                var data = _unitOfWork.ModulesRepository.Get(moduleId, userinfo.InstituteId);
 
                 return new JsonResult(data, new JsonSerializerOptions());
             }
@@ -426,10 +428,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.ModulesRepository.Get(moduleId, userinfo.OrgId);
+                var oldData = _unitOfWork.ModulesRepository.Get(moduleId, userinfo.InstituteId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.ModulesRepository.Delete(moduleId, userinfo.OrgId);
+                    _returnId = _unitOfWork.ModulesRepository.Delete(moduleId, userinfo.InstituteId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Module Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -456,20 +458,20 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var oldData = _unitOfWork.ModulesRepository.Get(model.ModuleId, model.OrgId);
+                var oldData = _unitOfWork.ModulesRepository.Get(model.ModuleId, model.InstituteId);
                 if (oldData == null)
                 {
-                    model.CreatedBy = session.UserInfo.UserId;
-                    model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = userinfo.OrgId;
+                    model.AddedByUserId = session.UserInfo.UserId;
+                    model.AddedDate = DateTime.UtcNow;
+                    model.InstituteId = userinfo.InstituteId;
                     _returnId = _unitOfWork.ModulesRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Module Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
                 {
-                    model.CreatedBy = oldData.CreatedBy;
-                    model.CreatedDate = oldData.CreatedDate;
-                    model.UpdatedBy = session.UserInfo.UserId;
+                    model.AddedByUserId = oldData.AddedByUserId;
+                    model.AddedDate = oldData.AddedDate;
+                    model.UpdatedByUserId = session.UserInfo.UserId;
                     model.UpdatedDate = DateTime.UtcNow;
                     _returnId = _unitOfWork.ModulesRepository.Update(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Module Updated!!") : ReturnMessage.SetErrorMessage();
@@ -500,7 +502,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.UserRolesRepository.GetAll(userinfo.OrgId);
+                var data = _unitOfWork.UserRolesRepository.GetAll(userinfo.InstituteId);
                 return PartialView("_GetAllUserRoles", data);
             }
             catch (Exception)
@@ -520,7 +522,7 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.UserRolesRepository.Get(roleId, userinfo.OrgId);
+                var data = _unitOfWork.UserRolesRepository.Get(roleId, userinfo.InstituteId);
 
                 return new JsonResult(data, new JsonSerializerOptions ());
             }
@@ -541,10 +543,10 @@ namespace OfficeSolution.Controllers
             try
             {
 
-                var oldData = _unitOfWork.UserRolesRepository.Get(roleId, userinfo.OrgId);
+                var oldData = _unitOfWork.UserRolesRepository.Get(roleId, userinfo.InstituteId);
                 if (oldData != null)
                 {
-                    _returnId = _unitOfWork.UserRolesRepository.Delete(roleId, userinfo.OrgId);
+                    _returnId = _unitOfWork.UserRolesRepository.Delete(roleId, userinfo.InstituteId);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Role Deleted Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
@@ -571,20 +573,20 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var oldData = _unitOfWork.UserRolesRepository.Get(model.RoleId, model.OrgId);
+                var oldData = _unitOfWork.UserRolesRepository.Get(model.RoleId, model.InstituteId);
                 if (oldData == null)
                 {
-                    model.CreatedBy = session.UserInfo.UserId;
-                    model.CreatedDate = DateTime.UtcNow;
-                    model.OrgId = userinfo.OrgId;
+                    model.AddedByUserId = session.UserInfo.UserId;
+                    model.AddedDate = DateTime.UtcNow;
+                    model.InstituteId = userinfo.InstituteId;
                     _returnId = _unitOfWork.UserRolesRepository.Create(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Role Saved Successfully!") : ReturnMessage.SetErrorMessage();
                 }
                 else
                 {
-                    model.CreatedBy = oldData.CreatedBy;
-                    model.CreatedDate = oldData.CreatedDate;
-                    model.UpdatedBy = session.UserInfo.UserId;
+                    model.AddedByUserId = oldData.AddedByUserId;
+                    model.AddedDate = oldData.AddedDate;
+                    model.UpdatedByUserId = session.UserInfo.UserId;
                     model.UpdatedDate = DateTime.UtcNow;
                     _returnId = _unitOfWork.UserRolesRepository.Update(model);
                     _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("User Role Updated!!") : ReturnMessage.SetErrorMessage();

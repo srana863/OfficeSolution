@@ -24,13 +24,13 @@ namespace Layer.Model.HRMS.Security
     
         [PKey]
         public int RoleId { get; set; }
-        public int OrgId { get; set; }
+        public int InstituteId { get; set; }
         public string RoleName { get; set; }
         public string RoleDescription { get; set; }
         public bool IsActive { get; set; }
-        public int CreatedBy { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public Nullable<int> UpdatedBy { get; set; }
+        public int AddedByUserId { get; set; }
+        public System.DateTime AddedDate { get; set; }
+        public Nullable<int> UpdatedByUserId { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

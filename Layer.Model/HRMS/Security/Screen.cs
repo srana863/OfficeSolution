@@ -27,7 +27,7 @@ namespace Layer.Model.HRMS.Security
 
         public string ScreenName { get; set; }
 
-        public int OrgId { get; set; }
+        public int InstituteId { get; set; }
 
         public int ModuleId { get; set; }
 
@@ -46,11 +46,11 @@ namespace Layer.Model.HRMS.Security
         public string Description { get; set; }
         public bool IsActive { get; set; }
 
-        public int CreatedBy { get; set; }
+        public int AddedByUserId { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime AddedDate { get; set; }
 
-        public int? UpdatedBy { get; set; }
+        public int? UpdatedByUserId { get; set; }
 
         public DateTime? UpdatedDate { get; set; }
 

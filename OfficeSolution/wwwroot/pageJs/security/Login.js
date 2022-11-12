@@ -15,13 +15,13 @@
 
     var saveData = function () {
 
-        var username = $("#username");
+        var UserName = $("#UserName");
         var password = $("#password");
 
         $.ajax({
             type: "POST",
             url: "/Home/Login",
-            data: {"username": "' + username.val() + '", "password": "' + password.val() + '" },
+            data: {"UserName": "' + UserName.val() + '", "password": "' + password.val() + '" },
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (r) {

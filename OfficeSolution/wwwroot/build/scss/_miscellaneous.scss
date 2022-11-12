@@ -78,14 +78,14 @@
     width: 40px;
   }
 
-  .username,
+  .UserName,
   .description,
   .comment {
     display: block;
     margin-left: 50px;
   }
 
-  .username {
+  .UserName {
     font-size: 16px;
     font-weight: 600;
     margin-top: -1px;
@@ -103,13 +103,13 @@
       height: $img-size-sm;
     }
 
-    .username,
+    .UserName,
     .description,
     .comment {
       margin-left: 40px;
     }
 
-    .username {
+    .UserName {
       font-size: 14px;
     }
   }

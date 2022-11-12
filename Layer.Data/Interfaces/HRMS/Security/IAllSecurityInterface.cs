@@ -18,25 +18,25 @@ namespace Layer.Data.Interfaces.HRMS.Security
     }
     public interface IRoleWiseScreenPermissionRepository : IGenericRepository<RoleWiseScreenPermission>
     {
-        IEnumerable<RoleWiseScreenPermissionViewModel> GetAllWithParent(int orgId, int roleId, int? moduleId, int? subModuleId);
+        IEnumerable<RoleWiseScreenPermissionViewModel> GetAllWithParent(int InstituteId, int roleId, int? moduleId, int? subModuleId);
     }
     public interface IScreenRepository : IGenericRepository<Screen>
     {
-        IEnumerable<Model.ViewModel.Security.ScreenViewModel> GetAllWithParent(int orgId);
+        IEnumerable<Model.ViewModel.Security.ScreenViewModel> GetAllWithParent(int InstituteId);
     }
     public interface ISubModulesRepository : IGenericRepository<SubModules>
     {
-        IEnumerable<SubModulesViewModel> GetAllWithParent(int orgId);
+        IEnumerable<SubModulesViewModel> GetAllWithParent(int InstituteId);
     }
     public interface ISubModuleSectionsRepository : IGenericRepository<SubModuleSections>
     {
-        IEnumerable<SubModuleSectionsViewModel> GetAllWithParent(int orgId);
+        IEnumerable<SubModuleSectionsViewModel> GetAllWithParent(int InstituteId);
         IEnumerable<SectionViewModel> GetSectionsWithScreen(string actionName, string controllerName,bool home);
         IEnumerable<SectionViewModel> GetSectionsWithScreen(string actionName, string controllerName);
     }
     public interface IUserWiseOtherScreenRepository : IGenericRepository<UserWiseOtherScreen>
     {
-        IEnumerable<UserWiseOtherScreenViewModel> GetAllWithParent(int orgId, int userId, int? moduleId, int? subModuleId);
+        IEnumerable<UserWiseOtherScreenViewModel> GetAllWithParent(int InstituteId, int userId, int? moduleId, int? subModuleId);
     }
 
 }
