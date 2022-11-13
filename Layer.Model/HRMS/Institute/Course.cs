@@ -17,5 +17,7 @@ namespace Layer.Model.HRMS.Institute
         public System.DateTime AddedDate { get; set; }
         public Nullable<int> UpdatedByUserId { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
+
+        //test
     }
 }
