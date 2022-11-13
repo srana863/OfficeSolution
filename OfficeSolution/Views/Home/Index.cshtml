@@ -6,7 +6,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>XYZ University | Home</title>
+    <title>Home</title>
+    <link rel="icon" type="image/png" href="~/Images/world.png">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -14,9 +15,11 @@
     <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
+    
+    
 </head>
 
-<body class="hold-transition layout-top-nav">
+<body class="hold-transition layout-top-nav" style="background-color:aqua;">
     <div class="wrapper">
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -38,7 +41,7 @@
             </div>
         </nav>
         <!-- /.navbar -->
-        <div class="container px-4 px-lg-5">
+        <div class=" px-4 px-lg-5">
             <!-- Heading Row-->
             <div class="row gx-4 gx-lg-5 align-items-center my-5">
                 <div class="col-lg-7"><img class="img-fluid rounded mb-4 mb-lg-0" src="~/images/university.jpg" alt="..." /></div>
@@ -48,18 +51,14 @@
                     <a class="btn btn-primary" href="#!">Call to Action!</a>
                 </div>
             </div>
-            <!-- Call to Action-->
-          @*  <div class="card text-white bg-secondary my-5 py-4 text-center">
-                <div class="card-body">
-                    <p>some text</p>
-                </div>
-            </div>*@
-              
+                      
             <div class="card  my-5 py-4 text-center">
-                <div class="card-title">Our Faculty/Stuff</div>
+                
                 <div class="card-body">
-                    <div id="formDetails">
-                    </div>
+                    <fieldset class="form-group border p-3">
+                        <legend class="w-auto px-2"><span id="homePageTitle">Our Faculty/Stuff</span> </legend>
+                        <div id="formDetails"></div>
+                    </fieldset>
                 </div>
             </div>
 
@@ -125,10 +124,12 @@
         });
 
         function loadProfiles(){
+            $('#homePageTitle').text("Our Faculty/Stuff");
             var url = "/Home/GetFacultyProfiles";
             $("#formDetails").load(url);
         }
         function loadProfileDetails(facultyid) {
+            $('#homePageTitle').text("Our Faculty/Stuff Details");
             var url = "/Home/GetFacultyProfile?facultyid=" + facultyid;
             $("#formDetails").load(url);
         }

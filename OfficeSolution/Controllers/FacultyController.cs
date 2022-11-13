@@ -32,6 +32,7 @@ namespace OfficeSolution.Controllers
         {
             return View();
         }
+        [HttpPost]
         public JsonResult SaveProfileSection(FacultyWiseProfileSectionViewModel model)
         {
             using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
@@ -51,6 +52,7 @@ namespace OfficeSolution.Controllers
                         oldData.FacultyId = model.FacultyId;
                         oldData.ProfileSectionId = model.ProfileSectionId;
                         oldData.ProfileSectionDetails = model.ProfileSectionDetails;
+                        oldData.IsActive = true;
                         oldData.AddedByUserId = userinfo.UserId;
                         oldData.AddedDate = DateTime.UtcNow.Date;
                         isSaved = _unitOfWork.FacultyWiseProfileSectionRepository.Create(oldData);

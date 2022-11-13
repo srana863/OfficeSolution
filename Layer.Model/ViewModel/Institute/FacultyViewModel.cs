@@ -12,6 +12,7 @@ namespace Layer.Model.ViewModel.Institute
         {
             this.FacultyExpertiseAreaViewModel = new HashSet<FacultyExpertiseAreaViewModel>();
             this.FacultyProfessionalInterestViewModel = new HashSet<FacultyProfessionalInterestViewModel>();
+            this.FacultyWiseProfileSectionViewModel = new HashSet<FacultyWiseProfileSectionViewModel>();
         }
         public string DepartmentName { get; set; }
         public string InstituteName { get; set; }
@@ -23,5 +24,6 @@ namespace Layer.Model.ViewModel.Institute
 
         public virtual IEnumerable<FacultyExpertiseAreaViewModel> FacultyExpertiseAreaViewModel { get; set; }
         public virtual IEnumerable<FacultyProfessionalInterestViewModel> FacultyProfessionalInterestViewModel { get; set; }
+        public virtual IEnumerable<FacultyWiseProfileSectionViewModel> FacultyWiseProfileSectionViewModel { get; set; }
     }
 }

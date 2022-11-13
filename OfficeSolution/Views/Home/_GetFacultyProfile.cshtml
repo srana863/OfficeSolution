@@ -1,252 +1,125 @@
-﻿@model Layer.Model.ViewModel.Institute.FacultyViewModel
+﻿@using Layer.Model.ViewModel.Institute
+@model Layer.Model.ViewModel.Institute.FacultyViewModel
+
+@{
+    var profileSection = Model.FacultyWiseProfileSectionViewModel as IEnumerable<FacultyWiseProfileSectionViewModel>;
+    if (profileSection.Any())
+    {
+        profileSection = profileSection.OrderBy(o=>o.ProfileSectionId);
+    }
+    int sl = 0;
+    var hrefId = string.Empty;
+    var tabId = string.Empty;
+    var ariacontrols = string.Empty;
+}
+
 
 @if (Model != null)
 {
     <div class="row">
         <div class="col-lg-12">
 
-            <div class="container emp-profile">
+            <div class="emp-profile">
                 <form method="post">
                     <div class="row">
                         <div class="col-md-12">
                             <a class="btn btn-primary" id="btnBackToList">Back To List</a>
                         </div>
-                        <div class="col-md-4">
+                    </div>
+                    <div class="row" style="border-bottom:groove; margin-bottom:10px;">
+                        <div class="col-md-3">
                             <div class="profile-img img-circle">
                                 <img src="@Url.Content("~/profileimages/"+Model.Image)" alt="" />
                             </div>
-                        </div>
-                        <div class="col-md-6">
                             <br>
-                            <div class="profile-head">
-                                <h5>
+                        </div>
+
+                        <div class="col-md-9">
+                            <br>
+                            <div class="profile-head" style="text-align:left !important;">
+                                <h3>
                                     @Model.FacultyFullName
-                                </h5>
+                                </h3>
                                 <h6>
                                     @Model.DesignationName
                                 </h6>
-                                <p class="proile-rating">@Model.DepartmentName</p>
+                                <h6>@Model.DepartmentName</h6>
+                                <p><i class="fa fa-envelope"></i>&nbsp;&nbsp; <a href="mailto:@Model.Email">@Model.Email</a></p>
+
+                                <p><i class="fa fa-phone"></i>&nbsp;&nbsp; @Model.Mobile</p>
                                 <br>
-                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">About</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Area Of Expertise</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="researchWork-tab" data-toggle="tab" href="#researchWork" role="tab" aria-controls="researchWork" aria-selected="false">Research Work</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
-                                    </li>
-                                </ul>
+
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="profile-work">
-                                <p>WORK LINK</p>
-                                <a href="">Website Link</a><br />
-                                <a href="">Bootsnipp Profile</a><br />
-                                <a href="">Bootply Profile</a>
-                                <p>SKILLS</p>
-                                <a href="">Web Designer</a><br />
-                                <a href="">Web Developer</a><br />
-                                <a href="">WordPress</a><br />
-                                <a href="">WooCommerce</a><br />
-                                <a href="">PHP, .Net</a><br />
-                            </div>
-                        </div>
-                        <div class="col-md-8">
+                        <div class="col-md-12">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                @if (profileSection.Any())
+                                {
+                                    foreach (var item in profileSection)
+                                    {
+                                        sl++;
+                                        tabId = "tab" + item.ProfileSectionId + "-tab";
+                                        hrefId = "#tab" + item.ProfileSectionId;
+                                        ariacontrols = "tab" + item.ProfileSectionId;
+
+                                        if (sl == 1)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="@tabId" data-toggle="tab" href="@hrefId" role="tab" aria-controls="@ariacontrols" aria-selected="true">@item.ProfileSectionTitle</a>
+                                            </li>
+                                        }
+                                        else
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="@tabId" data-toggle="tab" href="@hrefId" role="tab" aria-controls="@ariacontrols" aria-selected="false">@item.ProfileSectionTitle</a>
+                                            </li>
+                                        }
+                                    }
+                                }
+
+                            </ul>
                             <div class="tab-content profile-tab" id="myTabContent">
-                                <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>User Id</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Kshiti123</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Name</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Kshiti Ghelani</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Email</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>kshitighelani@gmail.com</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Phone</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>123 456 7890</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Profession</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Web Developer and Designer</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Experience</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Expert</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Hourly Rate</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>10$/hr</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Total Projects</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>230</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>English Level</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Expert</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Availability</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>6 months</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label>Your Bio</label><br />
-                                            <p>Your detail description</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="researchWork" role="tabpanel" aria-labelledby="researchWork-tab">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Experience</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Expert</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Hourly Rate</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>10$/hr</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Total Projects</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>230</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>English Level</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Expert</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Availability</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>6 months</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label>Your Bio</label><br />
-                                            <p>Your detail description</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Experience</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Expert</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Hourly Rate</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>10$/hr</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Total Projects</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>230</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>English Level</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>Expert</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <label>Availability</label>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <p>6 months</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <label>Your Bio</label><br />
-                                            <p>Your detail description</p>
-                                        </div>
-                                    </div>
-                                </div>
+                                @if (profileSection.Any())
+                                {
+                                    sl = 0;
+
+                                    foreach (var item in profileSection)
+                                    {
+                                        sl++;
+                                        tabId = "tab" + item.ProfileSectionId + "-tab";
+                                        hrefId = "#tab" + item.ProfileSectionId;
+                                        ariacontrols = "tab" + item.ProfileSectionId;
+
+                                        if (sl == 1)
+                                        {
+
+                                            <div class="tab-pane fade show active" id="@ariacontrols" role="tabpanel" aria-labelledby="@hrefId">
+                                                <div class="row">
+                                                    <div style="content:' '"> </div>
+                                                    <div class="col-md-12" style="text-align:left">
+                                                        @Html.Raw(item.ProfileSectionDetails)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="tab-pane fade" id="@ariacontrols" role="tabpanel" aria-labelledby="@hrefId">
+                                                <div class="row">
+                                                    <div style="content:' '"> </div>
+                                                    <div class="col-md-12" style="text-align:left">
+                                                        @Html.Raw(item.ProfileSectionDetails)
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+
+                                    }
+                                }
+
                             </div>
                         </div>
                     </div>

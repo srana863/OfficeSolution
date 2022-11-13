@@ -110,6 +110,9 @@
         var url = "/Faculty/SaveProfileSection";
         ajaxRequest(url, 'POST', model, false, true, function (res) {
             showNotification(res.MessageType, res.Message);
+            if (res.MessageType == '1' || res.MessageType == 'Success') {
+                showHideProfileSection();
+            }
         });
     };
 

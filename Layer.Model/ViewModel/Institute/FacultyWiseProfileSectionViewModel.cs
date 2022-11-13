@@ -8,7 +8,6 @@ namespace Layer.Model.ViewModel.Institute
 {
     public partial class FacultyWiseProfileSectionViewModel: FacultyWiseProfileSection
     {
-        [NotMapped]
         public string ProfileSectionTitle { get; set; }
     }
 }

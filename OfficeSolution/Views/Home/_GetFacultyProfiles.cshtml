@@ -13,18 +13,19 @@
                         <div class="box-body box-profile">
                             <img class="profile-user-img img-responsive img-circle mx-auto d-block" src="@Url.Content("~/profileimages/"+item.Image)" alt="User profile picture">
                             <h3 class="profile-UserName text-center">@item.FacultyFullName</h3>
-                            <p class="text-muted text-center">@item.DesignationName</p>
+                            <p class="text-muted text-center">@item.Education</p>
 
-                            <ul class="list-group list-group-unbordered text-left">
+                            <ul class="list-group list-group-unbordered text-center">
                                 <li class="list-group-item">
-                                    <b>Dept.</b> <a class="pull-right">@item.DepartmentName</a>
+                                    <span><i class="fa fa-briefcase"></i></span> <a class="pull-right">@item.DesignationName</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <span><i class="fa fa-envelope"></i></span> <a class="pull-right">@item.Email</a>
                                 </li>
                                 
-                                <li class="list-group-item">
-                                    <b>Education</b> <a class="pull-right">@item.Education</a>
-                                </li>
+                              
                             </ul>
-                            <button type="button" class="btn btn-primary btn-block btnDetails" data-id="@item.FacultyId"><i class="fa fa-list"></i> Details</button>
+                            <button type="button" class="btn btn-primary btn-block btnDetails" data-id="@item.FacultyId"><i class="fa fa-list"></i> Show More</button>
                         </div><!-- /.box-body -->
                     </div>
                 </div>

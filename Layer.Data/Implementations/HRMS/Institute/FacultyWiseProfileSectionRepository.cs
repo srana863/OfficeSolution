@@ -3,6 +3,7 @@ using Layer.Data.Helpers;
 using Layer.Data.Interfaces.HRMS.Institute;
 using Layer.Model.Common;
 using Layer.Model.HRMS.Institute;
+using Layer.Model.ViewModel.Institute;
 using QueryGenerator;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,15 @@ namespace Layer.Data.Implementations.HRMS.Institute
         {
             var query = CRUD<FacultyWiseProfileSection>.Select(o => o.InstituteId == o.InstituteId);
             return _dbContext._connection.Query<FacultyWiseProfileSection>(query, new { InstituteId = instituteId });
+        }
+
+        public IEnumerable<FacultyWiseProfileSectionViewModel> GetFacultyWiseProfileSectionDetails(int facultyid, int instituteId)
+        {
+            var query = @"SELECT FPS.SL,FPS.FacultyId,FPS.ProfileSectionId,FPS.InstituteId,FPS.ProfileSectionDetails,FPS.IsActive,FPS.AddedByUserId,FPS.AddedDate,FPS.UpdatedByUserId,FPS.UpdatedDate,PS.ProfileSectionTitle
+                FROM Institute.FacultyWiseProfileSection FPS
+                INNER JOIN Institute.ProfileSection PS ON PS.ProfileSectionId=FPS.ProfileSectionId AND PS.InstituteId=FPS.InstituteId
+                WHERE FPS.FacultyId=@FacultyId AND FPS.InstituteId=@InstituteId AND FPS.IsActive=1";
+            return _dbContext._connection.Query<FacultyWiseProfileSectionViewModel>(query, new { FacultyId=facultyid, InstituteId = instituteId });
         }
 
         public FacultyWiseProfileSection GetProfileSectionDetails(int profileSectionId, int facultyId, int instituteId)
