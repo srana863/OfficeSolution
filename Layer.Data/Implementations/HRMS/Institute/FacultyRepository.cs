@@ -52,7 +52,7 @@ namespace Layer.Data.Implementations.HRMS.Institute
             else {
                 id = instituteId;
             }
-            var query = @"SELECT F.FacultyId,F.FirstName,F.MiddleName,F.LastName,F.FacultyFullName,F.DepartmentId,F.InstituteId,F.DesignationId,F.DateOfBirth,F.Gender,F.Education,F.Address,F.Email,F.Mobile,ISNULL(F.Image, (CASE WHEN F.Gender=1 Then 'male.png' When F.Gender=2 then 'female.png' else 'other.png' end) )Image,F.Experience,F.IsActive,F.AddedByUserId,F.AddedDate,F.UpdatedByUserId,F.UpdatedDate, D.DeptName DepartmentName, De.DesignationName
+            var query = @"SELECT F.FacultyId,F.FirstName,F.MiddleName,F.LastName,F.FacultyFullName,F.DepartmentId,F.InstituteId,F.DesignationId,F.DateOfBirth,F.Gender,F.Education,F.Address,F.Email,F.Mobile,ISNULL(F.Image, (CASE WHEN F.Gender=1 Then 'male.png' When F.Gender=2 then 'female.png' else 'other.png' end) )Image,F.Experience, F.About,F.IsActive,F.AddedByUserId,F.AddedDate,F.UpdatedByUserId,F.UpdatedDate, D.DeptName DepartmentName, De.DesignationName
 
 		                FROM Institute.Faculty F
 		                INNER JOIN Institute.Department D ON D.DepartmentId=F.DepartmentId AND D.InstituteId=F.InstituteId
@@ -63,6 +63,26 @@ namespace Layer.Data.Implementations.HRMS.Institute
             {
                 InstituteId = id
             });
+        }
+
+        public FacultyViewModel GetFacultyProfile(int facultyid, int instituteId)
+        {
+            int? id = 0;
+            if (instituteId == 0)
+            {
+                id = null;
+            }
+            else
+            {
+                id = instituteId;
+            }
+            var query = @"SELECT F.FacultyId,F.FirstName,F.MiddleName,F.LastName,F.FacultyFullName,F.DepartmentId,F.InstituteId,F.DesignationId,F.DateOfBirth,F.Gender,F.Education,F.Address,F.Email,F.Mobile,ISNULL(F.Image, (CASE WHEN F.Gender=1 Then 'male.png' When F.Gender=2 then 'female.png' else 'other.png' end) )Image,F.Experience, F.About,F.IsActive,F.AddedByUserId,F.AddedDate,F.UpdatedByUserId,F.UpdatedDate, D.DeptName DepartmentName, De.DesignationName
+
+		                FROM Institute.Faculty F
+		                INNER JOIN Institute.Department D ON D.DepartmentId=F.DepartmentId AND D.InstituteId=F.InstituteId
+		                INNER JOIN Institute.Designation De ON De.DesignationId=F.DesignationId AND De.InstituteId=F.InstituteId
+		                WHERE F.FacultyId=@FacultyId AND F.InstituteId=ISNULL(@InstituteId, F.InstituteId)";
+            return _dbContext._connection.Query<FacultyViewModel>(query, new { FacultyId=facultyid,InstituteId = id }).FirstOrDefault();
         }
 
         public int Update(Faculty entity)

@@ -33,6 +33,7 @@ namespace Layer.Model.HRMS.Institute
         public string Mobile { get; set; }
         public string Image { get; set; }
         public Nullable<decimal> Experience { get; set; }
+        public string About { get; set; }
         public bool IsActive { get; set; }
         public int AddedByUserId { get; set; }
         public System.DateTime AddedDate { get; set; }

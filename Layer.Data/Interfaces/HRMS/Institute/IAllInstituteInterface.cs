@@ -11,6 +11,7 @@ namespace Layer.Data.Interfaces.HRMS.Institute
     public interface IFacultyRepository : IGenericRepository<Faculty>
     {
         IEnumerable<FacultyViewModel> GetAllFaculty(int instituteId);
+        FacultyViewModel GetFacultyProfile(int facultyid, int instituteId);
     }
     public interface IAreaOfExpertiseRepository : IGenericRepository<AreaOfExpertise>
     {
@@ -39,5 +40,13 @@ namespace Layer.Data.Interfaces.HRMS.Institute
     public interface IProfessionalInterestRepository : IGenericRepository<ProfessionalInterest>
     {
     }
+    public interface IFacultyWiseProfileSectionRepository : IGenericRepository<FacultyWiseProfileSection>
+    {
+    }
+    public interface IProfileSectionRepository : IGenericRepository<ProfileSection>
+    {
+    }
+
+    
 
 }

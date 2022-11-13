@@ -1,10 +1,19 @@
 ﻿var Faculty = function () {
+    var ckeditorAddress = "";
+    var ckeditorAbout = "";
+    var ckeditorProfileSection = "";
     var init = function () {
         initialEvent();
         loadFaculty();
         getDepartmentCombo('DepartmentId', true);
         getDesignationCombo('DesignationId', true);
-        getGenderCombo('Gender',true);
+        getGenderCombo('Gender', true);
+        CKEDITOR.replace('Address');
+        CKEDITOR.replace('About');
+        CKEDITOR.replace('ProfileSectionDetails');
+        ckeditorAbout = CKEDITOR.instances['About'];
+        ckeditorAddress = CKEDITOR.instances['Address'];
+        ckeditorProfileSection = CKEDITOR.instances['ProfileSectionDetails'];
     };
     var initialEvent = function () {
 
@@ -16,6 +25,8 @@
             ajaxRequest(url, 'GET', { facultyId: facultyId }, true, false, function (res) {
                 setFormData(res, null);
                 $('#DateOfBirth').val(datefromjsonUS(res.DateOfBirth));
+                 ckeditorAddress.setData(res.Address);
+                 ckeditorAbout.setData(res.About);
             });
         });
         $(document).on('click', '.btnDelete', function () {
@@ -48,6 +59,8 @@
     };
     var resetForm = function () {
         clearFormField();
+        ckeditorAddress.setData("");
+        ckeditorAbout.setData("");
         iValidation.RemoveValidation('frmFaculty');
     };
     var loadFaculty = function () {
@@ -55,8 +68,12 @@
         $("#formDetails").load(url);
     };
     var saveData = function () {
+      
         if (iValidation.Validate('frmFaculty')) {
             var model = getFormData('form-element');
+            model.Address = ckeditorAddress.getData();
+            model.About = ckeditorAbout.getData();
+
             model.IsActive = $('#IsActive').prop("checked");
             var url = "/Faculty/SaveFaculty";
             ajaxRequest(url, 'POST', model, false, true, function (res) {

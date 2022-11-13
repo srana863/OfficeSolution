@@ -132,17 +132,31 @@ namespace OfficeSolution.Controllers
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.ModulesRepository.GetModulesWithSub();
-                return PartialView("_GetFacultyProfile", data);
+                var faViewModel = new FacultyViewModel();
+
+                var facultyExpertiseAreas = Enumerable.Empty<FacultyExpertiseAreaViewModel>();
+                var facultyProfessionalInterests = Enumerable.Empty<FacultyProfessionalInterestViewModel>();
+
+                faViewModel = _unitOfWork.FacultyRepository.GetFacultyProfile(facultyid, userinfo.InstituteId);
+                if (faViewModel != null)
+                {
+                    facultyExpertiseAreas = _unitOfWork.FacultyExpertiseAreaRepository.GetAllFacultyExpertiseArea(faViewModel.FacultyId, faViewModel.InstituteId);
+                    faViewModel.FacultyExpertiseAreaViewModel = facultyExpertiseAreas;
+                    facultyProfessionalInterests = _unitOfWork.FacultyProfessionalInterestRepository.GetAllFacultyProfessionalInterest(faViewModel.FacultyId, faViewModel.InstituteId);
+                    faViewModel.FacultyProfessionalInterestViewModel = facultyProfessionalInterests;
+                }
+
+                return PartialView("_GetFacultyProfile", faViewModel);
             }
             catch (Exception)
             {
-                return PartialView("_GetFacultyProfile", new ModuleViewModel());
+                return PartialView("_GetFacultyProfile", Enumerable.Empty<FacultyViewModel>());
             }
             finally
             {
                 _dbContext.Close();
             }
+
         }
 
         [HttpGet]
@@ -175,7 +189,7 @@ namespace OfficeSolution.Controllers
                         listViewModel.Add(faViewModel);
                     }
 
-                    
+
                 }
                 IEnumerable<FacultyViewModel> res = listViewModel;
 
@@ -190,7 +204,7 @@ namespace OfficeSolution.Controllers
                 _dbContext.Close();
             }
 
-           
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

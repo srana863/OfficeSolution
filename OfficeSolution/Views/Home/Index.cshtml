@@ -49,13 +49,14 @@
                 </div>
             </div>
             <!-- Call to Action-->
-            <div class="card text-white bg-secondary my-5 py-4 text-center">
+          @*  <div class="card text-white bg-secondary my-5 py-4 text-center">
                 <div class="card-body">
                     <p>some text</p>
                 </div>
-            </div>
-            <div class="card my-5 py-4 text-center">
-                <div class="card-title">Our Faculty</div>
+            </div>*@
+              
+            <div class="card  my-5 py-4 text-center">
+                <div class="card-title">Our Faculty/Stuff</div>
                 <div class="card-body">
                     <div id="formDetails">
                     </div>
@@ -112,21 +113,25 @@
     <script src="../../dist/js/adminlte.min.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="../../dist/js/demo.js"></script>
+
     <script>
         $(document).ready(function () {
-            //Module Sub Module show
-            //var url = "/Home/GetModulesWithSub";
-            //$("#formDetails").load(url);
+            loadProfiles();
+            $(document).on('click', '.btnDetails', function () {
+                var facultyid = $(this).data('id');
+                loadProfileDetails(facultyid);
+            });
+            $(document).on('click', '#btnBackToList', loadProfiles);
+        });
 
+        function loadProfiles(){
             var url = "/Home/GetFacultyProfiles";
             $("#formDetails").load(url);
-
-            $(document).on(click, '#searchTxt', function () {
-                $('.contact-name').hide();
-                var txt = $('#search-criteria').val();
-                $('.contact-name:contains("' + txt + '")').show();
-            });
-        });
+        }
+        function loadProfileDetails(facultyid) {
+            var url = "/Home/GetFacultyProfile?facultyid=" + facultyid;
+            $("#formDetails").load(url);
+        }
     </script>
 </body>
 </html>
