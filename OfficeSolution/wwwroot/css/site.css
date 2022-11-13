@@ -9,3 +9,9 @@ label {
 .msg-error {
     color:red;
 }
+
+.table td, .table th {
+    padding: 0.3rem !important;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}

@@ -41,6 +41,12 @@ namespace Layer.Data.Implementations.HRMS.Institute
             return _dbContext._connection.Query<FacultyWiseProfileSection>(query, new { InstituteId = instituteId });
         }
 
+        public FacultyWiseProfileSection GetProfileSectionDetails(int profileSectionId, int facultyId, int instituteId)
+        {
+            var query = CRUD<FacultyWiseProfileSection>.Select(o => o.ProfileSectionId == o.ProfileSectionId && o.FacultyId == o.FacultyId && o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<FacultyWiseProfileSection>(query, new { ProfileSectionId = profileSectionId, FacultyId = facultyId, InstituteId = instituteId }).FirstOrDefault();
+        }
+
         public int Update(FacultyWiseProfileSection entity)
         {
             var query = CRUD<FacultyWiseProfileSection>.Update(o => o.SL == o.SL && o.InstituteId == o.InstituteId);

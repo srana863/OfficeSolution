@@ -32,7 +32,8 @@ namespace Layer.Data.Interfaces.Common
         ICourseRepository CourseRepository { get; }
 
         IAreaOfExpertiseRepository AreaOfExpertiseRepository { get; }
-
+        IFacultyWiseProfileSectionRepository FacultyWiseProfileSectionRepository { get; }
+        IProfileSectionRepository ProfileSectionRepository { get; }
 
     }
 }

@@ -42,11 +42,10 @@ namespace Layer.Data.Interfaces.HRMS.Institute
     }
     public interface IFacultyWiseProfileSectionRepository : IGenericRepository<FacultyWiseProfileSection>
     {
+        FacultyWiseProfileSection GetProfileSectionDetails(int profileSectionId, int facultyId, int instituteId);
     }
     public interface IProfileSectionRepository : IGenericRepository<ProfileSection>
     {
-    }
-
-    
+    }        
 
 }

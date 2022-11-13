@@ -36,6 +36,9 @@ namespace Layer.Data.Implementations
         public ICourseRepository CourseRepository { get; }
         public IAreaOfExpertiseRepository AreaOfExpertiseRepository { get; }
 
+        public IProfileSectionRepository ProfileSectionRepository { get; }
+        public IFacultyWiseProfileSectionRepository FacultyWiseProfileSectionRepository { get; }
+
         public UnitOfWork(DbContext _dbContext)
         {
             UserRolesRepository = new UserRolesRepository(_dbContext);
@@ -55,7 +58,8 @@ namespace Layer.Data.Implementations
             DepartmentRepository = new DepartmentRepository(_dbContext);
             CourseRepository = new CourseRepository(_dbContext);
             AreaOfExpertiseRepository = new AreaOfExpertiseRepository(_dbContext);
-
+            ProfileSectionRepository=new ProfileSectionRepository(_dbContext);
+            FacultyWiseProfileSectionRepository=new FacultyWiseProfileSectionRepository(_dbContext);
 
         }
     }

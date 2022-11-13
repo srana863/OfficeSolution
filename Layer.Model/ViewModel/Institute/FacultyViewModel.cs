@@ -17,6 +17,10 @@ namespace Layer.Model.ViewModel.Institute
         public string InstituteName { get; set; }
         public string DesignationName { get; set; }
 
+        public string ProfileSectionDetails { get; set; }
+        public int ProfileSectionId { get; set; }
+
+
         public virtual IEnumerable<FacultyExpertiseAreaViewModel> FacultyExpertiseAreaViewModel { get; set; }
         public virtual IEnumerable<FacultyProfessionalInterestViewModel> FacultyProfessionalInterestViewModel { get; set; }
     }

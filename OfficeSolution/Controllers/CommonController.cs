@@ -29,6 +29,19 @@ namespace OfficeSolution.Controllers
             });
             return Json(list, new JsonSerializerOptions());
         }
+        public JsonResult GetProfileSectionCombo()
+        {
+            var data = _unitOfWork.ProfileSectionRepository.GetAll(userinfo.InstituteId);
+            if (data != null)
+                data = data.Where(o => o.IsActive).OrderBy(o => o.ProfileSectionTitle);
+            var list = data.Select(o => new SelectListItem
+            {
+                Value = o.ProfileSectionId.ToString(),
+                Text = o.ProfileSectionTitle.ToString()
+            });
+
+            return new JsonResult(list, new JsonSerializerOptions());
+        }
 
         public JsonResult GetDepartmentCombo()
         {

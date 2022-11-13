@@ -1,4 +1,11 @@
 ﻿
+function getProfileSectionCombo(controlId, isDefaultRecordRequired) {
+    var url = '/Common/GetProfileSectionCombo';
+    var data = {
+    };
+    loadCombo(controlId, url, data, isDefaultRecordRequired);
+}
+
 function getGenderCombo(controlId, isDefaultRecordRequired) {
     var url = '/Common/GetGenderCombo';
     var data = {
