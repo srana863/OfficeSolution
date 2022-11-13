@@ -5,6 +5,7 @@
     var init = function () {
         initialEvent();
         loadFaculty();
+        showHideProfileSection();
         getDepartmentCombo('DepartmentId', true);
         getDesignationCombo('DesignationId', true);
         getGenderCombo('Gender', true);
@@ -26,7 +27,8 @@
                 setFormData(res, null);
                 $('#DateOfBirth').val(datefromjsonUS(res.DateOfBirth));
                  ckeditorAddress.setData(res.Address);
-                 ckeditorAbout.setData(res.About);
+                ckeditorAbout.setData(res.About);
+                showHideProfileSection();
             });
         });
         $(document).on('click', '.btnDelete', function () {
@@ -42,6 +44,7 @@
                             showNotification(res.MessageType, res.Message);
                             if (res.MessageType == '1' || res.MessageType == 'Success') {
                                 loadFaculty();
+                                showHideProfileSection();
                             }
                         });
                     },
@@ -57,10 +60,21 @@
             }
         });
     };
+    var showHideProfileSection = function () {
+        var facultyid = $('#FacultyId').val();
+        if (facultyid > 0) {
+            $("#profilesectiondivid").show();
+        } else {
+            $("#profilesectiondivid").hide();
+        }
+        
+
+    };
     var resetForm = function () {
         clearFormField();
         ckeditorAddress.setData("");
         ckeditorAbout.setData("");
+        showHideProfileSection();
         iValidation.RemoveValidation('frmFaculty');
     };
     var loadFaculty = function () {
