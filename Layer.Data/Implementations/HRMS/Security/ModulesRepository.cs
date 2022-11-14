@@ -2,6 +2,7 @@
 using Layer.Data.Helpers;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
+using Layer.Model.HRMS.Institute;
 using Layer.Model.HRMS.Security;
 using Layer.Model.ViewModel.Settings;
 using QueryGenerator;

@@ -2,6 +2,7 @@
 using Layer.Data.Helpers;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
+using Layer.Model.HRMS.Institute;
 using Layer.Model.HRMS.Security;
 using Layer.Model.ViewModel.Security;
 using QueryGenerator;
@@ -58,10 +59,29 @@ namespace Layer.Data.Implementations.HRMS.Security
                 new
                 {
                     InstituteId = InstituteId,
-                    RoleId=roleId,
-                    ModuleId = moduleId>0 ? moduleId : null,
+                    RoleId = roleId,
+                    ModuleId = moduleId > 0 ? moduleId : null,
                     SubModuleId = subModuleId > 0 ? subModuleId : null,
                 });
+        }
+
+        public IEnumerable<RoleWiseScreenPermissionViewModel> GetRoleWiseScreen(int roleId, int moduleId)
+        {
+            var query = @"SELECT RWS.PermissionSL,RWS.RoleId,RWS.InstituteId,RWS.ScreenCode,RWS.CanAdd,RWS.CanModify,RWS.CanView,RWS.IsActive,RWS.AddedByUserId,RWS.AddedDate,RWS.UpdatedByUserId,RWS.UpdatedDate,
+                S.ScreenName,S.ModuleId,S.SubModuleId,S.SectionId,S.ScreenOrder,S.IconName,S.URL,S.ControllerName,S.ActionName,M.ModuleName,SM.SubModuleName,SMS.SectionName,SMS.SectionOrder
+                FROM Security.RoleWiseScreenPermission RWS
+                INNER JOIN Security.Screen S ON S.ScreenCode=RWS.ScreenCode AND S.InstituteId=RWS.InstituteId
+                INNER JOIN Security.SubModuleSections SMS ON SMS.SectionId=S.SectionId AND SMS.InstituteId=RWS.InstituteId
+                INNER JOIN Security.SubModules SM ON SM.SubModuleId=SMS.SubModuleId AND SM.InstituteId=RWS.InstituteId
+                INNER JOIN Security.Modules M ON M.ModuleId=SM.ModuleId AND M.InstituteId=RWS.InstituteId
+                WHERE RWS.RoleId=@RoleId
+                AND M.ModuleId=@ModuleId";
+            return _dbContext._connection.Query<RoleWiseScreenPermissionViewModel>(query,
+            new
+            {
+                RoleId = roleId,
+                ModuleId = moduleId
+            });
         }
 
         public int Update(RoleWiseScreenPermission entity)

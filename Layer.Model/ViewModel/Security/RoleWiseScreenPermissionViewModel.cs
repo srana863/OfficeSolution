@@ -15,5 +15,11 @@ namespace Layer.Model.ViewModel.Security
         public string SectionName { get; set; }
         public string ScreenName { get; set; }
 
+        public string ControllerName { get; set; }
+        public string ActionName { get; set; }
+        public string URL { get; set; }
+        public string IconName { get; set; }
+        public string ScreenOrder { get; set; }
+
     }
 }

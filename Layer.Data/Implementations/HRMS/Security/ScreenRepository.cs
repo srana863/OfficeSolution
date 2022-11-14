@@ -2,6 +2,7 @@
 using Layer.Data.Helpers;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
+using Layer.Model.HRMS.Institute;
 using Layer.Model.HRMS.Security;
 using Layer.Model.ViewModel.Security;
 using QueryGenerator;
@@ -52,6 +53,15 @@ namespace Layer.Data.Implementations.HRMS.Security
                 INNER JOIN Security.Modules M ON M.ModuleId=S.ModuleId AND M.InstituteId=S.InstituteId
                 WHERE S.InstituteId=ISNULL(@InstituteId,S.InstituteId)";
             return _dbContext._connection.Query<ScreenViewModel>(query, new { InstituteId = InstituteId });
+        }
+
+        public Screen GetModuleDetailsByControllerName(string controllerName)
+        {
+            var query = @"SELECT S.ScreenCode,S.ScreenName,S.InstituteId,S.ModuleId,S.SubModuleId,S.SectionId,S.ScreenOrder,S.IconName,S.URL,S.ControllerName,S.ActionName,S.Description,S.IsActive,S.AddedByUserId,S.AddedDate,S.UpdatedByUserId,S.UpdatedDate
+                FROM Security.Screen S
+                WHERE S.IsActive=1
+                AND S.ControllerName=@ControllerName";
+            return _dbContext._connection.Query<Screen>(query, new { ControllerName = controllerName }).FirstOrDefault();
         }
 
         public int Update(Screen entity)

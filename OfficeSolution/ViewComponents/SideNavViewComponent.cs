@@ -1,8 +1,11 @@
 ﻿using Layer.Data.Implementations;
 using Layer.Data.Interfaces.Common;
 using Layer.Model.Common;
+using Layer.Model.ViewModel.Institute;
+using Layer.Model.ViewModel.Security;
 using Layer.Model.ViewModel.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,23 +22,28 @@ namespace OfficeSolution.ViewComponents
             _dbContext = new DbContext(AppSetting.DefaultConnection, "System.Data.SqlClient");
             _unitOfWork = new UnitOfWork(_dbContext);
         }
-        public IViewComponentResult Invoke(string actionName,string controllerName,string homeActionName,string homeControllerName,bool home=false)
+        public IViewComponentResult Invoke(int roleId, string controllerName)
         {
-            _dbContext.Open();
-            IEnumerable<SectionViewModel> res;
-            if (home) {
-                res = _unitOfWork.SubModuleSectionsRepository.GetSectionsWithScreen(actionName, controllerName,home);
+            var data = Enumerable.Empty<RoleWiseScreenPermissionViewModel>();
+            try
+            {
+                _dbContext.Open();
+                var moduleDetails = _unitOfWork.ScreenRepository.GetModuleDetailsByControllerName(controllerName);
+                if (moduleDetails != null)
+                {
+                    data = _unitOfWork.RoleWiseScreenPermissionRepository.GetRoleWiseScreen(roleId, moduleDetails.ModuleId);
+                }
+                
+                return View(data);
             }
-            else { 
-                res = _unitOfWork.SubModuleSectionsRepository.GetSectionsWithScreen(actionName,controllerName);
+            catch (Exception)
+            {
+                return View(data);
             }
-            _dbContext.Close();
-            var sub = new SubModuleViewModel();
-
-            sub.ActionName = homeActionName;
-            sub.ControllerName = homeControllerName;
-
-            return View(new SideNavViewModel {SubModuleViewModel= sub , SectionViewModels=res});
+            finally
+            {
+                _dbContext.Close();
+            }
         }
     }
 }

@@ -1,4 +1,22 @@
-﻿@model Layer.Model.ViewModel.Settings.SideNavViewModel
+﻿@model IEnumerable<Layer.Model.ViewModel.Security.RoleWiseScreenPermissionViewModel>
+
+@{
+    var dashboardData = Model.FirstOrDefault();
+    if(dashboardData==null){
+        dashboardData = new Layer.Model.ViewModel.Security.RoleWiseScreenPermissionViewModel();
+    }
+    var data = Model as IEnumerable<Layer.Model.ViewModel.Security.RoleWiseScreenPermissionViewModel>;
+    if(data==null){
+        data = Enumerable.Empty<Layer.Model.ViewModel.Security.RoleWiseScreenPermissionViewModel>();
+    }
+    var section = data.GroupBy(x => x.SectionId)
+    .Select(r => new Layer.Model.ViewModel.Security.RoleWiseScreenPermissionViewModel() { SectionId = r.Key, SectionName = r.First().SectionName });
+    if (section == null) { 
+        section = Enumerable.Empty<Layer.Model.ViewModel.Security.RoleWiseScreenPermissionViewModel>();
+    }
+    var screen = Enumerable.Empty<Layer.Model.ViewModel.Security.RoleWiseScreenPermissionViewModel>();
+    var iconString = string.Empty;
+}
 <!-- Brand Logo -->
 <a href="index3.html" class="brand-link">
     <img src="~/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
@@ -9,37 +27,43 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <li class="nav-item">
-                    <a href="@Url.Action(Model.SubModuleViewModel.ActionName,Model.SubModuleViewModel.ControllerName)" class="nav-link">
+                    <a href="@Url.Action("Index",dashboardData.ControllerName)" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
                         </p>
                     </a>
                 </li>
-                @if (Model.SectionViewModels.Any())
+                @if (section != null || section.Any())
                 {
-                    foreach (var s in Model.SectionViewModels)
+                    foreach (var s in section)
                     {
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
-                                <p>
-                                    @s.SectionName
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                @foreach (var sc in s.ScreenViewModels)
-                                {
-                                    <li class="nav-item">
-                                        <a href="@sc.URL" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>@sc.ScreenName</p>
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </li>
+                        screen = data.Where(o => o.SectionId == s.SectionId);
+                        @if (screen.Any())
+                        {
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa @iconString"></i>
+                                    <p>
+                                        @screen.FirstOrDefault().SectionName
+                                        <i class="fas fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+
+
+                                    @foreach (var sc in screen)
+                                    {
+                                        <li class="nav-item">
+                                            <a href="@sc.URL" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>@sc.ScreenName</p>
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </li>
+                        }
                     }
                 }
 

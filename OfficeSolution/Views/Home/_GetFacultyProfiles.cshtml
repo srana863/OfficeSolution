@@ -39,23 +39,4 @@
     </div>
 }
 
-@functions {
-    public string GetClass(int serial)
-    {
-        switch (serial % 4)
-        {
-            case 1:
-                return "small-box bg-success";
-            case 2:
-                return "small-box bg-warning";
-            case 3:
-                return "small-box bg-danger";
-            default:
-                return "small-box bg-info";
-        }
-
-    }
-}
-
-
 
