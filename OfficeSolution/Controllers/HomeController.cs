@@ -133,9 +133,6 @@ namespace OfficeSolution.Controllers
             {
                 _dbContext.Open();
                 var faViewModel = new FacultyViewModel();
-
-                //var facultyExpertiseAreas = Enumerable.Empty<FacultyExpertiseAreaViewModel>();
-                //var facultyProfessionalInterests = Enumerable.Empty<FacultyProfessionalInterestViewModel>();
                 var facultyWiseProfileSectionViewModel = Enumerable.Empty<FacultyWiseProfileSectionViewModel>();
 
                 faViewModel = _unitOfWork.FacultyRepository.GetFacultyProfile(facultyid, userinfo.InstituteId);
@@ -146,11 +143,6 @@ namespace OfficeSolution.Controllers
                     {
                         faViewModel.FacultyWiseProfileSectionViewModel = facultyWiseProfileSectionViewModel;
                     }
-
-                    //facultyExpertiseAreas = _unitOfWork.FacultyExpertiseAreaRepository.GetAllFacultyExpertiseArea(faViewModel.FacultyId, faViewModel.InstituteId);
-                    //faViewModel.FacultyExpertiseAreaViewModel = facultyExpertiseAreas;
-                    //facultyProfessionalInterests = _unitOfWork.FacultyProfessionalInterestRepository.GetAllFacultyProfessionalInterest(faViewModel.FacultyId, faViewModel.InstituteId);
-                    //faViewModel.FacultyProfessionalInterestViewModel = facultyProfessionalInterests;
                 }
 
                 return PartialView("_GetFacultyProfile", faViewModel);
