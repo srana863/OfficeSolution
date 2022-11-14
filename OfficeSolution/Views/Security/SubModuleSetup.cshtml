@@ -1,8 +1,15 @@
-﻿@{
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
+@{
+
     ViewBag.Title = "Sub Module Setup";
+    int RoleId = 0;
+}
+@if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
+{
+    RoleId = Int32.Parse(HttpContextAccessor.HttpContext.User.Claims.FirstOrDefault(c => c.Type == "RoleId")?.Value);
 }
 <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidenavmenu">
-    @await Component.InvokeAsync("SideNav", new { actionName = ViewContext.RouteData.Values["Action"], controllerName = ViewContext.RouteData.Values["Controller"], homeActionName = "Index", homeControllerName = "Security", home = false });
+    @await Component.InvokeAsync("SideNav", new { roleId = RoleId, controllerName = ViewContext.RouteData.Values["Controller"] });
 </aside>
 
 <div class="content-wrapper">
