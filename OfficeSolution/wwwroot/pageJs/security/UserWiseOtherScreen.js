@@ -37,13 +37,19 @@
             }
         });
         $(document).on('click', '#AllStatus', function () {
+            alert(this.checked);
+
             if (this.checked) {
-                $('.status:checkbox').each(function () {
-                    this.checked = true;
+                $('#tblOtherPermissionDetails tr').each(function (i) {
+                    if (i > 0) {
+                        $(this).find('td').eq(5).find('input[type="checkbox"]').prop('checked',false);
+                    }
                 });
             } else {
-                $('.status:checkbox').each(function () {
-                    this.checked = false;
+                $('#tblOtherPermissionDetails tr').each(function (i) {
+                    if (i > 0) {
+                        $(this).find('td').eq(5).find('input[type="checkbox"]').prop('checked', true);
+                    }
                 });
             }
         });
@@ -114,7 +120,7 @@
             var subModuleName = $('#SubModuleId option:selected').html();
             var screenName = $('#ScreenCode option:selected').html();
             var isExist = 0;
-            $('#tblPermissionDetails>tbody tr').each(function () {
+            $('#tblOtherPermissionDetails>tbody tr').each(function () {
                 $projectName = $(this).find('td:eq(4)').text();
                
                 var chk = $(this).attr('class');
@@ -146,7 +152,7 @@
                 tr += "<td style='align-content:center'> <button type='button' class='btn btn-danger btn-sm btnDelete' data-nsid='0' data-id=" + permissionSL + "><i class='fa fa-trash'></i> Delete </button></td>";
                 tr += "</tr>";
 
-                $("#tblPermissionDetails > tbody").append(tr);
+                $("#tblOtherPermissionDetails > tbody").append(tr);
 
                 newId++;
 
@@ -180,7 +186,7 @@
         var permissionData = new Object();
         var userId = $("#UserId").val();
         if (userId > 0) {
-            $('#tblPermissionDetails>tbody tr').each(function (i) {
+            $('#tblOtherPermissionDetails>tbody tr').each(function (i) {
                 permissionData = new Object();
                 permissionData.UserId = userId;
                 permissionData.SL = $(this).find('td').eq(0).find('input').val().trim();
