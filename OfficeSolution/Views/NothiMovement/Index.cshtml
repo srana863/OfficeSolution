@@ -12,3 +12,317 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" id="sidenavmenu">
     @await Component.InvokeAsync("SideNav", new { roleId = RoleId, controllerName = ViewContext.RouteData.Values["Controller"] });
 </aside>
+
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Nothi Movement</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/Security">Security</a></li>
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="card card-cyan">
+                <div class="card-body">
+                    <div class="row col-lg-12">
+                        <div class="col-md-6">
+                            <div class="card card-danger" style="border-right:dotted;">
+                                <div class="card-body">
+                                    <canvas id="line-chart" width="800" height="450"></canvas>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-danger">
+                                <div class="card-body">
+                                    <canvas id="polar-chart" width="800" height="450"></canvas>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row col-lg-12">
+                        <div class="col-md-6">
+                            <div class="card card-danger">
+                                <div class="card-body">
+                                    <canvas id="doughnut-chart" width="800" height="450"></canvas>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card card-danger" style="border-right:dotted;">
+                                <div class="card-body">
+                                    <canvas id="bar-chart-horizontal" width="800" height="450"></canvas>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+
+
+
+@section Scripts {
+    @* <script src="~/Jquery/PageJs/Dashboard.js"></script>*@
+    @* <script type="text/javascript">
+        var myCategoryWiseChart;
+        var myCategoryWiseChart2;
+        $(document).ready(function () {
+            //loadFiscalYearCombo('FiscalYearId', true);
+            locationLableChange();
+            $(document).on('change', "#FiscalYearId, #AreaOrDivisionId", function (e) {
+                loadChart();
+            });
+            $(document).on('change', "input[name='rdoLocation']", function (e) {
+                locationLableChange();
+                loadChart();
+            });
+            loadChart();
+
+        });
+        function loadChart() {
+            categoryWiseDevice();
+        };
+        function locationLableChange() {
+
+            var locVal = $("input[name='rdoLocation']:checked").val();
+            $('#AreaOrDivisionId').select2("val", "");
+            if (locVal == 0) {
+                $('#lblAreaOrDivisionId').text('All');
+            }
+            else if (locVal == 1) {
+                $('#lblAreaOrDivisionId').text('Division Name');
+                loadEmployeeDivisionCombo('AreaOrDivisionId', true);
+            }
+            else {
+                $('#lblAreaOrDivisionId').text('Branch Name');
+                loadAreaCombo('AreaOrDivisionId', true);
+            }
+        };
+        function categoryWiseDevice() {
+            var areaOrDivisionId = $('#AreaOrDivisionId').val();
+            var fiscalYearId = $('#FiscalYearId').val();
+            var locationId = $('input[name="rdoLocation"]:checked').val();
+            var chartLabel = [];
+            var chartData = [];
+            var chartColor = [];
+            $('#showCategoryWiseCountChartData').html("");
+            $('#bar-chart').html("");
+
+            var url = "/Common/GetCategoryWiseCountChartData";
+            ajaxRequest(url, 'POST', { fiscalYearId: fiscalYearId, locationId: locationId, areaOrBranchId: areaOrDivisionId }, true, false, function (res) {
+                if (res) {
+                    $.each(res, function (i, item) {
+                        chartLabel.push(item.CategoryName);
+                        chartData.push(item.CategoryNumber);
+                        chartColor.push(item.ColorCode);
+                    });
+
+                    if (myCategoryWiseChart) {
+                        myCategoryWiseChart.destroy();
+                    }
+                    myCategoryWiseChart = new Chart(document.getElementById("showCategoryWiseCountChartData"), {
+                        type: 'pie',
+                        data: {
+                            labels: chartLabel,
+                            datasets: [{
+                                label: chartLabel,
+                                backgroundColor: chartColor,
+                                data: chartData
+                            }]
+                        },
+                        options: {
+                            title: {
+                                display: true,
+                                text: 'Category Wise Device Number'
+                            },
+                            onClick: graphClickEvent
+                        }
+                    });
+
+                    if (myCategoryWiseChart2) {
+                        myCategoryWiseChart2.destroy();
+                    }
+                    myCategoryWiseChart2 = new Chart(document.getElementById("bar-chart"), {
+                        type: 'bar',
+                        data: {
+                            labels: chartLabel,
+                            datasets: [
+                                {
+                                    label: chartLabel,
+                                    backgroundColor: chartColor,
+                                    data: chartData
+                                }
+                            ]
+                        },
+                        options: {
+                            legend: { display: false },
+                            title: {
+                                display: true,
+                                text: 'Category Wise Device Number'
+                            }
+                        }
+                    });
+                }
+            });
+
+
+
+        };
+        function graphClickEvent(e, items) {
+            var firstPoint = this.getElementAtEvent(e)[0];
+            var url = "/Common/GetDeviceCategoryDetails";
+            $('#lblTitle').text('Category Wise Device Number');
+            if (firstPoint) {
+                var label = firstPoint._model.label;
+                $('#dashboardModal').modal('show');
+                ReportData(url, label);
+            }
+        }
+
+        function ReportData(url, label) {
+            $("#tblDashboardModalData").html('');
+            var locationId = $('input[name="rdoLocation"]:checked').val();
+            var fiscalYearId = $('#FiscalYearId').val();
+            var areaOrDivisionId = $('#AreaOrDivisionId').val();
+            var url = url + "?searchTxt=" + label + "&locationId=" + locationId + "&fiscalYearId=" + fiscalYearId + "&areaOrDivisionId=" + areaOrDivisionId;
+            $("#tblDashboardModalData").load(url);
+        }
+
+    </script>*@
+    <script>
+        $(function () {
+            // Bar chart
+
+
+            new Chart(document.getElementById("line-chart"), {
+                type: 'line',
+                data: {
+                    labels: [1500, 1600, 1700, 1750, 1800, 1850, 1900, 1950, 1999, 2050],
+                    datasets: [{
+                        data: [86, 114, 106, 106, 107, 111, 133, 221, 783, 2478],
+                        label: "Africa",
+                        borderColor: "#3e95cd",
+                        fill: false
+                    }, {
+                        data: [282, 350, 411, 502, 635, 809, 947, 1402, 3700, 5267],
+                        label: "Asia",
+                        borderColor: "#8e5ea2",
+                        fill: false
+                    }, {
+                        data: [168, 170, 178, 190, 203, 276, 408, 547, 675, 734],
+                        label: "Europe",
+                        borderColor: "#3cba9f",
+                        fill: false
+                    }, {
+                        data: [40, 20, 10, 16, 24, 38, 74, 167, 508, 784],
+                        label: "Latin America",
+                        borderColor: "#e8c3b9",
+                        fill: false
+                    }, {
+                        data: [6, 3, 2, 2, 7, 26, 82, 172, 312, 433],
+                        label: "North America",
+                        borderColor: "#c45850",
+                        fill: false
+                    }
+                    ]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'World population per region (in millions)'
+                    }
+                }
+            });
+
+
+
+
+            new Chart(document.getElementById("polar-chart"), {
+                type: 'polarArea',
+                data: {
+                    labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+                    datasets: [
+                        {
+                            label: "Population (millions)",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                            data: [2478, 5267, 734, 784, 433]
+                        }
+                    ]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Predicted world population (millions) in 2050'
+                    }
+                }
+            });
+
+
+            new Chart(document.getElementById("doughnut-chart"), {
+                type: 'doughnut',
+                data: {
+                    labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+                    datasets: [
+                        {
+                            label: "Population (millions)",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                            data: [2478, 5267, 734, 784, 433]
+                        }
+                    ]
+                },
+                options: {
+                    title: {
+                        display: true,
+                        text: 'Predicted world population (millions) in 2050'
+                    }
+                }
+            });
+
+            new Chart(document.getElementById("bar-chart-horizontal"), {
+                type: 'horizontalBar',
+                data: {
+                    labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
+                    datasets: [
+                        {
+                            label: "Population (millions)",
+                            backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                            data: [2478, 5267, 734, 784, 433]
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        display: true,
+                        text: 'Predicted world population (millions) in 2050'
+                    }
+                }
+            });
+
+        });
+    </script>
+}
