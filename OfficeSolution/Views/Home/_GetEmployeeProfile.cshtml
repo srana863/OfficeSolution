@@ -1,8 +1,8 @@
 ﻿@using Layer.Model.ViewModel.Institute
-@model Layer.Model.ViewModel.Institute.FacultyViewModel
+@model Layer.Model.ViewModel.Institute.EmployeeViewModel
 
 @{
-    var profileSection = Model.FacultyWiseProfileSectionViewModel as IEnumerable<FacultyWiseProfileSectionViewModel>;
+    var profileSection = Model.EmployeeWiseProfileSectionViewModel as IEnumerable<EmployeeWiseProfileSectionViewModel>;
     if (profileSection.Any())
     {
         profileSection = profileSection.OrderBy(o=>o.ProfileSectionId);
@@ -38,7 +38,7 @@
                             <br>
                             <div class="profile-head" style="text-align:left !important;">
                                 <h3>
-                                    @Model.FacultyFullName
+                                    @Model.EmployeeFullName
                                 </h3>
                                 <h6>
                                     @Model.DesignationName

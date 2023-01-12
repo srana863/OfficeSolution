@@ -24,15 +24,15 @@ namespace Layer.Data.Interfaces.Common
         IProfessionalInterestRepository ProfessionalInterestRepository { get; }
 
         IInstituteRepository InstituteRepository { get; }
-        IFacultyRepository FacultyRepository { get; }
-        IFacultyProfessionalInterestRepository FacultyProfessionalInterestRepository { get; }
-        IFacultyExpertiseAreaRepository FacultyExpertiseAreaRepository { get; }
+        IEmployeeRepository EmployeeRepository { get; }
+        IEmployeeProfessionalInterestRepository EmployeeProfessionalInterestRepository { get; }
+        IEmployeeExpertiseAreaRepository EmployeeExpertiseAreaRepository { get; }
         IDesignationRepository DesignationRepository { get; }
         IDepartmentRepository DepartmentRepository { get; }
         ICourseRepository CourseRepository { get; }
 
         IAreaOfExpertiseRepository AreaOfExpertiseRepository { get; }
-        IFacultyWiseProfileSectionRepository FacultyWiseProfileSectionRepository { get; }
+        IEmployeeWiseProfileSectionRepository EmployeeWiseProfileSectionRepository { get; }
         IProfileSectionRepository ProfileSectionRepository { get; }
 
     }

@@ -56,7 +56,7 @@ namespace Layer.Model.Enums
     {
         SuperAdmin = 1,
         Admin = 2,
-        Faculty = 3,
+        Employee = 3,
         User = 4
     }
     public enum InventoryLocation

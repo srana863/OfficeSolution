@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Layer.Model.ViewModel.Institute
 {
-    public partial class FacultyExpertiseAreaViewModel: FacultyExpertiseArea
+    public partial class EmployeeExpertiseAreaViewModel: EmployeeExpertiseArea
     {
         public string ExpertiseTitle { get; set; }
         public string ExpertiseDetails { get; set; }

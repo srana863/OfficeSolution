@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Layer.Model.ViewModel.Institute.FacultyViewModel>
+﻿@model IEnumerable<Layer.Model.ViewModel.Institute.EmployeeViewModel>
 @{
     int sl = 0;
     <div class="row">
@@ -12,7 +12,7 @@
                     <div class="box box-primary rounded border border-primary" style="margin-bottom:10px;">
                         <div class="box-body box-profile">
                             <img class="profile-user-img img-responsive img-circle mx-auto d-block" src="@Url.Content("~/profileimages/"+item.Image)" alt="User profile picture">
-                            <h3 class="profile-UserName text-center">@item.FacultyFullName</h3>
+                            <h3 class="profile-UserName text-center">@item.EmployeeFullName</h3>
                             <p class="text-muted text-center">@item.Education</p>
 
                             <ul class="list-group list-group-unbordered text-center">
@@ -25,7 +25,7 @@
                                 
                               
                             </ul>
-                            <button type="button" class="btn btn-primary btn-block btnDetails" data-id="@item.FacultyId"><i class="fa fa-list"></i> Show More</button>
+                            <button type="button" class="btn btn-primary btn-block btnDetails" data-id="@item.EmployeeId"><i class="fa fa-list"></i> Show More</button>
                         </div><!-- /.box-body -->
                     </div>
                 </div>

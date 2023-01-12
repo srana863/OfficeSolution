@@ -8,10 +8,10 @@ using System.Text;
 
 namespace Layer.Data.Interfaces.HRMS.Institute
 {
-    public interface IFacultyRepository : IGenericRepository<Faculty>
+    public interface IEmployeeRepository : IGenericRepository<Employee>
     {
-        IEnumerable<FacultyViewModel> GetAllFaculty(int instituteId);
-        FacultyViewModel GetFacultyProfile(int facultyid, int instituteId);
+        IEnumerable<EmployeeViewModel> GetAllEmployee(int instituteId);
+        EmployeeViewModel GetEmployeeProfile(int EmployeeId, int instituteId);
     }
     public interface IAreaOfExpertiseRepository : IGenericRepository<AreaOfExpertise>
     {
@@ -25,13 +25,13 @@ namespace Layer.Data.Interfaces.HRMS.Institute
     public interface IDesignationRepository : IGenericRepository<Designation>
     {
     }
-    public interface IFacultyExpertiseAreaRepository : IGenericRepository<FacultyExpertiseArea>
+    public interface IEmployeeExpertiseAreaRepository : IGenericRepository<EmployeeExpertiseArea>
     {
-        IEnumerable<FacultyExpertiseAreaViewModel> GetAllFacultyExpertiseArea(int facultyId, int instituteId);
+        IEnumerable<EmployeeExpertiseAreaViewModel> GetAllEmployeeExpertiseArea(int EmployeeId, int instituteId);
     }
-    public interface IFacultyProfessionalInterestRepository : IGenericRepository<FacultyProfessionalInterest>
+    public interface IEmployeeProfessionalInterestRepository : IGenericRepository<EmployeeProfessionalInterest>
     {
-        IEnumerable<FacultyProfessionalInterestViewModel> GetAllFacultyProfessionalInterest(int facultyId, int instituteId);
+        IEnumerable<EmployeeProfessionalInterestViewModel> GetAllEmployeeProfessionalInterest(int EmployeeId, int instituteId);
         
     }
     public interface IInstituteRepository : IGenericRepository<Institutes>
@@ -40,10 +40,10 @@ namespace Layer.Data.Interfaces.HRMS.Institute
     public interface IProfessionalInterestRepository : IGenericRepository<ProfessionalInterest>
     {
     }
-    public interface IFacultyWiseProfileSectionRepository : IGenericRepository<FacultyWiseProfileSection>
+    public interface IEmployeeWiseProfileSectionRepository : IGenericRepository<EmployeeWiseProfileSection>
     {
-        IEnumerable<FacultyWiseProfileSectionViewModel> GetFacultyWiseProfileSectionDetails(int facultyid, int instituteId);
-        FacultyWiseProfileSection GetProfileSectionDetails(int profileSectionId, int facultyId, int instituteId);
+        IEnumerable<EmployeeWiseProfileSectionViewModel> GetEmployeeWiseProfileSectionDetails(int EmployeeId, int instituteId);
+        EmployeeWiseProfileSection GetProfileSectionDetails(int profileSectionId, int EmployeeId, int instituteId);
     }
     public interface IProfileSectionRepository : IGenericRepository<ProfileSection>
     {

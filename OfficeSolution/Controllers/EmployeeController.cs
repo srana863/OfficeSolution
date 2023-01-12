@@ -16,10 +16,10 @@ using System.Reflection;
 namespace OfficeSolution.Controllers
 {
     [Authorize]
-    public class FacultyController : BaseController
+    public class EmployeeController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
-        public FacultyController()
+        public EmployeeController()
         {
             _unitOfWork = new UnitOfWork(_dbContext);
         }
@@ -28,12 +28,12 @@ namespace OfficeSolution.Controllers
             return View();
         }
 
-        public IActionResult AddFaculty()
+        public IActionResult AddEmployee()
         {
             return View();
         }
         [HttpPost]
-        public JsonResult SaveProfileSection(FacultyWiseProfileSectionViewModel model)
+        public JsonResult SaveProfileSection(EmployeeWiseProfileSectionViewModel model)
         {
             using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
@@ -41,21 +41,21 @@ namespace OfficeSolution.Controllers
                 {
                     _dbContext.Open();
                     var isSaved = 0;
-                    var oldData = new FacultyWiseProfileSection();
+                    var oldData = new EmployeeWiseProfileSection();
 
-                    oldData = _unitOfWork.FacultyWiseProfileSectionRepository.GetProfileSectionDetails(model.ProfileSectionId, model.FacultyId, userinfo.InstituteId);
+                    oldData = _unitOfWork.EmployeeWiseProfileSectionRepository.GetProfileSectionDetails(model.ProfileSectionId, model.EmployeeId, userinfo.InstituteId);
                     if (oldData == null)
                     {
-                        oldData = new FacultyWiseProfileSection();
+                        oldData = new EmployeeWiseProfileSection();
 
                         oldData.InstituteId = userinfo.InstituteId;
-                        oldData.FacultyId = model.FacultyId;
+                        oldData.EmployeeId = model.EmployeeId;
                         oldData.ProfileSectionId = model.ProfileSectionId;
                         oldData.ProfileSectionDetails = model.ProfileSectionDetails;
                         oldData.IsActive = true;
                         oldData.AddedByUserId = userinfo.UserId;
                         oldData.AddedDate = DateTime.UtcNow.Date;
-                        isSaved = _unitOfWork.FacultyWiseProfileSectionRepository.Create(oldData);
+                        isSaved = _unitOfWork.EmployeeWiseProfileSectionRepository.Create(oldData);
                         _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Profile section saved successfully") : ReturnMessage.SetErrorMessage("Failed to save profile section!");
                     }
                     else
@@ -64,7 +64,7 @@ namespace OfficeSolution.Controllers
                         oldData.ProfileSectionDetails = model.ProfileSectionDetails;
                         oldData.UpdatedByUserId = userinfo.UserId;
                         oldData.UpdatedDate = DateTime.UtcNow;
-                        isSaved = _unitOfWork.FacultyWiseProfileSectionRepository.Update(oldData);
+                        isSaved = _unitOfWork.EmployeeWiseProfileSectionRepository.Update(oldData);
 
                         _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Profile section updated successfully") : ReturnMessage.SetErrorMessage("Failed to update profile section!");
 
@@ -92,7 +92,7 @@ namespace OfficeSolution.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveFaculty(FacultyViewModel model)
+        public JsonResult SaveEmployee(EmployeeViewModel model)
         {
             using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
@@ -101,12 +101,12 @@ namespace OfficeSolution.Controllers
                     _dbContext.Open();
                     var isSaved = 0;
                     var isSavedPartial = 0;
-                    var oldData = new Faculty();
+                    var oldData = new Employee();
 
-                    oldData = _unitOfWork.FacultyRepository.Get(model.FacultyId, userinfo.InstituteId);
+                    oldData = _unitOfWork.EmployeeRepository.Get(model.EmployeeId, userinfo.InstituteId);
                     if (oldData == null)
                     {
-                        oldData = new Faculty
+                        oldData = new Employee
                         {
                             Email = model.Email,
                             About = model.About,
@@ -118,7 +118,7 @@ namespace OfficeSolution.Controllers
                             DesignationId = model.DesignationId,
                             Education = model.Education,
                             Experience = model.Experience,
-                            FacultyFullName = model.FacultyFullName,
+                            EmployeeFullName = model.EmployeeFullName,
                             FirstName = model.FirstName,
                             Gender = model.Gender,
                             Image = model.Image,
@@ -126,14 +126,16 @@ namespace OfficeSolution.Controllers
                             IsActive = model.IsActive,
                             LastName = model.LastName,
                             MiddleName = model.MiddleName,
-                            Mobile = model.Mobile
+                            Mobile = model.Mobile,
+                            IsOfficeHead=model.IsOfficeHead,
+                            PAOfDeptHead=model.PAOfDeptHead
                         };
-                        isSaved = _unitOfWork.FacultyRepository.Create(oldData);
+                        isSaved = _unitOfWork.EmployeeRepository.Create(oldData);
                         _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Data saved successfully") : ReturnMessage.SetErrorMessage("Failed to save!");
                     }
                     else
                     {
-                        oldData = new Faculty
+                        oldData = new Employee
                         {
                             Email = model.Email,
                             About = model.About,
@@ -145,7 +147,7 @@ namespace OfficeSolution.Controllers
                             DesignationId = model.DesignationId,
                             Education = model.Education,
                             Experience = model.Experience,
-                            FacultyFullName = model.FacultyFullName,
+                            EmployeeFullName = model.EmployeeFullName,
                             FirstName = model.FirstName,
                             Gender = model.Gender,
                             Image = model.Image,
@@ -156,10 +158,12 @@ namespace OfficeSolution.Controllers
                             Mobile = model.Mobile,
                             UpdatedByUserId = userinfo.UserId,
                             UpdatedDate = DateTime.UtcNow,
-                            FacultyId = oldData.FacultyId
+                            EmployeeId = oldData.EmployeeId,
+                            IsOfficeHead = model.IsOfficeHead,
+                            PAOfDeptHead = model.PAOfDeptHead
 
                         };
-                        isSaved = _unitOfWork.FacultyRepository.Update(oldData);
+                        isSaved = _unitOfWork.EmployeeRepository.Update(oldData);
 
                         _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Data updated successfully") : ReturnMessage.SetErrorMessage("Failed to update!");
 
@@ -169,27 +173,27 @@ namespace OfficeSolution.Controllers
 
                     if (isSaved > 0)
                     {
-                        var profileSection = new FacultyWiseProfileSection();
+                        var profileSection = new EmployeeWiseProfileSection();
 
-                        profileSection = _unitOfWork.FacultyWiseProfileSectionRepository.GetProfileSectionDetails(model.ProfileSectionId, model.FacultyId, userinfo.InstituteId);
+                        profileSection = _unitOfWork.EmployeeWiseProfileSectionRepository.GetProfileSectionDetails(model.ProfileSectionId, model.EmployeeId, userinfo.InstituteId);
                         if (profileSection == null)
                         {
-                            profileSection = new FacultyWiseProfileSection();
+                            profileSection = new EmployeeWiseProfileSection();
 
                             profileSection.InstituteId = userinfo.InstituteId;
-                            profileSection.FacultyId = model.FacultyId;
+                            profileSection.EmployeeId = model.EmployeeId;
                             profileSection.ProfileSectionId = model.ProfileSectionId;
                             profileSection.ProfileSectionDetails = model.ProfileSectionDetails;
                             profileSection.AddedByUserId = userinfo.UserId;
                             profileSection.AddedDate = DateTime.UtcNow.Date;
-                            isSavedPartial = _unitOfWork.FacultyWiseProfileSectionRepository.Create(profileSection);
+                            isSavedPartial = _unitOfWork.EmployeeWiseProfileSectionRepository.Create(profileSection);
                         }
                         else
                         {
                             profileSection.ProfileSectionDetails = model.ProfileSectionDetails;
                             profileSection.UpdatedByUserId = userinfo.UserId;
                             profileSection.UpdatedDate = DateTime.UtcNow.Date;
-                            isSavedPartial = _unitOfWork.FacultyWiseProfileSectionRepository.Update(profileSection);
+                            isSavedPartial = _unitOfWork.EmployeeWiseProfileSectionRepository.Update(profileSection);
 
                         }
                     }
@@ -214,13 +218,13 @@ namespace OfficeSolution.Controllers
             }
         }
 
-        public JsonResult GetProfileSectionDetails(int profileSectionId, int facultyId)
+        public JsonResult GetProfileSectionDetails(int profileSectionId, int EmployeeId)
         {
-            var data = new FacultyWiseProfileSection();
+            var data = new EmployeeWiseProfileSection();
             try
             {
                 _dbContext.Open();
-                data = _unitOfWork.FacultyWiseProfileSectionRepository.GetProfileSectionDetails(profileSectionId, facultyId, userinfo.InstituteId);
+                data = _unitOfWork.EmployeeWiseProfileSectionRepository.GetProfileSectionDetails(profileSectionId, EmployeeId, userinfo.InstituteId);
                 return new JsonResult(data, new JsonSerializerOptions());
             }
             catch (Exception)
@@ -235,17 +239,17 @@ namespace OfficeSolution.Controllers
 
 
         [HttpGet]
-        public IActionResult GetAllFaculty()
+        public IActionResult GetAllEmployee()
         {
             try
             {
                 _dbContext.Open();
-                var data = _unitOfWork.FacultyRepository.GetAllFaculty(userinfo.InstituteId);
-                return PartialView("_GetAllFaculty", data);
+                var data = _unitOfWork.EmployeeRepository.GetAllEmployee(userinfo.InstituteId);
+                return PartialView("_GetAllEmployee", data);
             }
             catch (Exception)
             {
-                return PartialView("_GetAllFaculty", Enumerable.Empty<FacultyViewModel>());
+                return PartialView("_GetAllEmployee", Enumerable.Empty<EmployeeViewModel>());
             }
             finally
             {
@@ -254,13 +258,13 @@ namespace OfficeSolution.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetFaculty(int facultyId)
+        public JsonResult GetEmployee(int EmployeeId)
         {
-            var data = new Faculty();
+            var data = new Employee();
             try
             {
                 _dbContext.Open();
-                data = _unitOfWork.FacultyRepository.Get(facultyId, userinfo.InstituteId);
+                data = _unitOfWork.EmployeeRepository.Get(EmployeeId, userinfo.InstituteId);
                 return new JsonResult(data, new JsonSerializerOptions());
             }
             catch (Exception)

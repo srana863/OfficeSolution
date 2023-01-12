@@ -28,16 +28,16 @@ namespace Layer.Data.Implementations
         public IUserRepository UserRepository { get; }
         public IProfessionalInterestRepository ProfessionalInterestRepository { get; }
         public IInstituteRepository InstituteRepository { get; }
-        public IFacultyRepository FacultyRepository { get; }
-        public IFacultyProfessionalInterestRepository FacultyProfessionalInterestRepository { get; }
-        public IFacultyExpertiseAreaRepository FacultyExpertiseAreaRepository { get; }
+        public IEmployeeRepository EmployeeRepository { get; }
+        public IEmployeeProfessionalInterestRepository EmployeeProfessionalInterestRepository { get; }
+        public IEmployeeExpertiseAreaRepository EmployeeExpertiseAreaRepository { get; }
         public IDesignationRepository DesignationRepository { get; }
         public IDepartmentRepository DepartmentRepository { get; }
         public ICourseRepository CourseRepository { get; }
         public IAreaOfExpertiseRepository AreaOfExpertiseRepository { get; }
 
         public IProfileSectionRepository ProfileSectionRepository { get; }
-        public IFacultyWiseProfileSectionRepository FacultyWiseProfileSectionRepository { get; }
+        public IEmployeeWiseProfileSectionRepository EmployeeWiseProfileSectionRepository { get; }
 
         public UnitOfWork(DbContext _dbContext)
         {
@@ -51,15 +51,15 @@ namespace Layer.Data.Implementations
             UserRepository = new UserRepository(_dbContext);
             ProfessionalInterestRepository = new ProfessionalInterestRepository(_dbContext);
             InstituteRepository = new InstituteRepository(_dbContext);
-            FacultyRepository = new FacultyRepository(_dbContext);
-            FacultyProfessionalInterestRepository = new FacultyProfessionalInterestRepository(_dbContext);
-            FacultyExpertiseAreaRepository = new FacultyExpertiseAreaRepository(_dbContext);
+            EmployeeRepository = new EmployeeRepository(_dbContext);
+            EmployeeProfessionalInterestRepository = new EmployeeProfessionalInterestRepository(_dbContext);
+            EmployeeExpertiseAreaRepository = new EmployeeExpertiseAreaRepository(_dbContext);
             DesignationRepository = new DesignationRepository(_dbContext);
             DepartmentRepository = new DepartmentRepository(_dbContext);
             CourseRepository = new CourseRepository(_dbContext);
             AreaOfExpertiseRepository = new AreaOfExpertiseRepository(_dbContext);
             ProfileSectionRepository=new ProfileSectionRepository(_dbContext);
-            FacultyWiseProfileSectionRepository=new FacultyWiseProfileSectionRepository(_dbContext);
+            EmployeeWiseProfileSectionRepository=new EmployeeWiseProfileSectionRepository(_dbContext);
 
         }
     }

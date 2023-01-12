@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-     
+
     <link rel="stylesheet" href="~/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="~/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
     <link rel="stylesheet" href="~/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
@@ -65,11 +65,25 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Admin</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="/Faculty" class="nav-link">Faculty</a>
+
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                        Module
+                    </a>
+                    <ul class="dropdown-menu">
+                      @*  <li class="nav-item d-none d-sm-inline-block">
+                            <a href="/User" class="dropdown-item nav-link">User</a>
+                        </li>*@
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="/Security" class="nav-link">Permission</a>
+                        </li>
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="/Employee" class="nav-link">Employee</a>
+                        </li>
+                        <li class="nav-item d-none d-sm-inline-block">
+                            <a href="/NothiMovement" class="nav-link">Nothi Movement</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
 
@@ -176,7 +190,6 @@
             </ul>
         </nav>
         <!-- /.navbar -->
-
         @RenderBody()
 
         <footer class="main-footer">

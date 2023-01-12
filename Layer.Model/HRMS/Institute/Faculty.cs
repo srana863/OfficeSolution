@@ -6,26 +6,28 @@ using System.Text;
 
 namespace Layer.Model.HRMS.Institute
 {
-    [Table("Faculty", "Institute")]
-    public partial class Faculty
+    [Table("Employee", "Institute")]
+    public partial class Employee
     {
-        public Faculty()
+        public Employee()
         {
-            this.FacultyExpertiseAreas = new HashSet<FacultyExpertiseArea>();
-            this.FacultyProfessionalInterests = new HashSet<FacultyProfessionalInterest>();
+            this.EmployeeExpertiseAreas = new HashSet<EmployeeExpertiseArea>();
+            this.EmployeeProfessionalInterests = new HashSet<EmployeeProfessionalInterest>();
             this.Users = new HashSet<User>();
         }
 
         [PKey]
-        public int FacultyId { get; set; }
+        public int EmployeeId { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }
-        public string FacultyFullName { get; set; }
+        public string EmployeeFullName { get; set; }
         public int DepartmentId { get; set; }
         public int InstituteId { get; set; }
         public int DesignationId { get; set; }
         public System.DateTime DateOfBirth { get; set; }
+        public bool PAOfDeptHead { get; set; }
+        public bool IsOfficeHead { get; set; }
         public int Gender { get; set; }
         public string Education { get; set; }
         public string Address { get; set; }
@@ -43,8 +45,8 @@ namespace Layer.Model.HRMS.Institute
         public virtual Department Department { get; set; }
         public virtual Designation Designation { get; set; }
         public virtual Institutes Institute { get; set; }
-        public virtual ICollection<FacultyExpertiseArea> FacultyExpertiseAreas { get; set; }      
-        public virtual ICollection<FacultyProfessionalInterest> FacultyProfessionalInterests { get; set; }
+        public virtual ICollection<EmployeeExpertiseArea> EmployeeExpertiseAreas { get; set; }      
+        public virtual ICollection<EmployeeProfessionalInterest> EmployeeProfessionalInterests { get; set; }
         public virtual ICollection<User> Users { get; set; }
     }
 }

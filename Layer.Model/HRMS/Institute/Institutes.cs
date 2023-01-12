@@ -10,7 +10,7 @@ namespace Layer.Model.HRMS.Institute
     {
         public Institutes()
         {
-            this.Faculties = new HashSet<Faculty>();
+            this.Faculties = new HashSet<Employee>();
             this.Departments = new HashSet<Department>();
             this.Designations = new HashSet<Designation>();
         }
@@ -24,7 +24,7 @@ namespace Layer.Model.HRMS.Institute
         public System.DateTime AddedDate { get; set; }
         public Nullable<int> UpdatedByUserId { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
-        public virtual ICollection<Faculty> Faculties { get; set; }
+        public virtual ICollection<Employee> Faculties { get; set; }
         public virtual ICollection<Department> Departments { get; set; }
         public virtual ICollection<Designation> Designations { get; set; }
     }

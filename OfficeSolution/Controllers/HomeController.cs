@@ -127,29 +127,29 @@ namespace OfficeSolution.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetFacultyProfile(int facultyid)
+        public IActionResult GetEmployeeProfile(int EmployeeId)
         {
             try
             {
                 _dbContext.Open();
-                var faViewModel = new FacultyViewModel();
-                var facultyWiseProfileSectionViewModel = Enumerable.Empty<FacultyWiseProfileSectionViewModel>();
+                var faViewModel = new EmployeeViewModel();
+                var EmployeeWiseProfileSectionViewModel = Enumerable.Empty<EmployeeWiseProfileSectionViewModel>();
 
-                faViewModel = _unitOfWork.FacultyRepository.GetFacultyProfile(facultyid, userinfo.InstituteId);
+                faViewModel = _unitOfWork.EmployeeRepository.GetEmployeeProfile(EmployeeId, userinfo.InstituteId);
                 if (faViewModel != null)
                 {
-                    facultyWiseProfileSectionViewModel = _unitOfWork.FacultyWiseProfileSectionRepository.GetFacultyWiseProfileSectionDetails(facultyid, userinfo.InstituteId);
-                    if (facultyWiseProfileSectionViewModel.Any())
+                    EmployeeWiseProfileSectionViewModel = _unitOfWork.EmployeeWiseProfileSectionRepository.GetEmployeeWiseProfileSectionDetails(EmployeeId, userinfo.InstituteId);
+                    if (EmployeeWiseProfileSectionViewModel.Any())
                     {
-                        faViewModel.FacultyWiseProfileSectionViewModel = facultyWiseProfileSectionViewModel;
+                        faViewModel.EmployeeWiseProfileSectionViewModel = EmployeeWiseProfileSectionViewModel;
                     }
                 }
 
-                return PartialView("_GetFacultyProfile", faViewModel);
+                return PartialView("_GetEmployeeProfile", faViewModel);
             }
             catch (Exception)
             {
-                return PartialView("_GetFacultyProfile", Enumerable.Empty<FacultyViewModel>());
+                return PartialView("_GetEmployeeProfile", Enumerable.Empty<EmployeeViewModel>());
             }
             finally
             {
@@ -159,44 +159,44 @@ namespace OfficeSolution.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetFacultyProfiles(string serachTxt)
+        public IActionResult GetEmployeeProfiles(string serachTxt)
         {
             try
             {
                 _dbContext.Open();
-                var faViewModel = new FacultyViewModel();
+                var faViewModel = new EmployeeViewModel();
 
-                List<FacultyViewModel> listViewModel = new List<FacultyViewModel>();
+                List<EmployeeViewModel> listViewModel = new List<EmployeeViewModel>();
 
-                var facultyExpertiseAreas = Enumerable.Empty<FacultyExpertiseAreaViewModel>();
-                var facultyProfessionalInterests = Enumerable.Empty<FacultyProfessionalInterestViewModel>();
+                var EmployeeExpertiseAreas = Enumerable.Empty<EmployeeExpertiseAreaViewModel>();
+                var EmployeeProfessionalInterests = Enumerable.Empty<EmployeeProfessionalInterestViewModel>();
 
-                var data = _unitOfWork.FacultyRepository.GetAllFaculty(userinfo.InstituteId);
+                var data = _unitOfWork.EmployeeRepository.GetAllEmployee(userinfo.InstituteId);
 
                 if (data.Any())
                 {
                     foreach (var item in data)
                     {
-                        faViewModel = new FacultyViewModel();
+                        faViewModel = new EmployeeViewModel();
                         faViewModel = item;
 
-                        facultyExpertiseAreas = _unitOfWork.FacultyExpertiseAreaRepository.GetAllFacultyExpertiseArea(item.FacultyId, item.InstituteId);
-                        faViewModel.FacultyExpertiseAreaViewModel = facultyExpertiseAreas;
-                        facultyProfessionalInterests = _unitOfWork.FacultyProfessionalInterestRepository.GetAllFacultyProfessionalInterest(item.FacultyId, item.InstituteId);
-                        faViewModel.FacultyProfessionalInterestViewModel = facultyProfessionalInterests;
+                        EmployeeExpertiseAreas = _unitOfWork.EmployeeExpertiseAreaRepository.GetAllEmployeeExpertiseArea(item.EmployeeId, item.InstituteId);
+                        faViewModel.EmployeeExpertiseAreaViewModel = EmployeeExpertiseAreas;
+                        EmployeeProfessionalInterests = _unitOfWork.EmployeeProfessionalInterestRepository.GetAllEmployeeProfessionalInterest(item.EmployeeId, item.InstituteId);
+                        faViewModel.EmployeeProfessionalInterestViewModel = EmployeeProfessionalInterests;
 
                         listViewModel.Add(faViewModel);
                     }
 
 
                 }
-                IEnumerable<FacultyViewModel> res = listViewModel;
+                IEnumerable<EmployeeViewModel> res = listViewModel;
 
-                return PartialView("_GetFacultyProfiles", res);
+                return PartialView("_GetEmployeeProfiles", res);
             }
             catch (Exception)
             {
-                return PartialView("_GetFacultyProfiles", Enumerable.Empty<FacultyViewModel>());
+                return PartialView("_GetEmployeeProfiles", Enumerable.Empty<EmployeeViewModel>());
             }
             finally
             {

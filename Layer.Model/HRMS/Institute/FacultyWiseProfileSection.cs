@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Layer.Model.HRMS.Institute
 {
-    [Table("FacultyWiseProfileSection", "Institute")]
-    public partial class FacultyWiseProfileSection
+    [Table("EmployeeWiseProfileSection", "Institute")]
+    public partial class EmployeeWiseProfileSection
     {
         [PKey]
         public int SL { get; set; }
 
-        public int FacultyId { get; set; }
+        public int EmployeeId { get; set; }
 
         public int ProfileSectionId { get; set; }
 

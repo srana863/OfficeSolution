@@ -31,7 +31,7 @@
                         <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/Faculty">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/Employee">Dashboard</a></li>
                     </ul>
                     <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                         @await Html.PartialAsync("_LoginPartial")
@@ -56,7 +56,7 @@
                 
                 <div class="card-body">
                     <fieldset class="form-group border p-3">
-                        <legend class="w-auto px-2"><span id="homePageTitle">Our Faculty/Stuff</span> </legend>
+                        <legend class="w-auto px-2"><span id="homePageTitle">Our Employee/Stuff</span> </legend>
                         <div id="formDetails"></div>
                     </fieldset>
                 </div>
@@ -117,20 +117,20 @@
         $(document).ready(function () {
             loadProfiles();
             $(document).on('click', '.btnDetails', function () {
-                var facultyid = $(this).data('id');
-                loadProfileDetails(facultyid);
+                var EmployeeId = $(this).data('id');
+                loadProfileDetails(EmployeeId);
             });
             $(document).on('click', '#btnBackToList', loadProfiles);
         });
 
         function loadProfiles(){
-            $('#homePageTitle').text("Our Faculty/Stuff");
-            var url = "/Home/GetFacultyProfiles";
+            $('#homePageTitle').text("Our Employee/Stuff");
+            var url = "/Home/GetEmployeeProfiles";
             $("#formDetails").load(url);
         }
-        function loadProfileDetails(facultyid) {
-            $('#homePageTitle').text("Our Faculty/Stuff Details");
-            var url = "/Home/GetFacultyProfile?facultyid=" + facultyid;
+        function loadProfileDetails(EmployeeId) {
+            $('#homePageTitle').text("Our Employee/Stuff Details");
+            var url = "/Home/GetEmployeeProfile?EmployeeId=" + EmployeeId;
             $("#formDetails").load(url);
         }
     </script>

@@ -75,7 +75,7 @@ namespace Layer.Data.Implementations.HRMS.Security
                 INNER JOIN Security.SubModules SM ON SM.SubModuleId=SMS.SubModuleId AND SM.InstituteId=RWS.InstituteId
                 INNER JOIN Security.Modules M ON M.ModuleId=SM.ModuleId AND M.InstituteId=RWS.InstituteId
                 WHERE RWS.RoleId=@RoleId
-                AND M.ModuleId=@ModuleId";
+                AND SM.SubModuleId=@ModuleId";
             return _dbContext._connection.Query<RoleWiseScreenPermissionViewModel>(query,
             new
             {

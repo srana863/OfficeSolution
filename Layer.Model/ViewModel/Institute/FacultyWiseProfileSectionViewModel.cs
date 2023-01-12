@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Layer.Model.ViewModel.Institute
 {
-    public partial class FacultyWiseProfileSectionViewModel: FacultyWiseProfileSection
+    public partial class EmployeeWiseProfileSectionViewModel: EmployeeWiseProfileSection
     {
         public string ProfileSectionTitle { get; set; }
     }

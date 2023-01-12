@@ -10,7 +10,7 @@ namespace Layer.Model.HRMS.Institute
     {
         public ProfessionalInterest()
         {
-            this.FacultyProfessionalInterests = new HashSet<FacultyProfessionalInterest>();
+            this.EmployeeProfessionalInterests = new HashSet<EmployeeProfessionalInterest>();
         }
 
         [PKey]
@@ -23,6 +23,6 @@ namespace Layer.Model.HRMS.Institute
         public System.DateTime AddedDate { get; set; }
         public Nullable<int> UpdatedByUserId { get; set; }
         public Nullable<System.DateTime> UpdatedDate { get; set; }
-        public virtual ICollection<FacultyProfessionalInterest> FacultyProfessionalInterests { get; set; }
+        public virtual ICollection<EmployeeProfessionalInterest> EmployeeProfessionalInterests { get; set; }
     }
 }

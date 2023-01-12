@@ -1,13 +1,13 @@
-﻿@model IEnumerable<Layer.Model.ViewModel.Institute.FacultyViewModel>
+﻿@model IEnumerable<Layer.Model.ViewModel.Institute.EmployeeViewModel>
 @{
 
     int sl = 1;
 
-    <table id="tblFacultyDetails" class="table table-bordered table-striped dataTable" >
+    <table id="tblEmployeeDetails" class="table table-bordered table-striped dataTable" >
         <thead>
             <tr>
                 <th>SL</th>
-                <th>Faculty Name</th>
+                <th>Employee Name</th>
                 <th>Department</th>
                 <th>Designation</th>
                 <th>Status</th>
@@ -17,7 +17,7 @@
         <tbody>
             @if (Model.Any())
             {
-                foreach (var item in Model.OrderByDescending(o => o.FacultyFullName))
+                foreach (var item in Model.OrderByDescending(o => o.EmployeeFullName))
                 {
                     <tr>
                         <td>
@@ -25,7 +25,7 @@
                                 sl++;
                             }
                         </td>
-                        <td>@item.FacultyFullName</td>
+                        <td>@item.EmployeeFullName</td>
                         <td>@item.DepartmentName</td>
                         <td>@item.DesignationName</td>
                         <td>
@@ -41,8 +41,8 @@
                             }
                         </td>
                         <td style="white-space: nowrap">
-                            <button type="button" class="btn btn-success btn-sm btnEdit" data-id="@item.FacultyId"><i class="fa fa-edit"></i> Edit </button>
-                            <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="@item.FacultyId"><i class="fa fa-trash"></i> Delete </button>
+                            <button type="button" class="btn btn-success btn-sm btnEdit" data-id="@item.EmployeeId"><i class="fa fa-edit"></i> Edit </button>
+                            <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="@item.EmployeeId"><i class="fa fa-trash"></i> Delete </button>
                         </td>
                     </tr>
                 }
@@ -54,7 +54,7 @@
             <tfoot>
                 <tr>
                     <th>SL</th>
-                    <th>Faculty Name</th>
+                    <th>Employee Name</th>
                     <th>Department</th>
                     <th>Designation</th>
                     <th>Status</th>
@@ -66,6 +66,6 @@
 
 }
 <script type="text/javascript">
-    makePaginationWithExport("tblFacultyDetails");
+    makePaginationWithExport("tblEmployeeDetails");
 </script>
 

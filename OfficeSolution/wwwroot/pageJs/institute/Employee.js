@@ -1,10 +1,10 @@
-﻿var Faculty = function () {
+﻿var Employee = function () {
     var ckeditorAddress = "";
     var ckeditorAbout = "";
     var ckeditorProfileSection = "";
     var init = function () {
         initialEvent();
-        loadFaculty();
+        loadEmployee();
         showHideProfileSection();
         getDepartmentCombo('DepartmentId', true);
         getDesignationCombo('DesignationId', true);
@@ -25,9 +25,9 @@
         $(document).on('change', '#ProfileSectionId', function () {
             ckeditorProfileSection.setData("");
             var profileSectionId = $(this).val();
-            var facultyId = $('#FacultyId').val();
-            var url = "/Faculty/GetProfileSectionDetails";
-            ajaxRequest(url, 'GET', { profileSectionId: profileSectionId, facultyId: facultyId }, true, false, function (res) {
+            var EmployeeId = $('#EmployeeId').val();
+            var url = "/Employee/GetProfileSectionDetails";
+            ajaxRequest(url, 'GET', { profileSectionId: profileSectionId, EmployeeId: EmployeeId }, true, false, function (res) {
                 if (res) {
                     ckeditorProfileSection.setData(res.ProfileSectionDetails);
                     showHideProfileSection();
@@ -36,11 +36,11 @@
         });
 
         $(document).on('click', '.btnEdit', function () {
-            var facultyId = $(this).data('id');
+            var EmployeeId = $(this).data('id');
             ckeditorProfileSection.setData("");
             $('#ProfileSectionId').val();
-            var url = "/Faculty/GetFaculty";
-            ajaxRequest(url, 'GET', { facultyId: facultyId }, true, false, function (res) {
+            var url = "/Employee/GetEmployee";
+            ajaxRequest(url, 'GET', { EmployeeId: EmployeeId }, true, false, function (res) {
                 setFormData(res, null);
                 $('#DateOfBirth').val(datefromjsonUS(res.DateOfBirth));
                 ckeditorAddress.setData(res.Address);
@@ -49,18 +49,18 @@
             });
         });
         $(document).on('click', '.btnDelete', function () {
-            var facultyId = $(this).data('id');
+            var EmployeeId = $(this).data('id');
 
-            if (facultyId > 0) {
+            if (EmployeeId > 0) {
                 $.confirm({
                     title: 'Delete Message',
                     text: 'Do you want to delete this?',
                     confirm: function () {
-                        var url = "/Faculty/DeleteFaculty";
-                        ajaxRequest(url, 'POST', { facultyId: facultyId }, true, false, function (res) {
+                        var url = "/Employee/DeleteEmployee";
+                        ajaxRequest(url, 'POST', { EmployeeId: EmployeeId }, true, false, function (res) {
                             showNotification(res.MessageType, res.Message);
                             if (res.MessageType == '1' || res.MessageType == 'Success') {
-                                loadFaculty();
+                                loadEmployee();
                                 showHideProfileSection();
                             }
                         });
@@ -73,13 +73,13 @@
                 });
 
             } else {
-                showNotification(3, "Select faculty!!");
+                showNotification(3, "Select Employee!!");
             }
         });
     };
     var showHideProfileSection = function () {
-        var facultyid = $('#FacultyId').val();
-        if (facultyid > 0) {
+        var EmployeeId = $('#EmployeeId').val();
+        if (EmployeeId > 0) {
             $("#profilesectiondivid").show();
         } else {
             $("#profilesectiondivid").hide();
@@ -93,21 +93,23 @@
         ckeditorAbout.setData("");
         ckeditorProfileSection.setData("");
         showHideProfileSection();
-        iValidation.RemoveValidation('frmFaculty');
+        iValidation.RemoveValidation('frmEmployee');
     };
-    var loadFaculty = function () {
-        var url = "/Faculty/GetAllFaculty";
+    var loadEmployee = function () {
+        var url = "/Employee/GetAllEmployee";
         $("#formDetails").load(url);
     };
 
     var saveProfileSection = function () {
         var model = new Object();
-        model.FacultyId = $('#FacultyId').val();
+        model.EmployeeId = $('#EmployeeId').val();
         model.ProfileSectionId = $('#ProfileSectionId').val();
         model.ProfileSectionDetails = ckeditorProfileSection.getData();
 
         model.IsActive = $('#IsActive').prop("checked");
-        var url = "/Faculty/SaveProfileSection";
+        model.PAOfDeptHead = $('#PAOfDeptHead').prop("checked");
+        model.IsOfficeHead = $('#IsOfficeHead').prop("checked");
+        var url = "/Employee/SaveProfileSection";
         ajaxRequest(url, 'POST', model, false, true, function (res) {
             showNotification(res.MessageType, res.Message);
             if (res.MessageType == '1' || res.MessageType == 'Success') {
@@ -118,19 +120,21 @@
 
     var saveData = function () {
 
-        if (iValidation.Validate('frmFaculty')) {
+        if (iValidation.Validate('frmEmployee')) {
             var model = getFormData('form-element');
             model.Address = ckeditorAddress.getData();
             model.About = ckeditorAbout.getData();
             model.ProfileSectionDetails = ckeditorProfileSection.getData();
 
             model.IsActive = $('#IsActive').prop("checked");
-            var url = "/Faculty/SaveFaculty";
+            model.PAOfDeptHead = $('#PAOfDeptHead').prop("checked");
+            model.IsOfficeHead = $('#IsOfficeHead').prop("checked");
+            var url = "/Employee/SaveEmployee";
             ajaxRequest(url, 'POST', model, false, true, function (res) {
                 showNotification(res.MessageType, res.Message);
                 if (res.MessageType == '1' || res.MessageType == 'Success') {
                     resetForm();
-                    loadFaculty();
+                    loadEmployee();
                 }
             });
 

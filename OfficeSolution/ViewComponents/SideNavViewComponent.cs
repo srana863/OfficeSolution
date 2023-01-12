@@ -31,7 +31,7 @@ namespace OfficeSolution.ViewComponents
                 var moduleDetails = _unitOfWork.ScreenRepository.GetModuleDetailsByControllerName(controllerName);
                 if (moduleDetails != null)
                 {
-                    data = _unitOfWork.RoleWiseScreenPermissionRepository.GetRoleWiseScreen(roleId, moduleDetails.ModuleId);
+                    data = _unitOfWork.RoleWiseScreenPermissionRepository.GetRoleWiseScreen(roleId, moduleDetails.SubModuleId);
                 }
                 
                 return View(data);

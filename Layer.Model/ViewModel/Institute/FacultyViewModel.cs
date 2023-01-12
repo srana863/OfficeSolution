@@ -6,13 +6,13 @@ using System.Text;
 
 namespace Layer.Model.ViewModel.Institute
 {
-    public partial class FacultyViewModel: Faculty
+    public partial class EmployeeViewModel: Employee
     {
-        public FacultyViewModel()
+        public EmployeeViewModel()
         {
-            this.FacultyExpertiseAreaViewModel = new HashSet<FacultyExpertiseAreaViewModel>();
-            this.FacultyProfessionalInterestViewModel = new HashSet<FacultyProfessionalInterestViewModel>();
-            this.FacultyWiseProfileSectionViewModel = new HashSet<FacultyWiseProfileSectionViewModel>();
+            this.EmployeeExpertiseAreaViewModel = new HashSet<EmployeeExpertiseAreaViewModel>();
+            this.EmployeeProfessionalInterestViewModel = new HashSet<EmployeeProfessionalInterestViewModel>();
+            this.EmployeeWiseProfileSectionViewModel = new HashSet<EmployeeWiseProfileSectionViewModel>();
         }
         public string DepartmentName { get; set; }
         public string InstituteName { get; set; }
@@ -22,8 +22,8 @@ namespace Layer.Model.ViewModel.Institute
         public int ProfileSectionId { get; set; }
 
 
-        public virtual IEnumerable<FacultyExpertiseAreaViewModel> FacultyExpertiseAreaViewModel { get; set; }
-        public virtual IEnumerable<FacultyProfessionalInterestViewModel> FacultyProfessionalInterestViewModel { get; set; }
-        public virtual IEnumerable<FacultyWiseProfileSectionViewModel> FacultyWiseProfileSectionViewModel { get; set; }
+        public virtual IEnumerable<EmployeeExpertiseAreaViewModel> EmployeeExpertiseAreaViewModel { get; set; }
+        public virtual IEnumerable<EmployeeProfessionalInterestViewModel> EmployeeProfessionalInterestViewModel { get; set; }
+        public virtual IEnumerable<EmployeeWiseProfileSectionViewModel> EmployeeWiseProfileSectionViewModel { get; set; }
     }
 }

@@ -15,5 +15,9 @@ namespace Layer.Model.Common
 
         public string RoleName { get; set; }
         public string Image { get; set; }
+
+        public bool PAOfDeptHead { get; set; }
+        public bool IsOfficeHead { get; set; }
+
     }
 }

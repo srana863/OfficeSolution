@@ -2,7 +2,7 @@
     var init = function () {
         alert(1);
         initialEvent();
-        loadFacultyProfiles();
+        loadEmployeeProfiles();
     };
     var initialEvent = function () {
        
@@ -14,9 +14,9 @@
         
     };
     
-    var loadFacultyProfiles = function () {
+    var loadEmployeeProfiles = function () {
         alert(1);
-        var url = "/Home/GetFacultyProfiles";
+        var url = "/Home/GetEmployeeProfiles";
         $("#formDetails").load(url);
     };
     return {
