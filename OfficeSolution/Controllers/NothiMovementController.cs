@@ -11,9 +11,24 @@ namespace OfficeSolution.Controllers
         {
             _unitOfWork = new UnitOfWork(_dbContext);
         }
+        #region Nothi Dashboard.......       
         public IActionResult Index()
         {
             return View();
         }
+        #endregion
+        #region Create Nothi.......
+        public IActionResult CreateNothi()
+        {
+            return View();
+        }
+        #endregion
+
+        #region Nothi Report.......
+        public IActionResult NothiReport()
+        {
+            return View();
+        }
+        #endregion
     }
 }
