@@ -11,6 +11,7 @@ using System.Text.Json;
 using System.Transactions;
 using Layer.Model.HRMS.Institute;
 using Layer.Model.HRMS.Emp;
+using Layer.Model.ViewModel.Nothi;
 
 namespace OfficeSolution.Controllers
 {
@@ -40,6 +41,148 @@ namespace OfficeSolution.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public JsonResult GetNothi(int sl)
+        {
+            var data = new NothiDetails();
+            try
+            {
+                _dbContext.Open();
+                data = _unitOfWork.NothiDetailsRepository.Get(sl, userinfo.InstituteId);
+                return new JsonResult(data, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(data, new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteNothi(int sl)
+        {
+            try
+            {
+
+                var oldData = _unitOfWork.NothiDetailsRepository.Get(sl, userinfo.InstituteId);
+                if (oldData != null)
+                {
+                    _returnId = _unitOfWork.NothiDetailsRepository.Delete(sl, userinfo.InstituteId);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Nothi Deleted Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    _vmReturn = ReturnMessage.SetInfoMessage("No Nothi Data found!!");
+                }
+
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+
+        [HttpGet]
+        public IActionResult GetAllNothi(int? departmentId)
+        {
+            try
+            {
+                _dbContext.Open();
+                int deptid = 0;
+                deptid = departmentId > 0 ? departmentId.Value : userinfo.DepartmentId;
+                var data = _unitOfWork.NothiDetailsRepository.GetAll(userinfo.InstituteId, deptid);
+                return PartialView("_GetAllNothi", data);
+            }
+            catch (Exception)
+            {
+                return PartialView("_GetAllNothi", Enumerable.Empty<NothiDetailsViewModel>());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+        [HttpPost]
+        public JsonResult SaveNothi(NothiDetails model)
+        {
+            using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
+            {
+                try
+                {
+                    _dbContext.Open();
+                    var isSaved = 0;
+                    var oldData = new NothiDetails();
+
+                    oldData = _unitOfWork.NothiDetailsRepository.Get(model.SL, userinfo.InstituteId);
+                    if (oldData == null)
+                    {
+                        model.AddedDate = DateTime.UtcNow.Date;
+                        model.AddedByUserId = userinfo.UserId;
+                        model.InstituteId = userinfo.InstituteId;
+                        isSaved = _unitOfWork.NothiDetailsRepository.Create(model);
+                        _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Data saved successfully") : ReturnMessage.SetErrorMessage("Failed to save!");
+                    }
+                    else
+                    {
+                        oldData = new NothiDetails
+                        {
+                            AddedByUserId = oldData.AddedByUserId,
+                            AddedDate = oldData.AddedDate,
+                            InstituteId = oldData.InstituteId,
+                            NothiTypeId = model.NothiTypeId,
+                            DepartmentId = model.DepartmentId,
+                            IsActive = model.IsActive,
+                            UpdatedByUserId = userinfo.UserId,
+                            UpdatedDate = DateTime.UtcNow.Date,
+                            NothiCreationDate= DateTime.UtcNow.Date,
+                            NothiName=model.NothiName,
+                            NothiNameBang=model.NothiNameBang,
+                            NothiNumberBang= model.NothiNumberBang,
+                            NothiNumber= model.NothiNumber,
+                            NothiId=model.NothiId,
+                            SL = oldData.SL
+
+                        };
+                        isSaved = _unitOfWork.NothiDetailsRepository.Update(oldData);
+
+                        _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Data updated successfully") : ReturnMessage.SetErrorMessage("Failed to update!");
+
+
+
+                    }
+                    if (isSaved > 0)
+                    {
+                        transactionScope.Complete();
+                        transactionScope.Dispose();
+                    }
+                    return new JsonResult(_vmReturn, new JsonSerializerOptions());
+
+                }
+                catch (Exception e)
+                {
+                    _vmReturn = ReturnMessage.SetErrorMessage(e.Message);
+                    transactionScope.Dispose();
+                    return new JsonResult(_vmReturn, new JsonSerializerOptions()); ;
+                }
+                finally
+                {
+                    _dbContext.Close();
+                }
+            }
+        }
+
         #endregion
 
         #region Nothi Report.......
@@ -88,7 +231,7 @@ namespace OfficeSolution.Controllers
                 }
                 else
                 {
-                    _vmReturn = ReturnMessage.SetInfoMessage("No Nothy type Data found!!");
+                    _vmReturn = ReturnMessage.SetInfoMessage("No Nothi type Data found!!");
                 }
 
                 return new JsonResult(_vmReturn, new JsonSerializerOptions());
@@ -118,7 +261,7 @@ namespace OfficeSolution.Controllers
             }
             catch (Exception)
             {
-                return PartialView("_GetAllNothiType", Enumerable.Empty<NothiType>());
+                return PartialView("_GetAllNothiType", Enumerable.Empty<NothiTypeViewModel>());
             }
             finally
             {

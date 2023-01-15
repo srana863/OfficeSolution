@@ -67,7 +67,7 @@ namespace Layer.Data.Implementations
             AreaOfExpertiseRepository = new AreaOfExpertiseRepository(_dbContext);
             ProfileSectionRepository = new ProfileSectionRepository(_dbContext);
             EmployeeWiseProfileSectionRepository = new EmployeeWiseProfileSectionRepository(_dbContext);
-            NothiTypeRepository = new NothiTypeRepository(_dbContext);
+            NothiDetailsRepository = new NothiDetailsRepository(_dbContext);
             NothiMovementDetailsRepository = new NothiMovementDetailsRepository(_dbContext);
             NothiMovementRepository = new NothiMovementRepository(_dbContext);
             NothiTypeRepository = new NothiTypeRepository(_dbContext);

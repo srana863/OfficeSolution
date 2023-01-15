@@ -20,5 +20,6 @@ namespace Layer.Data.Interfaces.HRMS.Nothi
     }
     public interface INothiDetailsRepository : IGenericRepository<NothiDetails>
     {
+        IEnumerable<NothiDetailsViewModel> GetAll(int InstituteId, int departmentId);
     }
 }

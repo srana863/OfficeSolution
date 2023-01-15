@@ -5,6 +5,7 @@ using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
 using Layer.Model.HRMS.Nothi;
 using Layer.Model.HRMS.Security;
+using Layer.Model.ViewModel.Nothi;
 using QueryGenerator;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,12 @@ namespace Layer.Data.Implementations.HRMS.Nothi
         {
             var query = CRUD<NothiDetails>.Select(o => o.InstituteId == o.InstituteId);
             return _dbContext._connection.Query<NothiDetails>(query, new { InstituteId = InstituteId });
+        }
+
+        public IEnumerable<NothiDetailsViewModel> GetAll(int InstituteId, int departmentId)
+        {
+            var query = @"";
+            return _dbContext._connection.Query<NothiDetailsViewModel>(query, new { InstituteId = InstituteId, DepartmentId = departmentId });
         }
 
         public int Update(NothiDetails entity)

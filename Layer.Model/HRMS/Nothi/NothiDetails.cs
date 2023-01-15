@@ -18,6 +18,8 @@ namespace Layer.Model.HRMS.Nothi
 
         public string NothiId { get; set; }
 
+        public int NothiTypeId { get; set; }
+
         public string NothiName { get; set; }
 
         public string NothiNameBang { get; set; }
