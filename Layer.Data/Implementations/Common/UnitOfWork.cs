@@ -1,11 +1,13 @@
 ﻿using Layer.Data.Helpers;
 using Layer.Data.Implementations.HRMS.Institute;
+using Layer.Data.Implementations.HRMS.Nothi;
 using Layer.Data.Implementations.HRMS.Security;
 using Layer.Data.Implementations.HRMS.Settings;
 using Layer.Data.Interfaces;
 using Layer.Data.Interfaces.Common;
 using Layer.Data.Interfaces.HRMS.Emp;
 using Layer.Data.Interfaces.HRMS.Institute;
+using Layer.Data.Interfaces.HRMS.Nothi;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Data.Interfaces.HRMS.Settings;
 using Layer.Model.Common;
@@ -38,6 +40,11 @@ namespace Layer.Data.Implementations
 
         public IProfileSectionRepository ProfileSectionRepository { get; }
         public IEmployeeWiseProfileSectionRepository EmployeeWiseProfileSectionRepository { get; }
+        public INothiDetailsRepository NothiDetailsRepository { get; }
+        public INothiMovementDetailsRepository NothiMovementDetailsRepository { get; }
+        public INothiMovementRepository NothiMovementRepository { get; }
+        public INothiTypeRepository NothiTypeRepository { get; }
+
 
         public UnitOfWork(DbContext _dbContext)
         {
@@ -58,8 +65,13 @@ namespace Layer.Data.Implementations
             DepartmentRepository = new DepartmentRepository(_dbContext);
             CourseRepository = new CourseRepository(_dbContext);
             AreaOfExpertiseRepository = new AreaOfExpertiseRepository(_dbContext);
-            ProfileSectionRepository=new ProfileSectionRepository(_dbContext);
-            EmployeeWiseProfileSectionRepository=new EmployeeWiseProfileSectionRepository(_dbContext);
+            ProfileSectionRepository = new ProfileSectionRepository(_dbContext);
+            EmployeeWiseProfileSectionRepository = new EmployeeWiseProfileSectionRepository(_dbContext);
+            NothiTypeRepository = new NothiTypeRepository(_dbContext);
+            NothiMovementDetailsRepository = new NothiMovementDetailsRepository(_dbContext);
+            NothiMovementRepository = new NothiMovementRepository(_dbContext);
+            NothiTypeRepository = new NothiTypeRepository(_dbContext);
+
 
         }
     }

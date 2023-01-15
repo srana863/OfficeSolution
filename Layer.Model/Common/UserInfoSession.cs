@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Layer.Model.Common
 {
-    public partial class UserInfoSession: User 
+    public partial class UserInfoSession : User
     {
         public string DesignationName { get; set; }
         public string DepartmentName { get; set; }
@@ -18,6 +18,7 @@ namespace Layer.Model.Common
 
         public bool PAOfDeptHead { get; set; }
         public bool IsOfficeHead { get; set; }
+        public int DepartmentId { get; set; }
 
     }
 }

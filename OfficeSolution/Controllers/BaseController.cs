@@ -33,6 +33,8 @@ namespace OfficeSolution.Controllers
         {
             controllerName = ControllerContext.ActionDescriptor.ControllerName;
 
+            //ViewBag.MainUrl = HttpContext.Request.Host.Value;
+
             var isAutheticated = HttpContext.User.Identity.IsAuthenticated;
             //fake session
             session = new AppSession();
@@ -51,6 +53,9 @@ namespace OfficeSolution.Controllers
                     DepartmentName = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DepartmentName")?.Value) : null,
                     Image = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Image")?.Value) : null,
                     RoleName = isAutheticated ? Convert.ToString(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "RoleName")?.Value) : null,
+                    PAOfDeptHead = isAutheticated ? Convert.ToBoolean(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "PAOfDeptHead")?.Value) : false,
+                    IsOfficeHead = isAutheticated ? Convert.ToBoolean(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "IsOfficeHead")?.Value) : false,
+                    DepartmentId = isAutheticated ? Int32.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "DepartmentId")?.Value) : 0,
                     IsActive = true
 
                 };

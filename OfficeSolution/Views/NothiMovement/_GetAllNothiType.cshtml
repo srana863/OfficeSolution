@@ -1,0 +1,72 @@
+﻿@model IEnumerable<Layer.Model.ViewModel.Nothi.NothiTypeViewModel>
+@{
+
+    int sl = 1;
+
+    <table id="tblNothiType" class="table table-bordered table-striped dataTable">
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Department</th>
+                <th>Nothi Type</th>
+                <th>Nothi Type (Bangla)</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model.OrderByDescending(o => o.NothiTypeId))
+                {
+                    <tr>
+                        <td>
+                            @sl @{
+                                sl++;
+                            }
+                        </td>
+                        <td>@item.DeptName</td>
+                        <td>@item.NothiTypeName</td>
+                        <td>@item.NothiTypeNameBang</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+
+
+                                <p style="color:green">Active</p>
+                            }
+                            else
+                            {
+                                <p style="color:red">Inactive</p>
+                            }
+                        </td>
+                        <td style="white-space: nowrap">
+                            <button type="button" class="btn btn-success btn-sm btnEdit" data-id="@item.NothiTypeId"><i class="fa fa-edit"></i> Edit </button>
+                            <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="@item.NothiTypeId"><i class="fa fa-trash"></i> Delete </button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+        @if (Model.Any())
+        {
+            <tfoot>
+                <tr>
+                    <th>SL</th>
+                    <th>Department</th>
+                    <th>Nothi Type</th>
+                    <th>Nothi Type (Bangla)</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+        }
+    </table>
+
+}
+<script type="text/javascript">
+    makePaginationWithExport("tblNothiType");
+</script>
+
+

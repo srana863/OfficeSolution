@@ -44,7 +44,7 @@ namespace Layer.Data.Implementations.HRMS.Settings
 
         public async Task<UserInfoSession> GetUserByUserName(string UserName)
         {
-            var query = @"SELECT U.UserId,U.UserName,U.UserEmail,U.UserFullName,U.InstituteId,U.EmployeeId,U.Password,U.RoleId,U.IsActive,U.AddedByUserId,U.AddedDate,U.UpdatedByUserId,U.UpdatedDate, F.PAOfDeptHead,F.IsOfficeHead, D.DeptName DepartmentName, De.DesignationName,R.RoleName,I.InstituteName,ISNULL(F.Image, (CASE WHEN F.Gender=1 Then 'male.png' When F.Gender=2 then 'female.png' else 'other.png' end) )Image
+            var query = @"SELECT U.UserId,U.UserName,U.UserEmail,U.UserFullName,U.InstituteId,U.EmployeeId,U.Password,U.RoleId,U.IsActive,U.AddedByUserId,U.AddedDate,U.UpdatedByUserId,U.UpdatedDate, F.PAOfDeptHead,F.IsOfficeHead, D.DepartmentId,D.DeptName DepartmentName, De.DesignationName,R.RoleName,I.InstituteName,ISNULL(F.Image, (CASE WHEN F.Gender=1 Then 'male.png' When F.Gender=2 then 'female.png' else 'other.png' end) )Image
                 FROM Setting.Users U
                 INNER JOIN Institute.Institute I ON I.InstituteId=U.InstituteId
                 INNER JOIN Institute.Employee F ON F.EmployeeId=U.EmployeeId AND F.InstituteId=U.InstituteId

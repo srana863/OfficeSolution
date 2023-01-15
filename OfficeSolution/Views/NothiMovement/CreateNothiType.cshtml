@@ -1,6 +1,6 @@
 ﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor;
 @{
-    ViewBag.Title = "Create Nothi";
+    ViewBag.Title = "Nothi Movement Dashboard";
     int RoleId = 0;
 }
 @if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated)
@@ -19,12 +19,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0" hidden></h1>
+                    <h1 class="m-0" hidden>Nothi Movement</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="@Url.Action("CreateNothi","NothiMovement")">Nothi Movement</a></li>
-                        <li class="breadcrumb-item active">Create Nothi</li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("CreateNothiType","NothiMovement")">Nothi Movement</a></li>
+                        <li class="breadcrumb-item active">Nothi Type</li>
                     </ol>
                 </div>
             </div>
@@ -60,7 +60,7 @@
                         <div class="form-row" style="padding-top:10px;">
                             <div class="form-group col-md-4">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="IsActive" />
+                                    <input class="form-check-input" type="checkbox" id="IsActive"/>
                                     <label class="form-check-label" for="IsActive">
                                         Active
                                     </label>

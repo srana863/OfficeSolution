@@ -1,6 +1,7 @@
 ﻿using Layer.Data.Implementations;
 using Layer.Data.Interfaces.Common;
 using Layer.Model.Common;
+using Layer.Model.HRMS.Emp;
 using Layer.Model.HRMS.Institute;
 using Layer.Model.ViewModel.Institute;
 using Layer.Model.ViewModel.Settings;
@@ -63,7 +64,11 @@ namespace OfficeSolution.Controllers
                             new Claim("RoleName", hasUser.RoleName),
                             new Claim("InstituteName", hasUser.InstituteName),
                             new Claim("Image", hasUser.Image),
-                            new Claim("RoleId", hasUser.RoleId.ToString())
+                            new Claim("RoleId", hasUser.RoleId.ToString()),
+                            new Claim("PAOfDeptHead", hasUser.PAOfDeptHead.ToString()),
+                            new Claim("IsOfficeHead", hasUser.IsOfficeHead.ToString()),
+                            new Claim("DepartmentId", hasUser.DepartmentId.ToString()),
+                            
 
                         };
 

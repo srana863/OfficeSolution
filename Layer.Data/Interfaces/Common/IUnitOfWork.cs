@@ -1,6 +1,7 @@
 ﻿using Layer.Data.Implementations.HRMS.Institute;
 using Layer.Data.Interfaces.HRMS.Emp;
 using Layer.Data.Interfaces.HRMS.Institute;
+using Layer.Data.Interfaces.HRMS.Nothi;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Data.Interfaces.HRMS.Settings;
 using System;
@@ -34,6 +35,12 @@ namespace Layer.Data.Interfaces.Common
         IAreaOfExpertiseRepository AreaOfExpertiseRepository { get; }
         IEmployeeWiseProfileSectionRepository EmployeeWiseProfileSectionRepository { get; }
         IProfileSectionRepository ProfileSectionRepository { get; }
+
+        INothiDetailsRepository NothiDetailsRepository { get; }
+        INothiMovementDetailsRepository NothiMovementDetailsRepository { get; }
+        INothiMovementRepository NothiMovementRepository { get; }
+        INothiTypeRepository NothiTypeRepository { get; }
+
 
     }
 }

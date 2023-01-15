@@ -51,7 +51,8 @@ namespace OfficeSolution.Controllers
             var list = data.Select(o => new SelectListItem
             {
                 Value = o.DepartmentId.ToString(),
-                Text = o.DeptName.ToString()
+                Text = o.DeptName.ToString(),
+                Selected = o.DepartmentId == userinfo.DepartmentId
             });
 
             return new JsonResult(list, new JsonSerializerOptions());
@@ -78,7 +79,7 @@ namespace OfficeSolution.Controllers
             var list = data.Select(o => new SelectListItem
             {
                 Value = o.RoleId.ToString(),
-                Text = o.UserFullName.ToString() + '-' +o.UserName
+                Text = o.UserFullName.ToString() + '-' + o.UserName
             });
 
             return new JsonResult(list, new JsonSerializerOptions());

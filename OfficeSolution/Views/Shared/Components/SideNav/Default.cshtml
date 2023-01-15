@@ -40,6 +40,8 @@
                 </li>
                 @if (section != null || section.Any())
                 {
+                    section = section.OrderBy(o=>o.ScreenOrder);
+
                     foreach (var s in section)
                     {
                         screen = data.Where(o => o.SectionId == s.SectionId);
@@ -60,7 +62,7 @@
                                     @foreach (var sc in screen)
                                     {
                                         <li class="nav-item">
-                                            <a href="@sc.URL" class="nav-link">
+                                            <a href="@Url.Action(sc.ActionName,sc.ControllerName)" class="nav-link">
                                                 <i class="far fa-plus nav-icon"></i>
                                                 <p>@sc.ScreenName</p>
                                             </a>
