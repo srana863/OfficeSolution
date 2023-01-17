@@ -46,7 +46,13 @@ namespace Layer.Data.Implementations.HRMS.Nothi
 
         public IEnumerable<NothiDetailsViewModel> GetAll(int InstituteId, int departmentId)
         {
-            var query = @"";
+            var query = @"SELECT ND.SL,ND.InstituteId,ND.DepartmentId,ND.NothiId,ND.NothiTypeId,ND.NothiName,ND.NothiNameBang,ND.NothiNumber,ND.NothiNumberBang,ND.NothiCreationDate,ND.IsActive,ND.AddedByUserId,ND.AddedDate,ND.UpdatedByUserId,ND.UpdatedDate,NT.NothiTypeName,NT.NothiTypeNameBang,D.DeptName,D.DeptNameBangla
+                 FROM Nothi.NothiDetails ND
+                 INNER JOIN Nothi.NothiType NT ON NT.NothiTypeId=ND.NothiTypeId
+                 INNER JOIN Institute.Department D ON D.DepartmentId=ND.DepartmentId
+                 WHERE 
+                 ND.InstituteId=ISNULL(@InstituteId,ND.InstituteId)
+                 AND ND.DepartmentId=ISNULL(@DepartmentId,ND.DepartmentId)";
             return _dbContext._connection.Query<NothiDetailsViewModel>(query, new { InstituteId = InstituteId, DepartmentId = departmentId });
         }
 

@@ -21,6 +21,7 @@ namespace Layer.Data.Interfaces.HRMS.Institute
     }
     public interface IDepartmentRepository : IGenericRepository<Department>
     {
+        DepartmentViewModel GetNothiId(int departmentId, int instituteId);
     }
     public interface IDesignationRepository : IGenericRepository<Designation>
     {

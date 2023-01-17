@@ -15,6 +15,7 @@ namespace Layer.Model.HRMS.Nothi
         public int InstituteId { get; set; }
 
         public int DepartmentId { get; set; }
+        public int DeptSl { get; set; }
 
         public string NothiId { get; set; }
 

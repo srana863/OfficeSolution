@@ -34,11 +34,11 @@
         <div class="container-fluid">
             <div class="card card-cyan">
                 <div class="card-header">
-                    <h3 class="card-title">Nothy Type Setup</h3>
+                    <h3 class="card-title">Nothi Setup</h3>
                 </div>
-                <form class="form-horizontal" id="frmNothiType">
+                <form class="form-horizontal" id="frmNothiDetails">
                     <div class="card-body">
-                        <input type="hidden" class="form-control form-element" id="NothiTypeId" name="NothiTypeId" />
+                        <input type="hidden" class="form-control form-element" id="SL" name="SL" />
                         <input type="hidden" class="form-control form-element" id="InstituteId" name="InstituteId" />
                         <div class="form-row">
                             <div class="form-group col-md-4">
@@ -49,14 +49,37 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <label for="FirstName">Nothi Type Name<span style="color:red">*</span> </label>
-                                <input type="text" class="form-control form-element validation" required id="NothiTypeName" name="NothiTypeName" placeholder="Nothi Type Name">
+                                <label for="NothiTypeId">Nothi Type<span style="color:red">*</span> </label>
+                                <select class="form-control form-element validation" required id="NothiTypeId" name="NothiTypeId">
+                                </select>
                             </div>
                             <div class="form-group col-md-4">
-                                <label for="MiddleName">Nothi Type Name (Bangla)</label>
-                                <input type="text" class="form-control form-element validation" id="NothiTypeNameBang" name="NothiTypeNameBang" placeholder="Nothi Type Name (Bangla)">
+                                <label for="NothiId">Nothi Id</label>
+                                <input type="text" class="form-control form-element validation" disabled id="NothiId" name="NothiId" placeholder="System Generated Nothi Id">
                             </div>
                         </div>
+
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="NothiName">Nothi Name<span style="color:red">*</span> </label>
+                                <input type="text" class="form-control form-element validation" required id="NothiName" name="NothiName" placeholder="Nothi Name">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="NothiNameBang">Nothi Name (Bangla)</label>
+                                <input type="text" class="form-control form-element validation" id="NothiNameBang" name="NothiNameBang" placeholder="Nothi Name (Bangla)">
+                            </div>
+                        </div>
+                            <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label for="NothiName">Nothi Number<span style="color:red">*</span> </label>
+                                <input type="text" class="form-control form-element validation" required id="NothiNumber" name="NothiNumber" placeholder="Nothi Number">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="NothiNumberBang">Nothi Number (Bangla)</label>
+                                <input type="text" class="form-control form-element validation" id="NothiNumberBang" name="NothiNumberBang" placeholder="Nothi Number (Bangla)">
+                            </div>
+                        </div>
+
                         <div class="form-row" style="padding-top:10px;">
                             <div class="form-group col-md-4">
                                 <div class="form-check">
@@ -81,7 +104,7 @@
         <div class="container-fluid">
             <div class="card card-cyan">
                 <div class="card-header">
-                    <h3 class="card-title">Nothy Type List</h3>
+                    <h3 class="card-title">Nothi List</h3>
                 </div>
                 <div class="card-body">
                     <div id="formDetails"></div>

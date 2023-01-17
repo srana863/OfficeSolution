@@ -12,9 +12,11 @@ using System.Transactions;
 using Layer.Model.HRMS.Institute;
 using Layer.Model.HRMS.Emp;
 using Layer.Model.ViewModel.Nothi;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OfficeSolution.Controllers
 {
+    [Authorize]
     public class NothiMovementController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -43,7 +45,7 @@ namespace OfficeSolution.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetNothi(int sl)
+        public JsonResult GetNothiDetails(int sl)
         {
             var data = new NothiDetails();
             try
@@ -63,7 +65,7 @@ namespace OfficeSolution.Controllers
         }
 
         [HttpPost]
-        public JsonResult DeleteNothi(int sl)
+        public JsonResult DeleteNothiDetails(int sl)
         {
             try
             {
@@ -115,7 +117,7 @@ namespace OfficeSolution.Controllers
 
         }
         [HttpPost]
-        public JsonResult SaveNothi(NothiDetails model)
+        public JsonResult SaveNothiDetails(NothiDetails model)
         {
             using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
             {
@@ -129,8 +131,10 @@ namespace OfficeSolution.Controllers
                     if (oldData == null)
                     {
                         model.AddedDate = DateTime.UtcNow.Date;
+                        model.NothiId = GetNothiId(model.DepartmentId);
                         model.AddedByUserId = userinfo.UserId;
                         model.InstituteId = userinfo.InstituteId;
+                        model.NothiCreationDate = DateTime.UtcNow.Date;
                         isSaved = _unitOfWork.NothiDetailsRepository.Create(model);
                         _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Data saved successfully") : ReturnMessage.SetErrorMessage("Failed to save!");
                     }
@@ -146,21 +150,18 @@ namespace OfficeSolution.Controllers
                             IsActive = model.IsActive,
                             UpdatedByUserId = userinfo.UserId,
                             UpdatedDate = DateTime.UtcNow.Date,
-                            NothiCreationDate= DateTime.UtcNow.Date,
-                            NothiName=model.NothiName,
-                            NothiNameBang=model.NothiNameBang,
-                            NothiNumberBang= model.NothiNumberBang,
-                            NothiNumber= model.NothiNumber,
-                            NothiId=model.NothiId,
+                            NothiCreationDate = oldData.NothiCreationDate,
+                            NothiName = model.NothiName,
+                            NothiNameBang = model.NothiNameBang,
+                            NothiNumberBang = model.NothiNumberBang,
+                            NothiNumber = model.NothiNumber,
+                            NothiId = oldData.NothiId,
                             SL = oldData.SL
 
                         };
                         isSaved = _unitOfWork.NothiDetailsRepository.Update(oldData);
 
                         _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Data updated successfully") : ReturnMessage.SetErrorMessage("Failed to update!");
-
-
-
                     }
                     if (isSaved > 0)
                     {
@@ -183,6 +184,19 @@ namespace OfficeSolution.Controllers
             }
         }
 
+        public string GetNothiId(int departmentId)
+        {
+            var nothiId = string.Empty;
+            var data = _unitOfWork.DepartmentRepository.GetNothiId(departmentId, userinfo.InstituteId);
+
+            if (data != null)
+            {
+                data.DeptSl = data.DeptSl + 1;
+                nothiId = data.DeptAnchorName + "-" + data.DeptSl.ToString().PadLeft(4, '0');
+            }
+
+            return nothiId;
+        }
         #endregion
 
         #region Nothi Report.......
@@ -297,7 +311,6 @@ namespace OfficeSolution.Controllers
                             AddedDate = oldData.AddedDate,
                             InstituteId = oldData.InstituteId,
                             NothiTypeId = oldData.NothiTypeId,
-                            DepartmentId = nothiTypeModel.DepartmentId,
                             IsActive = nothiTypeModel.IsActive,
                             NothiTypeName = nothiTypeModel.NothiTypeName,
                             NothiTypeNameBang = nothiTypeModel.NothiTypeNameBang,

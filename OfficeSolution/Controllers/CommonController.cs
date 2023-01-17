@@ -19,6 +19,23 @@ namespace OfficeSolution.Controllers
             _unitOfWork = new UnitOfWork(_dbContext);
         }
 
+        public JsonResult GetNothiTypeCombo(int? departmentId)
+        {
+            int deptid = 0;
+            deptid = departmentId > 0 ? departmentId.Value : userinfo.DepartmentId;
+
+            var data = _unitOfWork.NothiTypeRepository.GetAll(userinfo.InstituteId, deptid);
+            if (data != null)
+                data = data.Where(o => o.IsActive).OrderByDescending(o => o.NothiTypeId);
+            var list = data.Select(o => new SelectListItem
+            {
+                Value = o.NothiTypeId.ToString(),
+                Text = o.NothiTypeName.ToString() + "(" + o.NothiTypeNameBang.ToString() + ")"
+            });
+
+            return new JsonResult(list, new JsonSerializerOptions());
+        }
+
         public JsonResult GetGenderCombo()
         {
             var data = from Gender e in Enum.GetValues(typeof(Gender)) select new { Id = (int)e, Name = e.ToString() };
@@ -46,13 +63,33 @@ namespace OfficeSolution.Controllers
         public JsonResult GetDepartmentCombo()
         {
             var data = _unitOfWork.DepartmentRepository.GetAll(userinfo.InstituteId);
+            var isAuthorize = false;
+            switch (userinfo.RoleId)
+            {
+                case (int)UserRole.SuperAdmin:
+                    isAuthorize = true;
+                    break;
+                case (int)UserRole.Admin:
+                    isAuthorize = true;
+                    break;
+                default:
+                    isAuthorize = false;
+                    break;
+
+            }
+            if (!isAuthorize)
+            {
+                isAuthorize = userinfo.IsOfficeHead || userinfo.PAOfDeptHead ? true : false;
+            }
+
             if (data != null)
                 data = data.Where(o => o.IsActive).OrderBy(o => o.DeptName);
             var list = data.Select(o => new SelectListItem
             {
                 Value = o.DepartmentId.ToString(),
                 Text = o.DeptName.ToString(),
-                Selected = o.DepartmentId == userinfo.DepartmentId
+                Selected = o.DepartmentId == userinfo.DepartmentId,
+                Disabled = isAuthorize ? false : true
             });
 
             return new JsonResult(list, new JsonSerializerOptions());

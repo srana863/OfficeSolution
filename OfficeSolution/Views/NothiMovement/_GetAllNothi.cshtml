@@ -1,5 +1,76 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<Layer.Model.ViewModel.Nothi.NothiDetailsViewModel>
 @{
+
+    int sl = 1;
+
+    <table id="tblNothiDetails" class="table table-bordered table-striped dataTable">
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Department</th>
+                <th>Nothi Type</th>
+                <th>Nothi Name</th>
+                <th>Nothi Number</th>
+                <th>Created Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model.OrderByDescending(o => o.SL))
+                {
+                    <tr>
+                        <td>
+                            @sl @{
+                                sl++;
+                            }
+                        </td>
+                        <td>@item.DeptName</td>
+                        <td>@item.NothiTypeName <span>(@item.NothiTypeNameBang)</span></td>
+                        <td>@item.NothiName <span>(@item.NothiNameBang)</span></td>
+                        <td>@item.NothiNumber <span>(@item.NothiNumberBang)</span></td>
+                        <td>@Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.NothiCreationDate))</td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <p style="color:green">Active</p>
+                            }
+                            else
+                            {
+                                <p style="color:red">Inactive</p>
+                            }
+                        </td>
+                        <td style="white-space: nowrap">
+                            <button type="button" class="btn btn-success btn-sm btnEdit" data-id="@item.SL"><i class="fa fa-edit"></i> Edit </button>
+                            <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="@item.SL"><i class="fa fa-trash"></i> Delete </button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+        @if (Model.Any())
+        {
+            <tfoot>
+                <tr>
+                    <th>SL</th>
+                    <th>Department</th>
+                    <th>Nothi Type</th>
+                    <th>Nothi Name</th>
+                    <th>Nothi Number</th>
+                    <th>Created Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+        }
+    </table>
+
 }
+<script type="text/javascript">
+    makePaginationWithExport("tblNothiDetails");
+</script>
+
+

@@ -2,14 +2,10 @@
     var model = new FormData();
     var init = function () {
         initialEvent();
-        getDepartmentCombo('DepartmentId', false);
+        //getDepartmentCombo('DepartmentId', false);
         loadNothiType(0);
     };
     var initialEvent = function () {
-        $(document).on('change', '#DepartmentId', function () {
-            var deptId = $(this).val();
-            loadNothiType(deptId);
-        });
         $('#btnSave').click(saveData);
         $('#btnClear').click(resetForm);
         $(document).on('click', '.btnEdit', function () {
@@ -68,7 +64,7 @@
             requestWithFile(url, 'POST', model, false, true, false, function (res) {
                 showNotification(res.MessageType, res.Message);
                 if (res.MessageType == '1' || res.MessageType == 'Success') {
-                    $('#DepartmentId').trigger('change');
+                    loadNothiType(0);
                     resetForm();
                 }
             });

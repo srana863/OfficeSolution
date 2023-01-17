@@ -1,4 +1,5 @@
 ﻿using Layer.Data.Interfaces.Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace OfficeSolution.Controllers
 {
+    [Authorize]
     public class DashboardController : BaseController
     {
        // private readonly IDepartmentRepository _departmentRepository;

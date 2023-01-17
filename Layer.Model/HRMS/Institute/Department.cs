@@ -16,6 +16,9 @@ namespace Layer.Model.HRMS.Institute
         [PKey]
         public int DepartmentId { get; set; }
         public string DeptName { get; set; }
+        public string DeptNameBangla { get; set; }
+        public string DeptAnchorName { get; set; }
+
         public int InstituteId { get; set; }
         public bool IsActive { get; set; }
         public int AddedByUserId { get; set; }

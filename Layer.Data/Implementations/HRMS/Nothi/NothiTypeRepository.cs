@@ -46,11 +46,12 @@ namespace Layer.Data.Implementations.HRMS.Nothi
 
         public IEnumerable<NothiTypeViewModel> GetAll(int InstituteId, int departmentId)
         {
-            var query = @"SELECT NT.NothiTypeId,NT.InstituteId,NT.DepartmentId,NT.NothiTypeName,NT.NothiTypeNameBang,NT.IsActive,NT.AddedByUserId,NT.AddedDate,NT.UpdatedByUserId,NT.UpdatedDate,D.DeptName
-                FROM Nothi.NothiType NT
-                INNER JOIN Institute.Department D ON D.DepartmentId=NT.DepartmentId
-                WHERE NT.InstituteId=ISNULL(@InstituteId,NT.InstituteId) AND NT.DepartmentId=ISNULL(@DepartmentId,NT.DepartmentId)";
-            return _dbContext._connection.Query<NothiTypeViewModel>(query, new { InstituteId = InstituteId, DepartmentId = departmentId });
+            //var query = @"SELECT NT.NothiTypeId,NT.InstituteId,NT.DepartmentId,NT.NothiTypeName,NT.NothiTypeNameBang,NT.IsActive,NT.AddedByUserId,NT.AddedDate,NT.UpdatedByUserId,NT.UpdatedDate,D.DeptName
+            //    FROM Nothi.NothiType NT
+            //    INNER JOIN Institute.Department D ON D.DepartmentId=NT.DepartmentId
+            //    WHERE NT.InstituteId=ISNULL(@InstituteId,NT.InstituteId) AND NT.DepartmentId=ISNULL(@DepartmentId,NT.DepartmentId)";
+            var query= CRUD<NothiType>.Select(o => o.InstituteId == o.InstituteId);
+            return _dbContext._connection.Query<NothiTypeViewModel>(query, new { InstituteId = InstituteId});
         }
 
         public int Update(NothiType entity)

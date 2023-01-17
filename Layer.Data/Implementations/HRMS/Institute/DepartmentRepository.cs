@@ -3,6 +3,7 @@ using Layer.Data.Helpers;
 using Layer.Data.Interfaces.HRMS.Institute;
 using Layer.Model.Common;
 using Layer.Model.HRMS.Institute;
+using Layer.Model.ViewModel.Institute;
 using QueryGenerator;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,14 @@ namespace Layer.Data.Implementations.HRMS.Institute
         {
             var query = CRUD<Department>.Update(o => o.DepartmentId == o.DepartmentId && o.InstituteId == o.InstituteId);
             return _dbContext._connection.Query<int>(query, entity).Single();
+        }
+
+        public DepartmentViewModel GetNothiId(int departmentId, int instituteId)
+        {
+            var query = @"SELECT CAST(ISNULL(ND.DeptSl,0) AS INT) DeptSl,D.DepartmentId,D.DeptAnchorName,D.DeptName,D.DeptNameBangla FROM Institute.Department D 
+            LEFT JOIN (SELECT MAX(DeptSl) DeptSl,DepartmentId FROM Nothi.NothiDetails GROUP BY DepartmentId) ND ON ND.DepartmentId=D.DepartmentId
+            WHERE D.DepartmentId=@DepartmentId";
+            return _dbContext._connection.Query<DepartmentViewModel>(query, new { DepartmentId = departmentId, InstituteId = instituteId }).FirstOrDefault();
         }
     }
 }
