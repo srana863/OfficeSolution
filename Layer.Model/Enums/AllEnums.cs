@@ -15,6 +15,12 @@ namespace Layer.Model.Enums
         public static DepartmentSection CBS { get { return new DepartmentSection("0001"); } }
         public static DepartmentSection NOC { get { return new DepartmentSection("0003"); } }
     }
+
+    public enum NothiMovementStatus
+    {
+        Running = 1,
+        Done = 2
+    }
     public enum Month
     {
         January = 1,

@@ -14,7 +14,7 @@ namespace Layer.Model.HRMS.Nothi
         public int InstituteId { get; set; }
 
         public string NothiId { get; set; }
-
+        public int DepartmentId { get; set; }
         public int SendToDepartmentId { get; set; }
 
         public int? CurrentPositionDepartmentId { get; set; }
@@ -25,11 +25,13 @@ namespace Layer.Model.HRMS.Nothi
 
         public string CommentsWhileReceiving { get; set; }
 
+        public bool IsFinancial { get; set; }
+        public decimal FinancialAmount { get; set; }
         public DateTime SendDate { get; set; }
 
         public DateTime? ReturnDate { get; set; }
 
-        public bool Status { get; set; }
+        public int Status { get; set; }
 
         public bool IsActive { get; set; }
 

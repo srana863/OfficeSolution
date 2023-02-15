@@ -3,6 +3,7 @@ using Layer.Data.Helpers;
 using Layer.Data.Interfaces.HRMS.Nothi;
 using Layer.Data.Interfaces.HRMS.Security;
 using Layer.Model.Common;
+using Layer.Model.HRMS.Institute;
 using Layer.Model.HRMS.Nothi;
 using Layer.Model.HRMS.Security;
 using QueryGenerator;
@@ -41,6 +42,16 @@ namespace Layer.Data.Implementations.HRMS.Nothi
         {
             var query = @"";
             return _dbContext._connection.Query<NothiMovementDetails>(query, new { InstituteId = InstituteId });
+        }
+
+        public NothiMovementDetails GetNothiMovementDetailsByMovementId(int nothiMovementId, int instituteId)
+        {
+            var query = @"SELECT DATA.SL,DATA.NothiMovementId,DATA.ComingFromDepartmentId,DATA.CurrentDepartmentId,DATA.SendToDepartmentId,DATA.ComingFromEmployeeId,DATA.CurrentEmployeeId,DATA.SendToEmployeeId,DATA.Remarks,DATA.ComingDate,DATA.SendDate,DATA.Status,DATA.IsActive,DATA.AddedByUserId,DATA.AddedDate,DATA.UpdatedByUserId,DATA.UpdatedDate
+            FROM(
+              SELECT *,ROW_NUMBER() OVER(PARTITION BY NothiMovementId ORDER BY SendDate DESC) AS RowNumber
+              FROM Nothi.NothiMovementDetails WHERE NothiMovementId=@NothiMovementId
+              ) DATA WHERE Data.RowNumber=1";
+            return _dbContext._connection.Query<NothiMovementDetails>(query, new { NothiMovementId = nothiMovementId, InstituteId = instituteId }).FirstOrDefault();
         }
 
         public int Update(NothiMovementDetails entity)

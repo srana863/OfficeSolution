@@ -14,9 +14,12 @@ namespace Layer.Data.Interfaces.HRMS.Nothi
     }
     public interface INothiMovementDetailsRepository : IGenericRepository<NothiMovementDetails>
     {
+        NothiMovementDetails GetNothiMovementDetailsByMovementId(int nothiMovementId, int instituteId);
     }
     public interface INothiMovementRepository : IGenericRepository<NothiMovement>
     {
+        IEnumerable<NothiMovementViewModel> GetAll(int InstituteId, int deptId);
+        NothiMovementViewModel GetLastNothiMovementByStatus(int InstituteId, string nothiId, int status,int nothiMovementId);
     }
     public interface INothiDetailsRepository : IGenericRepository<NothiDetails>
     {

@@ -31,7 +31,7 @@ namespace Layer.Model.HRMS.Nothi
 
         public DateTime? SendDate { get; set; }
 
-        public bool Status { get; set; }
+        public int Status { get; set; }
 
         public bool IsActive { get; set; }
 

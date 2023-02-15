@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Layer.Model.ViewModel.Nothi.NothiMovementViewModel>
+@{
+
+    int sl = 1;
+
+    <table id="tblNothiMovement" class="table table-bordered table-striped dataTable">
+        <thead>
+            <tr>
+                <th>SL</th>
+                <th>Nothi Name</th>
+                <th>Nothi Type</th>
+                <th>Send To</th>
+                <th>Current Dept</th>
+                <th>Return From Dept</th>
+                <th>Send Date</th>
+                <th>Return Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                foreach (var item in Model.OrderByDescending(o => o.SendDate))
+                {
+                    <tr>
+                        <td>
+                            @sl @{
+                                sl++;
+                            }
+                        </td>
+
+                        <td>@item.NothiName <span>(@item.NothiNameBang)</span></td>
+                        <td>@item.NothiTypeName</td>
+                        <td>@item.SentToDeptName</td>
+                        <td>@item.CurrentDeptName</td>
+                        <td>@item.ReturnFromDeptName</td>
+                        <td>@Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.SendDate))</td>
+                        @if (item.ReturnDate != null)
+                        {
+                            <td>@Convert.ToString(string.Format("{0:MM/dd/yyyy}", item.ReturnDate))</td>
+                        }
+                        else
+                        {
+                            <td>Processing</td>
+                        }
+
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <p style="color:green">Active</p>
+                            }
+                            else
+                            {
+                                <p style="color:red">Inactive</p>
+                            }
+                        </td>
+                        <td style="white-space: nowrap">
+                            <button type="button" class="btn btn-success btn-sm btnEdit" data-id="@item.NothiMovementId"><i class="fa fa-edit"></i> Edit </button>
+                            <button type="button" class="btn btn-danger btn-sm btnDelete" data-id="@item.NothiMovementId"><i class="fa fa-trash"></i> Delete </button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </tbody>
+        @if (Model.Any())
+        {
+            <tfoot>
+                <tr>
+                    <th>SL</th>
+                    <th>Nothi Name</th>
+                    <th>Nothi Type</th>
+                    <th>Send To</th>
+                    <th>Current Dept</th>
+                    <th>Return From Dept</th>
+                    <th>Send Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </tfoot>
+        }
+    </table>
+
+}
+<script type="text/javascript">
+    makePaginationWithExport("tblNothiMovement");
+</script>
+
+

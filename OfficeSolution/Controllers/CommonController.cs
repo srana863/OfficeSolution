@@ -19,6 +19,23 @@ namespace OfficeSolution.Controllers
             _unitOfWork = new UnitOfWork(_dbContext);
         }
 
+        public JsonResult GetNothiCombo(int? departmentId)
+        {
+            int deptid = 0;
+            deptid = departmentId > 0 ? departmentId.Value : userinfo.DepartmentId;
+
+            var data = _unitOfWork.NothiDetailsRepository.GetAll(userinfo.InstituteId, deptid);
+            if (data != null)
+                data = data.Where(o => o.IsActive).OrderBy(o => o.NothiName);
+            var list = data.Select(o => new SelectListItem
+            {
+                Value = o.NothiId.ToString(),
+                Text = o.NothiName.ToString() + "(" + o.NothiNameBang.ToString() + "-" + o.NothiNumber.ToString() + ")"
+            });
+
+            return new JsonResult(list, new JsonSerializerOptions());
+        }
+
         public JsonResult GetNothiTypeCombo(int? departmentId)
         {
             int deptid = 0;
@@ -60,6 +77,20 @@ namespace OfficeSolution.Controllers
             return new JsonResult(list, new JsonSerializerOptions());
         }
 
+        public JsonResult GetAllDepartmentCombo()
+        {
+            var data = _unitOfWork.DepartmentRepository.GetAll(userinfo.InstituteId);
+           
+            if (data != null)
+                data = data.Where(o => o.IsActive).OrderBy(o => o.DeptName);
+            var list = data.Select(o => new SelectListItem
+            {
+                Value = o.DepartmentId.ToString(),
+                Text = o.DeptName.ToString()+"("+o.DeptNameBangla.ToString()+ ")"
+            });
+
+            return new JsonResult(list, new JsonSerializerOptions());
+        }
         public JsonResult GetDepartmentCombo()
         {
             var data = _unitOfWork.DepartmentRepository.GetAll(userinfo.InstituteId);

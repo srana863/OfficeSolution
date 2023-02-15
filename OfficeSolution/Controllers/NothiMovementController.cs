@@ -13,6 +13,7 @@ using Layer.Model.HRMS.Institute;
 using Layer.Model.HRMS.Emp;
 using Layer.Model.ViewModel.Nothi;
 using Microsoft.AspNetCore.Authorization;
+using Layer.Model.Enums;
 
 namespace OfficeSolution.Controllers
 {
@@ -35,6 +36,194 @@ namespace OfficeSolution.Controllers
         public IActionResult NothiMovement()
         {
             return View();
+        }
+        [HttpPost]
+        public JsonResult SaveNothiMovement(NothiMovementViewModel model)
+        {
+            using (var transactionScope = new TransactionScope(TransactionScopeOption.RequiresNew))
+            {
+                try
+                {
+                    _dbContext.Open();
+                    model.DepartmentId = userinfo.DepartmentId;
+                    var isSaved = 0;
+                    var oldData = new NothiMovement();
+                    var nothiMovement = new NothiMovementViewModel();
+                    nothiMovement = _unitOfWork.NothiMovementRepository.GetLastNothiMovementByStatus(userinfo.InstituteId, model.NothiId, (int)NothiMovementStatus.Running, model.NothiMovementId);
+
+                    if (nothiMovement == null)
+                    {
+                        oldData = _unitOfWork.NothiMovementRepository.Get(model.NothiMovementId, userinfo.InstituteId);
+
+                        if (oldData == null)
+                        {
+                            oldData = new NothiMovement
+                            {
+                                Status = (int)NothiMovementStatus.Running,
+                                IsActive = true,
+                                CurrentPositionDepartmentId = model.SendToDepartmentId,
+                                SendDate = DateTime.UtcNow.Date,
+                                AddedDate = DateTime.UtcNow.Date,
+                                AddedByUserId = userinfo.UserId,
+                                InstituteId = userinfo.InstituteId,
+                                SendToDepartmentId=model.SendToDepartmentId,
+                                CommentsWhileSending=model.CommentsWhileSending,
+                                DepartmentId=model.DepartmentId,
+                                FinancialAmount=model.FinancialAmount,
+                                IsFinancial=model.IsFinancial,
+                                NothiId=model.NothiId
+                            };
+
+                            isSaved = _unitOfWork.NothiMovementRepository.Create(oldData);
+                            if (isSaved > 0)
+                                oldData.NothiMovementId = isSaved;
+                            _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Data saved successfully") : ReturnMessage.SetErrorMessage("Failed to save!");
+
+
+                        }
+                        else
+                        {
+                            oldData.UpdatedByUserId = userinfo.UserId;
+                            oldData.UpdatedDate = DateTime.UtcNow.Date;
+                            oldData.Status = (int)NothiMovementStatus.Running;
+                            oldData.CurrentPositionDepartmentId = model.SendToDepartmentId;
+                            oldData.SendToDepartmentId = model.SendToDepartmentId;
+                            oldData.CommentsWhileSending = model.CommentsWhileSending;
+                            oldData.DepartmentId = model.DepartmentId;
+                            oldData.FinancialAmount = model.FinancialAmount;
+                            oldData.IsFinancial = model.IsFinancial;
+                            oldData.NothiId = model.NothiId;
+                            isSaved = _unitOfWork.NothiMovementRepository.Update(oldData);
+
+                            _vmReturn = isSaved > 0 ? ReturnMessage.SetSuccessMessage("Data updated successfully") : ReturnMessage.SetErrorMessage("Failed to update!");
+                        }
+                    }
+                    else
+                    {
+                        _vmReturn = ReturnMessage.SetWarningMessage("This Nothi Already Sent To- " + nothiMovement.SentToDeptName.ToString());
+                    }
+
+                    if (isSaved > 0) {
+                        var nothiMovementDetails = new NothiMovementDetails();
+                        nothiMovementDetails = _unitOfWork.NothiMovementDetailsRepository.GetNothiMovementDetailsByMovementId(oldData.NothiMovementId,userinfo.InstituteId);
+                        if (nothiMovementDetails == null)
+                        {
+                            nothiMovementDetails = new NothiMovementDetails();
+                            nothiMovementDetails.NothiMovementId=oldData.NothiMovementId;
+                            nothiMovementDetails.ComingFromDepartmentId = oldData.DepartmentId;
+                            nothiMovementDetails.CurrentDepartmentId= oldData.SendToDepartmentId;
+                            nothiMovementDetails.ComingDate= oldData.SendDate;
+                            nothiMovementDetails.ComingFromEmployeeId = userinfo.EmployeeId;
+                            nothiMovementDetails.IsActive= true;
+                            nothiMovementDetails.AddedDate = DateTime.UtcNow;
+                            nothiMovementDetails.AddedByUserId= userinfo.UserId;
+                            nothiMovementDetails.Status = (int)NothiMovementStatus.Running;
+                            isSaved = _unitOfWork.NothiMovementDetailsRepository.Create(nothiMovementDetails);
+                        }
+                        else {
+                            nothiMovementDetails.ComingFromEmployeeId = userinfo.EmployeeId;
+                            nothiMovementDetails.IsActive = true;
+                            nothiMovementDetails.SendDate = null;
+                            nothiMovementDetails.UpdatedDate = DateTime.UtcNow;
+                            nothiMovementDetails.UpdatedByUserId = userinfo.UserId;
+                            nothiMovementDetails.Status = (int)NothiMovementStatus.Running;
+                            isSaved = _unitOfWork.NothiMovementDetailsRepository.Update(nothiMovementDetails);
+                        }
+                    }
+
+                    if (isSaved > 0)
+                    {
+                        transactionScope.Complete();
+                        transactionScope.Dispose();
+                    }
+                    return new JsonResult(_vmReturn, new JsonSerializerOptions());
+
+                }
+                catch (Exception e)
+                {
+                    _vmReturn = ReturnMessage.SetErrorMessage(e.Message);
+                    transactionScope.Dispose();
+                    return new JsonResult(_vmReturn, new JsonSerializerOptions()); ;
+                }
+                finally
+                {
+                    _dbContext.Close();
+                }
+            }
+        }
+
+
+        [HttpGet]
+        public JsonResult GetNothiMovement(int nothiMovementId)
+        {
+            var data = new NothiMovement();
+            try
+            {
+                _dbContext.Open();
+                data = _unitOfWork.NothiMovementRepository.Get(nothiMovementId, userinfo.InstituteId);
+                return new JsonResult(data, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(data, new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+        }
+
+        [HttpPost]
+        public JsonResult DeleteNothiMovement(int nothiMovementId)
+        {
+            try
+            {
+
+                var oldData = _unitOfWork.NothiMovementRepository.Get(nothiMovementId, userinfo.InstituteId);
+                if (oldData != null)
+                {
+                    _returnId = _unitOfWork.NothiMovementRepository.Delete(nothiMovementId, userinfo.InstituteId);
+                    _vmReturn = _returnId > 0 ? ReturnMessage.SetSuccessMessage("Nothi Movement Deleted Successfully!") : ReturnMessage.SetErrorMessage();
+                }
+                else
+                {
+                    _vmReturn = ReturnMessage.SetInfoMessage("No Nothi Movement Data found!!");
+                }
+
+                return new JsonResult(_vmReturn, new JsonSerializerOptions());
+            }
+            catch (Exception)
+            {
+                return new JsonResult(ReturnMessage.SetErrorMessage(), new JsonSerializerOptions());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
+        }
+
+
+        [HttpGet]
+        public IActionResult GetAllNothiMovement(int? departmentId)
+        {
+            try
+            {
+                _dbContext.Open();
+                int deptid = 0;
+                deptid = departmentId > 0 ? departmentId.Value : userinfo.DepartmentId;
+                var data = _unitOfWork.NothiMovementRepository.GetAll(userinfo.InstituteId, deptid);
+                return PartialView("_GetAllNothiMovement", data);
+            }
+            catch (Exception)
+            {
+                return PartialView("_GetAllNothiMovement", Enumerable.Empty<NothiMovementViewModel>());
+            }
+            finally
+            {
+                _dbContext.Close();
+            }
+
         }
         #endregion
 

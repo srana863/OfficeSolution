@@ -1,4 +1,12 @@
 ﻿
+function getNothiCombo(controlId, departmentId, isDefaultRecordRequired) {
+    var url = '/Common/GetNothiCombo';
+    var data = {
+        departmentId: departmentId
+    };
+    loadCombo(controlId, url, data, isDefaultRecordRequired);
+}
+
 function getNothiTypeCombo(controlId, departmentId, isDefaultRecordRequired) {
     var url = '/Common/GetNothiTypeCombo';
     var data = {
@@ -20,6 +28,12 @@ function getGenderCombo(controlId, isDefaultRecordRequired) {
     var data = {
     };
     loadCombo(controlId, url, data, isDefaultRecordRequired);
+}
+function getAllDepartmentCombo(controlId, isDefaultRecordRequired) {
+    var url = '/Common/GetAllDepartmentCombo';
+    var data = {
+    };
+    loadComboDept(controlId, url, data, isDefaultRecordRequired);
 }
 
 function getDepartmentCombo(controlId, isDefaultRecordRequired) {
